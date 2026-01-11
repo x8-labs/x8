@@ -1,0 +1,68 @@
+{
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+  },
+
+  "black-formatter.args": ["--line-length=79"],
+  "isort.check": true,
+  "isort.args": ["--profile", "black"],
+  "autoDocstring.docstringFormat": "google-notypes",
+  "mypy-type-checker.args": [
+        "--ignore-missing-imports",
+        "--disable-error-code=empty-body"
+    ],
+
+  "[markdown]": {
+    "editor.wordWrap": "on"
+  },
+
+  "python.analysis.extraPaths": [
+        "x8",
+
+    ],
+
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.codeActionsOnSave.mode": "all",
+  "eslint.useFlatConfig": true,
+  "tailwindCSS.lint.suggestCanonicalClasses": "ignore"
+}

@@ -1,0 +1,354 @@
+[project]
+name = "x8"
+version = "0.0.10"
+description = "x8 client"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "x8", email = "slenin@gmail.com" }]
+keywords = ["x8", "client"]
+requires-python = ">=3.11"
+
+dependencies = [
+    "PyYAML",
+    "pydantic",
+    "docstring-parser",
+    "antlr4-python3-runtime",
+]
+
+[project.optional-dependencies]
+storage-config-store-aws-parameter-store = ["boto3"]
+storage-config-store-azure-app-configuration = [
+    "azure-appconfiguration",
+    "azure-identity",
+    "aiohttp",
+]
+storage-config-store-google-runtime-configurator = ["google-api-python-client"]
+storage-config-store-env-file = ["python-dotenv"]
+storage-config-store-yaml-file = ["PyYAML"]
+storage-config-store-env = []
+storage-config-store-document-store-provider = []
+storage-config-store-local = []
+storage-config-store-default = []
+storage-config-store-hosted = ["httpx"]
+
+storage-secret-store-amazon-secrets-manager = ["boto3"]
+storage-secret-store-azure-key-vault = [
+    "azure-keyvault-secrets",
+    "azure-identity",
+    "aiohttp",
+]
+storage-secret-store-google-secret-manager = ["google-cloud-secret-manager"]
+storage-secret-store-hashicorp-vault = ["hvac"]
+storage-secret-store-env-file = ["python-dotenv"]
+storage-secret-store-yaml-file = ["PyYAML"]
+storage-secret-store-env = []
+storage-secret-store-document-store-provider = []
+storage-secret-store-local = []
+storage-secret-store-default = []
+storage-secret-store-hosted = ["httpx"]
+
+storage-document-store-amazon-dynamodb = ["boto3"]
+storage-document-store-azure-cosmos-db = ["azure-cosmos", "azure-identity"]
+storage-document-store-google-firestore = [
+    "google-cloud-firestore",
+    "google-api-python-client",
+]
+storage-document-store-mongodb = ["pymongo", "motor"]
+storage-document-store-redis = ["redis"]
+storage-document-store-postgresql = ["psycopg[binary]"]
+storage-document-store-elasticsearch = ["elasticsearch"]
+storage-document-store-sqlite = []
+storage-document-store-memory = []
+storage-document-store-local = []
+storage-document-store-default = []
+storage-document-store-hosted = ["httpx"]
+
+storage-object-store-amazon-s3 = ["boto3"]
+storage-object-store-azure-blob-storage = [
+    "azure-storage-blob",
+    "azure-identity",
+]
+storage-object-store-google-cloud-storage = ["google-cloud-storage"]
+storage-object-store-file-system = []
+storage-object-store-local = []
+storage-object-store-default = []
+storage-object-store-hosted = ["httpx"]
+
+storage-vector-store-pinecone = ["pinecone"]
+storage-vector-store-milvus = ["pymilvus"]
+storage-vector-store-qdrant = ["qdrant-client"]
+storage-vector-store-chroma = ["chromadb"]
+storage-vector-store-weaviate = ["weaviate-client"]
+storage-vector-store-local = ["chromadb"]
+storage-vector-store-default = []
+storage-vector-store-hosted = ["httpx"]
+
+storage-key-value-store-redis = ["redis"]
+storage-key-value-store-redis-simple = ["redis"]
+storage-key-value-store-memcached = ["pymemcache"]
+storage-key-value-store-document-store-provider = []
+storage-key-value-store-object-store-provider = []
+storage-key-value-store-memory = []
+storage-key-value-store-postgresql = ["psycopg[binary]"]
+storage-key-value-store-sqlite = []
+storage-key-value-store-keydb = ["redis"]
+storage-key-value-store-dragonfly = ["redis"]
+storage-key-value-store-valkey = ["redis"]
+storage-key-value-store-local = []
+storage-key-value-store-default = []
+storage-key-value-store-hosted = ["httpx"]
+
+storage-search-store-elasticsearch = ["elasticsearch"]
+
+storage-all = [
+    "python-dotenv",
+    "PyYAML",
+    "boto3",
+    "azure-storage-blob",
+    "azure-identity",
+    "google-cloud-storage",
+    "azure-appconfiguration",
+    "google-api-python-client",
+    "azure-keyvault-secrets",
+    "aiohttp",
+    "google-cloud-secret-manager",
+    "hvac",
+    "azure-cosmos",
+    "google-cloud-firestore",
+    "pymongo",
+    "motor",
+    "redis",
+    "psycopg[binary]",
+    "pinecone-client",
+    "pymilvus",
+    "qdrant-client",
+    "chromadb",
+    "weaviate-client",
+    "elasticsearch",
+    "pymemcache",
+    "httpx",
+]
+
+messaging-queue-amazon-sqs = ["boto3"]
+messaging-queue-azure-service-bus = [
+    "azure-servicebus",
+    "azure-identity",
+    "aiohttp",
+]
+messaging-queue-azure-queue-storage = ["azure-storage-queue", "azure-identity"]
+messaging-queue-google-pubsub = ["google-cloud-pubsub"]
+messaging-queue-redis = ["redis"]
+messaging-queue-postgresql = ["psycopg[binary]"]
+messaging-queue-sqlite = []
+messaging-queue-memory = []
+messaging-queue-local = []
+messaging-queue-default = []
+messaging-queue-hosted = ["httpx"]
+
+messaging-pubsub-amazon-sns = ["boto3"]
+messaging-pubsub-azure-service-bus = [
+    "azure-servicebus",
+    "azure-identity",
+    "aiohttp",
+]
+messaging-pubsub-google-pubsub = ["google-cloud-pubsub"]
+messaging-pubsub-redis = ["redis"]
+messaging-pubsub-postgresql = ["psycopg[binary]"]
+messaging-pubsub-memory = []
+messaging-pubsub-sqlite = []
+messaging-pubsub-local = []
+messaging-pubsub-default = []
+messaging-pubsub-hosted = ["httpx"]
+
+messaging-all = [
+    "boto3",
+    "azure-servicebus",
+    "azure-identity",
+    "aiohttp",
+    "azure-storage-queue",
+    "google-cloud-pubsub",
+    "boto3",
+    "httpx",
+]
+
+compute-container-registry-amazon-elastic-container-registry = [
+    "boto3",
+    "docker",
+]
+compute-container-registry-azure-container-registry = [
+    "azure-containerregistry",
+    "azure-mgmt-containerregistry",
+    "docker",
+]
+compute-container-registry-google-artifact-registry = [
+    "google-cloud-artifact-registry",
+    "docker",
+]
+compute-containerizer-docker = ["docker"]
+compute-containerizer-default = ["docker"]
+compute-containerizer-local = ["docker"]
+compute-container-deployment-amazon-elastic-container-service = [
+    "docker",
+    "boto3",
+]
+compute-container-deployment-azure-container-instances = [
+    "docker",
+    "azure-identity",
+    "azure-mgmt-containerinstance",
+    "azure-containerregistry",
+    "azure-mgmt-containerregistry",
+    "azure-mgmt-resource",
+]
+compute-container-deployment-azure-container-apps = [
+    "docker",
+    "azure-identity",
+    "azure-mgmt-appcontainers",
+    "azure-containerregistry",
+    "azure-mgmt-containerregistry",
+    "azure-mgmt-resource",
+]
+compute-container-deployment-google-cloud-run = [
+    "docker",
+    "google-cloud-run",
+    "google-cloud-build",
+    "google-api-python-client",
+    "google-cloud-artifact-registry",
+]
+compute-container-deployment-docker-local = ["docker"]
+compute-container-deployment-local = ["docker"]
+compute-container-deployment-default = ["docker"]
+compute-kubernetes-azure-kubernetes-service = [
+    "docker",
+    "kubernetes",
+    "azure-mgmt-resource",
+    "azure-mgmt-containerservice",
+    "azure-identity",
+    "azure-mgmt-authorization",
+]
+compute-all = [
+    "docker",
+    "boto3",
+    "azure-containerregistry",
+    "azure-mgmt-containerregistry",
+    "google-cloud-artifact-registry",
+    "azure-identity",
+    "azure-mgmt-containerinstance",
+    "azure-mgmt-resource",
+    "azure-mgmt-appcontainers",
+    "google-cloud-run",
+    "google-cloud-build",
+    "google-api-python-client",
+    "kubernetes",
+    "azure-mgmt-containerservice",
+    "azure-mgmt-authorization",
+]
+
+content-image-pillow = ["pillow", "httpx"]
+content-image-default = ["pillow", "httpx"]
+
+content-audio-av = ["av", "httpx"]
+content-audio-default = ["av", "httpx"]
+
+content-video-av = ["av", "pillow", "httpx"]
+content-video-default = ["av", "pillow", "httpx"]
+
+content-live-stream-av = ["av", "m3u8", "httpx"]
+content-live-stream-default = ["av", "m3u8", "httpx"]
+
+content-all = ["pillow", "av", "m3u8", "httpx"]
+
+ai-text-generation-openai = ["openai", "httpx", "pillow", "av"]
+ai-text-generation-google = ["google-genai", "httpx", "pillow", "av"]
+
+ai-video-generation-openai = ["openai", "httpx", "pillow", "av"]
+ai-video-generation-google = ["google-auth", "httpx", "pillow", "av"]
+
+ai-all = ["openai", "google-genai", "google-auth", "httpx", "pillow", "av"]
+
+interface-api-fastapi = ["fastapi", "uvicorn"]
+interface-api-default = ["fastapi", "uvicorn"]
+
+interface-cli-default = []
+
+interface-worker-default = []
+
+interface-auth-auth0 = ["pyjwt", "httpx"]
+interface-auth-api-key = []
+interface-auth-api-key-in-store = []
+interface-auth-mock = []
+interface-auth-default = []
+
+interface-all = ["fastapi", "uvicorn", "pyjwt", "httpx"]
+
+composite-choice-default = []
+composite-script-default = []
+composite-all = []
+
+all = [
+    "python-dotenv",
+    "PyYAML",
+    "boto3",
+    "azure-storage-blob",
+    "azure-identity",
+    "google-cloud-storage",
+    "azure-appconfiguration",
+    "google-api-python-client",
+    "azure-keyvault-secrets",
+    "aiohttp",
+    "google-cloud-secret-manager",
+    "hvac",
+    "azure-cosmos",
+    "google-cloud-firestore",
+    "pymongo",
+    "motor",
+    "redis",
+    "psycopg[binary]",
+    "pinecone-client",
+    "pymilvus",
+    "qdrant-client",
+    "chromadb",
+    "weaviate-client",
+    "elasticsearch",
+    "pymemcache",
+    "httpx",
+    "azure-servicebus",
+    "azure-storage-queue",
+    "google-cloud-pubsub",
+    "docker",
+    "azure-containerregistry",
+    "azure-mgmt-containerregistry",
+    "google-cloud-artifact-registry",
+    "azure-mgmt-containerinstance",
+    "azure-mgmt-resource",
+    "azure-mgmt-appcontainers",
+    "google-cloud-run",
+    "google-cloud-build",
+    "kubernetes",
+    "azure-mgmt-containerservice",
+    "azure-mgmt-authorization",
+    "fastapi",
+    "uvicorn",
+    "pyjwt",
+    "pillow",
+    "av==16.0.1",
+    "m3u8",
+    "openai",
+    "google-genai",
+    "google-auth",
+]
+dev = ["mypy", "flake8", "pytest", "pytest-asyncio", "pytest-cov"]
+
+[project.urls]
+Homepage = "https://github.com/x8-org/x8"
+Repository = "https://github.com/x8-org/x8"
+Documentation = "https://github.com/x8-org/x8"
+
+[project.scripts]
+x8 = "x8.core.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["x8"]
