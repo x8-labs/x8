@@ -1,0 +1,24 @@
+{
+    "id": "id00",
+    "pk": "pk00",
+    "str": "zero",
+    "int": 0,
+    "float": 0.0,
+    "bool": true,
+    "empty": null,
+    "const": "#",
+    "obj": {
+        "nstr": "0",
+        "nint": -0,
+        "nopt": 0,
+        "narr": null,
+        "nobj": {"nnstr": "", "nnfloat": -0.0}
+    },
+    "arrint": [0, 0, 0],
+    "arrstr": ["ten", "hundred", "thousand", "zero"],
+    "arrobj": [
+        {"ostr": "million", "oint": 0},
+        {"ostr": "billion", "oint": 0},
+        {"ostr": "trillion", "oint": 0}
+    ]
+}

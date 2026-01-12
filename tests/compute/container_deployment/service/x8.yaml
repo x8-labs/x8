@@ -1,0 +1,63 @@
+
+components:
+  side:
+    type: side:SideService
+  main:
+    type: main
+    providers:
+      add:
+        type: add
+      subtract:
+        type: subtract
+  cli_side:
+    type: x8.interface.cli
+    parameters:
+      component: "${side}"
+    providers:
+      default:
+        type: default
+  api_side:
+    type: x8.interface.api
+    parameters:
+      components: 
+        - component: "${side}"
+    providers:
+      default:
+        type: fastapi
+        parameters:
+          host: 0.0.0.0
+          port: 8000
+  api_main:
+    type: x8.interface.api
+    parameters:
+      components: 
+        - component: "${main}"
+          operations:
+            - name: health
+              method: GET
+              path: /
+    providers:
+      default:
+        type: fastapi
+        parameters:
+          host: 0.0.0.0
+          port: 80
+    requirements:
+      - httpx
+  api_single_main:
+    type: x8.interface.api
+    parameters:
+      components: 
+        - component: "${side}"
+    providers:
+      default:
+        type: fastapi
+        parameters:
+          host: 0.0.0.0
+          port: 80
+
+bindings:
+  add:
+    main: add
+  subtract:
+    main: subtract

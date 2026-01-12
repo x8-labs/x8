@@ -48,7 +48,7 @@ Ensure that **Python 3.11 or later** is installed.
 Navigate to that directory and clone the repository:
 
 ```sh
-git clone https://github.com/x8-org/x8.git
+git clone https://github.com/x8-labs/x8.git
 ```
 
 This will create a folder named `x8`.

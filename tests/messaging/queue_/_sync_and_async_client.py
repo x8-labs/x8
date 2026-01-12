@@ -1,0 +1,52 @@
+from common.sync_and_async_client import SyncAndAsyncClient
+
+from ._providers import get_component
+
+
+class QueueSyncAndAsyncClient(SyncAndAsyncClient):
+    def __init__(self, provider_type: str, async_call: bool):
+        self.client = get_component(provider_type)
+        self.async_call = async_call
+        self.provider_type = provider_type
+
+    async def create_queue(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def update_queue(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def drop_queue(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def list_queues(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def has_queue(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def get_queue(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def put(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def batch(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def pull(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def ack(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def nack(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def extend(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def purge(self, **kwargs):
+        return await self._execute_method(**kwargs)
+
+    async def close(self, **kwargs):
+        return await self._execute_method(**kwargs)

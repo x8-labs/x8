@@ -1,0 +1,15 @@
+
+components:
+  hello:
+    type: hello:Hello
+  api:
+    type: x8.interface.api
+    parameters:
+      components: 
+        - component: "${hello}"
+    providers:
+      default:
+        type: fastapi
+        parameters:
+          host: 0.0.0.0
+          port: 80

@@ -1,0 +1,54 @@
+components:
+  secrets:
+    type: x8.storage.secret_store
+    providers:
+      google_secret_manager:
+        type: google_secret_manager
+  vidgen:
+    type: x8.ai.video_generation
+    providers:
+      openai:
+        type: openai
+        parameters:
+          api_key: "${secrets['OPENAI_API_KEY']}"
+      google:
+        type: google
+      api:
+        type: api
+        parameters:
+          base_url: "http://127.0.0.1:8080/videos"
+      choice:
+        type: x8.composite.choice
+        parameters:
+          providers:
+            - key: openai
+              provider: "${vidgen:openai}"
+            - key: google
+              provider: "${vidgen:google}"
+  api:
+    type: x8.interface.api
+    parameters:
+      components:
+        - component: "${vidgen}"
+          prefix: /videos
+    providers:
+      fastapi:
+        type: fastapi
+      fastapi2:
+        type: fastapi
+        parameters:
+          port: 8081
+
+bindings:
+  openai:
+    vidgen: openai
+    api: fastapi
+  google:
+    vidgen: google
+    api: fastapi
+  api:
+    vidgen: api
+    api: fastapi2
+  choice:
+    vidgen: choice
+    api: fastapi

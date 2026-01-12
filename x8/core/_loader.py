@@ -555,6 +555,7 @@ class Loader:
         reqs: list[str] = []
         for package in base_requirements:
             if len(base_requirements[package]) > 0:
+                base_requirements[package].sort()
                 reqs.append(
                     package
                     + "["
@@ -569,6 +570,8 @@ class Loader:
         if out is not None:
             with open(out, "w") as file:
                 file.write("\n".join(reqs))
+        else:
+            print("\n".join(reqs))
         return reqs
 
     def get_dependency_graph(
@@ -738,6 +741,19 @@ class Loader:
                     )
                     cdep.provider = pdep
                     self._provider_dependencies[f"{chandle}:{phandle}"] = pdep
+                    for phandle in cconfig.providers:
+                        if phandle != pdep.handle:
+                            pconfig = cconfig.providers[phandle]
+                            pdep = self._prepare_provider_dependency(
+                                handle=phandle,
+                                type=pconfig.type,
+                                parameters=pconfig.parameters,
+                                requirements=pconfig.requirements,
+                                component_type=cconfig.type,
+                            )
+                            self._provider_dependencies[
+                                f"{chandle}:{phandle}"
+                            ] = pdep
                 else:
                     cdep.provider = None
 

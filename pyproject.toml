@@ -339,9 +339,9 @@ all = [
 dev = ["mypy", "flake8", "pytest", "pytest-asyncio", "pytest-cov"]
 
 [project.urls]
-Homepage = "https://github.com/x8-org/x8"
-Repository = "https://github.com/x8-org/x8"
-Documentation = "https://github.com/x8-org/x8"
+Homepage = "https://github.com/x8-labs/x8"
+Repository = "https://github.com/x8-labs/x8"
+Documentation = "https://github.com/x8-labs/x8"
 
 [project.scripts]
 x8 = "x8.core.main:main"
