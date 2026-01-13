@@ -28,7 +28,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_metadata(
@@ -45,7 +45,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_versions(
@@ -64,7 +64,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def put(
@@ -90,7 +90,7 @@ class SecretStore(StoreComponent):
             PreconditionFailedError:
                 Condition not satisfied.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update(
@@ -111,7 +111,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update_metadata(
@@ -132,7 +132,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete(
@@ -151,7 +151,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def query(
@@ -167,7 +167,7 @@ class SecretStore(StoreComponent):
         Returns:
             Secret list.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def count(
@@ -183,7 +183,7 @@ class SecretStore(StoreComponent):
         Returns:
             Count of secrets.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(
@@ -195,7 +195,7 @@ class SecretStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget(
@@ -214,7 +214,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_metadata(
@@ -233,7 +233,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_versions(
@@ -252,7 +252,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aput(
@@ -278,7 +278,7 @@ class SecretStore(StoreComponent):
             PreconditionFailedError:
                 Condition not satisfied.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate(
@@ -299,7 +299,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate_metadata(
@@ -320,7 +320,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete(
@@ -339,7 +339,7 @@ class SecretStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aquery(
@@ -355,7 +355,7 @@ class SecretStore(StoreComponent):
         Returns:
             Secret list.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acount(
@@ -371,7 +371,7 @@ class SecretStore(StoreComponent):
         Returns:
             Count of secrets.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(
@@ -383,4 +383,4 @@ class SecretStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError

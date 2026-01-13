@@ -58,7 +58,7 @@ class SearchStore(StoreComponent):
         Returns:
             Collection result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def drop_collection(
@@ -78,7 +78,7 @@ class SearchStore(StoreComponent):
         Returns:
             Collection result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_collections(
@@ -90,7 +90,7 @@ class SearchStore(StoreComponent):
         Returns:
             List of collection names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def has_collection(
@@ -106,7 +106,7 @@ class SearchStore(StoreComponent):
         Returns:
             A value indicating whether collection exists.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def create_index(
@@ -125,7 +125,7 @@ class SearchStore(StoreComponent):
         Returns:
             Index result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def drop_index(
@@ -144,7 +144,7 @@ class SearchStore(StoreComponent):
         Returns:
             Index result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_indexes(
@@ -160,7 +160,7 @@ class SearchStore(StoreComponent):
         Returns:
             List of indexes.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get(
@@ -184,7 +184,7 @@ class SearchStore(StoreComponent):
             NotFoundError:
                 Item not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def put(
@@ -214,7 +214,7 @@ class SearchStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update(
@@ -249,7 +249,7 @@ class SearchStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete(
@@ -278,7 +278,7 @@ class SearchStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def query(
@@ -313,7 +313,7 @@ class SearchStore(StoreComponent):
         Returns:
             Document list with items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def count(
@@ -336,7 +336,7 @@ class SearchStore(StoreComponent):
         Returns:
             Count of documents.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def batch(
@@ -353,7 +353,7 @@ class SearchStore(StoreComponent):
         Returns:
             Batch operation results.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(
@@ -365,7 +365,7 @@ class SearchStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acreate_collection(
@@ -388,7 +388,7 @@ class SearchStore(StoreComponent):
         Returns:
             Collection result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adrop_collection(
@@ -408,7 +408,7 @@ class SearchStore(StoreComponent):
         Returns:
             Collection result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_collections(
@@ -420,7 +420,7 @@ class SearchStore(StoreComponent):
         Returns:
             List of collection names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def ahas_collection(
@@ -435,7 +435,7 @@ class SearchStore(StoreComponent):
         Returns:
             A value indicating whether collection exists.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acreate_index(
@@ -454,7 +454,7 @@ class SearchStore(StoreComponent):
         Returns:
             Index result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adrop_index(
@@ -473,7 +473,7 @@ class SearchStore(StoreComponent):
         Returns:
             Index result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_indexes(
@@ -486,7 +486,7 @@ class SearchStore(StoreComponent):
             collection:
                 Collection name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget(
@@ -510,7 +510,7 @@ class SearchStore(StoreComponent):
             NotFoundError:
                 Document not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aput(
@@ -540,7 +540,7 @@ class SearchStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate(
@@ -575,7 +575,7 @@ class SearchStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete(
@@ -604,7 +604,7 @@ class SearchStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aquery(
@@ -639,7 +639,7 @@ class SearchStore(StoreComponent):
         Returns:
             Document list with items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acount(
@@ -662,7 +662,7 @@ class SearchStore(StoreComponent):
         Returns:
             Count of documents.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def abatch(
@@ -679,7 +679,7 @@ class SearchStore(StoreComponent):
         Returns:
             Batch operation results.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(
@@ -691,4 +691,4 @@ class SearchStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError

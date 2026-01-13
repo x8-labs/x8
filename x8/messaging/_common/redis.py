@@ -7,6 +7,7 @@ from typing import Any
 
 import redis
 import redis.asyncio as aredis
+
 from x8._common.redis_provider import RedisProvider
 from x8.core import Context, DataModel, NCall, Operation, Response
 from x8.core.exceptions import BadRequestError, ConflictError, NotFoundError
@@ -58,7 +59,7 @@ class RedisBase(RedisProvider):
         url: str | None = None,
         host: str | None = None,
         port: int | None = None,
-        db: str | int = 0,
+        db: int = 0,
         username: str | None = None,
         password: str | None = None,
         options: dict | None = None,
@@ -1471,9 +1472,6 @@ class OperationConverter:
             "fields": fields,
             "id": "*",
         }
-
-    def convert_batch(self, batch: MessageBatch) -> dict[str, Any]:
-        pass
 
     def convert_pull(
         self,

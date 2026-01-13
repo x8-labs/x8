@@ -49,7 +49,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[ServiceItem]:
         """Create the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete_service(
@@ -58,7 +58,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[None]:
         """Delete the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_service(
@@ -67,7 +67,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[ServiceItem]:
         """Get the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_services(
@@ -75,7 +75,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[List[ServiceItem]]:
         """List deployed services."""
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_logs(
@@ -84,7 +84,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[None]:
         """Get the logs of the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_revisions(
@@ -93,7 +93,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[List[Revision]]:
         """List revisions of the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_revision(
@@ -103,7 +103,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[Revision]:
         """Get a specific revision of the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete_revision(
@@ -113,7 +113,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[None]:
         """Delete a specific revision of the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     def update_traffic(
@@ -123,12 +123,12 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[ServiceItem]:
         """Update traffic distribution for the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(self) -> None:
         """Close the component."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acreate_service(
@@ -139,7 +139,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[ServiceItem]:
         """Create the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete_service(
@@ -148,7 +148,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[None]:
         """Delete the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_service(
@@ -157,7 +157,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[ServiceItem]:
         """Get the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_services(
@@ -165,7 +165,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[List[ServiceItem]]:
         """List deployed services."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_logs(
@@ -174,7 +174,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[None]:
         """Get the logs of the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_revisions(
@@ -183,7 +183,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[List[Revision]]:
         """List revisions of the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_revision(
@@ -193,7 +193,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[Revision]:
         """Get a specific revision of the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete_revision(
@@ -203,7 +203,7 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[None]:
         """Delete a specific revision of the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate_traffic(
@@ -213,9 +213,9 @@ class ContainerDeployment(Component):
         **kwargs: Any,
     ) -> Response[ServiceItem]:
         """Update traffic distribution for the service."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(self) -> None:
         """Close the component."""
-        ...
+        raise NotImplementedError

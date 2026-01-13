@@ -54,6 +54,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             A value indicating whether key exists.
         """
+        raise NotImplementedError
 
     @operation()
     def get(
@@ -78,7 +79,7 @@ class KeyValueStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def put(
@@ -107,7 +108,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             Key value item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update(
@@ -144,7 +145,7 @@ class KeyValueStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete(
@@ -165,7 +166,7 @@ class KeyValueStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def query(
@@ -189,7 +190,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             List of key value items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def count(
@@ -207,7 +208,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             Count of key value items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def batch(
@@ -224,7 +225,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             Batch operation results.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def transact(
@@ -245,7 +246,7 @@ class KeyValueStore(StoreComponent):
             ConflictError:
                 Transaction failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(
@@ -257,7 +258,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aexists(
@@ -274,6 +275,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             A value indicating whether key exists.
         """
+        raise NotImplementedError
 
     @operation()
     async def aget(
@@ -294,7 +296,7 @@ class KeyValueStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aput(
@@ -323,7 +325,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             Key value item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate(
@@ -360,7 +362,7 @@ class KeyValueStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete(
@@ -381,7 +383,7 @@ class KeyValueStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aquery(
@@ -405,7 +407,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             List of key value items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acount(
@@ -423,7 +425,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             Count of key value items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def abatch(
@@ -440,7 +442,7 @@ class KeyValueStore(StoreComponent):
         Returns:
             Batch operation results.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def atransact(
@@ -461,7 +463,7 @@ class KeyValueStore(StoreComponent):
             ConflictError:
                 Transaction failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(
@@ -473,4 +475,4 @@ class KeyValueStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError

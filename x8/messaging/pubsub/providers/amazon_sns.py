@@ -6,6 +6,7 @@ from typing import Any
 
 import boto3
 from botocore.exceptions import ClientError
+
 from x8.core import Context, DataModel, NCall, Operation, Provider, Response
 from x8.core.exceptions import BadRequestError, ConflictError, NotFoundError
 from x8.messaging._common import (
@@ -545,7 +546,7 @@ class ClientHelper:
     def create_topic(
         self,
         topic_name: str,
-        config: TopicInfo | None,
+        config: TopicConfig | None,
         where_exists: bool | None,
         nargs: Any,
     ) -> Any:
@@ -640,7 +641,6 @@ class ClientHelper:
             subscription_count=int(
                 response["Attributes"].get("SubscriptionsConfirmed", 0)
             ),
-            nconfig=response["Attributes"],
             nref=topic_arn,
         )
 
@@ -649,7 +649,7 @@ class ClientHelper:
         topic_arn: str,
         protocol: str,
         endpoint: str,
-        config: SubscriptionInfo | None,
+        config: SubscriptionConfig | None,
         where_exists: bool | None,
         create_drop_queue: bool,
         nargs: Any,
@@ -908,7 +908,7 @@ class OperationConverter:
         topic_name: str,
         config: TopicConfig | None,
     ) -> dict:
-        args = {
+        args: dict = {
             "Name": topic_name,
         }
         if config and config.nconfig:

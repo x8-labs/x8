@@ -203,13 +203,7 @@ class AzureCosmosDB(AzureProvider, StoreProvider):
                 credential=self.access_key,
             )
         else:
-            credential = self._get_credential(
-                credential_type=self.credential_type,
-                tenant_id=self.tenant_id,
-                client_id=self.client_id,
-                client_secret=self.client_secret,
-                certificate_path=self.certificate_path,
-            )
+            credential = self._get_credential()
             document_client = CosmosClient(
                 url=self.endpoint,
                 credential=credential,
@@ -237,13 +231,7 @@ class AzureCosmosDB(AzureProvider, StoreProvider):
                 credential=self.access_key,
             )
         else:
-            credential = self._aget_credential(
-                credential_type=self.credential_type,
-                tenant_id=self.tenant_id,
-                client_id=self.client_id,
-                client_secret=self.client_secret,
-                certificate_path=self.certificate_path,
-            )
+            credential = self._aget_credential()
             document_client = CosmosClient(
                 url=self.endpoint,
                 credential=credential,

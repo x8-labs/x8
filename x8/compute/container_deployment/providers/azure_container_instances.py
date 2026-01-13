@@ -53,6 +53,7 @@ from azure.mgmt.containerinstance.models import (
 )
 from azure.mgmt.containerinstance.models import Volume as ACIVolume
 from azure.mgmt.containerinstance.models import VolumeMount as ACIVolumeMount
+
 from x8._common.azure_provider import AzureProvider
 from x8.compute.container_registry import ContainerRegistry
 from x8.compute.containerizer import Containerizer
@@ -329,8 +330,9 @@ class AzureContainerInstances(AzureProvider, BaseContainerDeploymentProvider):
                     f"Service {container_group_name} already exists."
                 )
             self._ensure_resource_group(
-                subscription_id=subscription_id,
                 resource_group=resource_group_name,
+                location=self.location,
+                subscription_id=subscription_id,
             )
             images = map_images(
                 containers=service_def.containers,
@@ -371,8 +373,9 @@ class AzureContainerInstances(AzureProvider, BaseContainerDeploymentProvider):
                     f"Service {container_group_name} not found."
                 )
             self._ensure_resource_group(
-                subscription_id=subscription_id,
                 resource_group=resource_group_name,
+                location=self.location,
+                subscription_id=subscription_id,
             )
             images = map_images(
                 containers=service_def.containers,
@@ -444,8 +447,9 @@ class AzureContainerInstances(AzureProvider, BaseContainerDeploymentProvider):
                 subscription_id=subscription_id, images=images
             )
             self._ensure_resource_group(
-                subscription_id=subscription_id,
                 resource_group=resource_group_name,
+                location=self.location,
+                subscription_id=subscription_id,
             )
             updated_service = self._op_converter.update_service(
                 existing_service=existing_service,
@@ -496,8 +500,9 @@ class AzureContainerInstances(AzureProvider, BaseContainerDeploymentProvider):
                 sku=self.sku,
             )
             self._ensure_resource_group(
-                subscription_id=subscription_id,
                 resource_group=resource_group_name,
+                location=self.location,
+                subscription_id=subscription_id,
             )
             operation = (
                 await self._aclient.container_groups.begin_create_or_update(
@@ -870,56 +875,6 @@ class AzureContainerInstances(AzureProvider, BaseContainerDeploymentProvider):
             )
         sub = next(sub_client.subscriptions.list())
         return sub.subscription_id
-
-    def _ensure_resource_group(
-        self, subscription_id: str, resource_group: str
-    ) -> None:
-        from azure.core.exceptions import ResourceNotFoundError
-        from azure.mgmt.resource import ResourceManagementClient
-
-        self._init_credentials()
-        rg_client = ResourceManagementClient(
-            credential=self._credential,
-            subscription_id=subscription_id,
-        )
-        try:
-            rg_client.resource_groups.get(resource_group)
-        except ResourceNotFoundError:
-            rg_client.resource_groups.create_or_update(
-                resource_group, {"location": self.location}
-            )
-            print(f"Created resource group: {resource_group}")
-
-    def _delete_resource_group_if_empty(
-        self, subscription_id: str, resource_group: str
-    ) -> None:
-        from azure.core.exceptions import ResourceNotFoundError
-        from azure.mgmt.resource import ResourceManagementClient
-
-        self._init_credentials()
-        rg_client = ResourceManagementClient(
-            credential=self._credential,
-            subscription_id=subscription_id,
-        )
-
-        # Check if the resource group is empty before deleting
-        resources = list(
-            rg_client.resources.list_by_resource_group(resource_group)
-        )
-        for resource in resources:
-            print(f"Found resource in group: {resource.name}")
-        if resources:
-            print(
-                f"Resource group {resource_group} is not empty; "
-                "skipping deletion."
-            )
-            return
-        try:
-            operation = rg_client.resource_groups.begin_delete(resource_group)
-            operation.result()
-            print(f"Deleted resource group: {resource_group}")
-        except ResourceNotFoundError:
-            print(f"Resource group {resource_group} not found to delete.")
 
     def _get_diagnostics(self) -> ContainerGroupDiagnostics | None:
         if (

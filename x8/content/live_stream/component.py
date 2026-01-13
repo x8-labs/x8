@@ -40,6 +40,7 @@ class LiveStream(Component):
         Returns:
             Live stream info.
         """
+        raise NotImplementedError
 
     @operation()
     def get_frame(
@@ -51,6 +52,7 @@ class LiveStream(Component):
         Returns:
             Live stream frame.
         """
+        raise NotImplementedError
 
     @operation()
     def get_audio(
@@ -83,10 +85,12 @@ class LiveStream(Component):
         Returns:
             Audio in live stream.
         """
+        raise NotImplementedError
 
     @operation()
     def close(self, **kwargs) -> None:
         """Close the live stream."""
+        raise NotImplementedError
 
     @operation()
     async def aget_info(self, **kwargs) -> LiveStreamInfo:
@@ -95,6 +99,7 @@ class LiveStream(Component):
         Returns:
             Live stream info.
         """
+        raise NotImplementedError
 
     @operation()
     async def aget_frame(
@@ -106,6 +111,7 @@ class LiveStream(Component):
         Returns:
             Live stream frame.
         """
+        raise NotImplementedError
 
     @operation()
     async def aget_audio(
@@ -138,7 +144,9 @@ class LiveStream(Component):
         Returns:
             Audio in live stream.
         """
+        raise NotImplementedError
 
     @operation()
     async def aclose(self, **kwargs) -> None:
         """Close the live stream."""
+        raise NotImplementedError

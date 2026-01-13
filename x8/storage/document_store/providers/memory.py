@@ -373,7 +373,7 @@ class Memory(StoreProvider):
             elif returning == "old":
                 result = build_item_from_value(
                     processor=processor,
-                    value=current_document,
+                    value=current_document or {},
                     include_value=True,
                 )
             else:

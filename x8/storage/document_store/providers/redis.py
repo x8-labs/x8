@@ -1784,7 +1784,7 @@ class IndexManager:
                     ),
                     dimension=vector_params.get("dim", 0),
                     structure=structure_mapping.get(
-                        vector_params.get("algorithm", None), None
+                        vector_params.get("algorithm", "FLAT"), None
                     ),
                     metric=metric_mapping.get(
                         vector_params.get("distance_metric", None),

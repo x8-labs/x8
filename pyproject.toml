@@ -1,6 +1,6 @@
 [project]
 name = "x8"
-version = "0.0.10"
+version = "0.0.11"
 description = "x8 client"
 readme = "README.md"
 license = { text = "MIT" }
@@ -336,7 +336,14 @@ all = [
     "google-genai",
     "google-auth",
 ]
-dev = ["mypy", "flake8", "pytest", "pytest-asyncio", "pytest-cov"]
+dev = [
+    "mypy",
+    "flake8",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "types-PyYAML",
+]
 
 [project.urls]
 Homepage = "https://github.com/x8-labs/x8"

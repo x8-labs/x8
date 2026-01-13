@@ -13,7 +13,7 @@ class Redis(RedisBase):
         url: str | None = None,
         host: str | None = None,
         port: int | None = None,
-        db: str | int = 0,
+        db: int = 0,
         username: str | None = None,
         password: str | None = None,
         options: dict | None = None,

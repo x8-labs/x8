@@ -57,7 +57,7 @@ class PubSub(Component):
             where:
                 Condition expression.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update_topic(
@@ -74,7 +74,7 @@ class PubSub(Component):
             config:
                 Topic config.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def drop_topic(
@@ -91,7 +91,7 @@ class PubSub(Component):
             where:
                 Condition expression.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_topics(self, **kwargs: Any) -> Response[list[str]]:
@@ -100,7 +100,7 @@ class PubSub(Component):
         Returns:
             List of topic names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def has_topic(
@@ -117,7 +117,7 @@ class PubSub(Component):
         Returns:
             True if topic exists, False otherwise.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_topic(
@@ -132,7 +132,7 @@ class PubSub(Component):
         Returns:
             Topic info.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def create_subscription(
@@ -155,7 +155,7 @@ class PubSub(Component):
             where:
                 Condition expression.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update_subscription(
@@ -175,7 +175,7 @@ class PubSub(Component):
             config:
                 Subscription config.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def drop_subscription(
@@ -195,7 +195,7 @@ class PubSub(Component):
             where:
                 Condition expression.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_subscriptions(
@@ -208,7 +208,7 @@ class PubSub(Component):
         Returns:
             List of subscription names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def has_subscription(
@@ -228,7 +228,7 @@ class PubSub(Component):
         Returns:
             True if subscription exists, False otherwise.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_subscription(
@@ -248,7 +248,7 @@ class PubSub(Component):
         Returns:
             Subscription info.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def put(
@@ -277,7 +277,7 @@ class PubSub(Component):
         Returns:
             Message item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def batch(
@@ -296,7 +296,7 @@ class PubSub(Component):
         Returns:
             List of message items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def pull(
@@ -318,7 +318,7 @@ class PubSub(Component):
         Returns:
             Pulled message items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def ack(
@@ -337,7 +337,7 @@ class PubSub(Component):
             subscription:
                 Subscription name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def nack(
@@ -356,7 +356,7 @@ class PubSub(Component):
             subscription:
                 Subscription name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def extend(
@@ -381,7 +381,7 @@ class PubSub(Component):
         Returns:
             Message item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def purge(
@@ -400,7 +400,7 @@ class PubSub(Component):
             subscription:
                 Subscription name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(
@@ -413,7 +413,7 @@ class PubSub(Component):
             topic:
                 Topic name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acreate_topic(
@@ -430,7 +430,7 @@ class PubSub(Component):
             config:
                 Topic config.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate_topic(
@@ -447,7 +447,7 @@ class PubSub(Component):
             config:
                 Topic config.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adrop_topic(
@@ -459,7 +459,7 @@ class PubSub(Component):
             topic:
                 Topic name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_topics(self, **kwargs: Any) -> Response[list[str]]:
@@ -468,7 +468,7 @@ class PubSub(Component):
         Returns:
             List of topic names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def ahas_topic(
@@ -485,7 +485,7 @@ class PubSub(Component):
         Returns:
             True if topic exists, False otherwise.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_topic(
@@ -500,7 +500,7 @@ class PubSub(Component):
         Returns:
             Topic info.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acreate_subscription(
@@ -520,7 +520,7 @@ class PubSub(Component):
             config:
                 Subscription config.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate_subscription(
@@ -540,7 +540,7 @@ class PubSub(Component):
             config:
                 Subscription config.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adrop_subscription(
@@ -557,7 +557,7 @@ class PubSub(Component):
             subscription:
                 Subscription name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_subscriptions(
@@ -570,7 +570,7 @@ class PubSub(Component):
         Returns:
             List of subscription names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def ahas_subscription(
@@ -590,7 +590,7 @@ class PubSub(Component):
         Returns:
             True if subscription exists, False otherwise.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_subscription(
@@ -610,7 +610,7 @@ class PubSub(Component):
         Returns:
             Subscription info.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aput(
@@ -639,7 +639,7 @@ class PubSub(Component):
         Returns:
             Message item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def abatch(
@@ -658,7 +658,7 @@ class PubSub(Component):
         Returns:
             List of message items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def apull(
@@ -680,7 +680,7 @@ class PubSub(Component):
         Returns:
             Pulled message items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aack(
@@ -699,7 +699,7 @@ class PubSub(Component):
             subscription:
                 Subscription name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def anack(
@@ -718,7 +718,7 @@ class PubSub(Component):
             subscription:
                 Subscription name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aextend(
@@ -743,7 +743,7 @@ class PubSub(Component):
         Returns:
             Message item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def apurge(
@@ -762,7 +762,7 @@ class PubSub(Component):
             subscription:
                 Subscription name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(
@@ -775,4 +775,4 @@ class PubSub(Component):
             topic:
                 Topic name.
         """
-        ...
+        raise NotImplementedError

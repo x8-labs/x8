@@ -14,7 +14,7 @@ class Authentication(Component):
         Returns:
             Auth result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def login(self, credential: UserCredential) -> AuthResult:
@@ -26,7 +26,7 @@ class Authentication(Component):
         Returns:
             Auth result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def refresh(self, credential: str) -> AuthResult:
@@ -38,7 +38,7 @@ class Authentication(Component):
         Returns:
             Refreshed auth result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def validate(self, credential: str | UserCredential) -> AuthResult:
@@ -50,7 +50,7 @@ class Authentication(Component):
         Returns:
             Auth result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def logout(self, credential: str) -> bool:
@@ -62,7 +62,7 @@ class Authentication(Component):
         Returns:
             True if the user was successfully logged out.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_user_info(self, credential: str | UserCredential) -> UserInfo:
@@ -74,4 +74,4 @@ class Authentication(Component):
         Returns:
             Information about the authenticated user.
         """
-        ...
+        raise NotImplementedError

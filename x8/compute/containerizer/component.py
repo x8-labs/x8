@@ -38,7 +38,7 @@ class Containerizer(Component):
         Returns:
             Source item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def build(
@@ -59,7 +59,7 @@ class Containerizer(Component):
         Returns:
             Image item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def run(
@@ -79,7 +79,7 @@ class Containerizer(Component):
         Returns:
             Container item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def stop(
@@ -93,7 +93,7 @@ class Containerizer(Component):
             container_id:
                 ID of the container to stop.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def remove(
@@ -107,7 +107,7 @@ class Containerizer(Component):
             container_id:
                 ID of the container to remove.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete(
@@ -124,7 +124,7 @@ class Containerizer(Component):
             digest:
                 Digest of the image to delete.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def tag(
@@ -144,7 +144,7 @@ class Containerizer(Component):
             digest:
                 Digest of the image to tag.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def push(
@@ -167,7 +167,7 @@ class Containerizer(Component):
             tag:
                 Tag to assign to the image.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def pull(
@@ -184,7 +184,7 @@ class Containerizer(Component):
             tag:
                 Tag to assign to the image.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_containers(
@@ -196,7 +196,7 @@ class Containerizer(Component):
         Returns:
             List of containers.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_images(
@@ -208,7 +208,7 @@ class Containerizer(Component):
         Returns:
             List of images.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aprepare(
@@ -231,7 +231,7 @@ class Containerizer(Component):
         Returns:
             Source item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def abuild(
@@ -252,7 +252,7 @@ class Containerizer(Component):
         Returns:
             Image item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def arun(
@@ -272,7 +272,7 @@ class Containerizer(Component):
         Returns:
             Container item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def astop(
@@ -286,7 +286,7 @@ class Containerizer(Component):
             container_id:
                 ID of the container to stop.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aremove(
@@ -300,7 +300,7 @@ class Containerizer(Component):
             container_id:
                 ID of the container to remove.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete(
@@ -317,7 +317,7 @@ class Containerizer(Component):
             digest:
                 Digest of the image to delete.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def atag(
@@ -337,7 +337,7 @@ class Containerizer(Component):
             digest:
                 Digest of the image to tag.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def apush(
@@ -357,7 +357,7 @@ class Containerizer(Component):
             tag:
                 Tag to assign to the image.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def apull(
@@ -374,7 +374,7 @@ class Containerizer(Component):
             tag:
                 Tag to assign to the image.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_containers(
@@ -386,7 +386,7 @@ class Containerizer(Component):
         Returns:
             List of containers.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_images(
@@ -398,4 +398,4 @@ class Containerizer(Component):
         Returns:
             List of images.
         """
-        ...
+        raise NotImplementedError

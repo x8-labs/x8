@@ -79,7 +79,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def drop_collection(
@@ -99,7 +99,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_collections(
@@ -111,7 +111,7 @@ class DocumentStore(StoreComponent):
         Returns:
             List of collection names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def has_collection(
@@ -128,7 +128,7 @@ class DocumentStore(StoreComponent):
         Returns:
             A value indicating whether the collection exists.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def create_index(
@@ -150,7 +150,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Index operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def drop_index(
@@ -172,7 +172,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Index operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_indexes(
@@ -185,7 +185,7 @@ class DocumentStore(StoreComponent):
             collection:
                 Collection name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get(
@@ -209,7 +209,7 @@ class DocumentStore(StoreComponent):
             NotFoundError:
                 Document not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def put(
@@ -244,7 +244,7 @@ class DocumentStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update(
@@ -281,7 +281,7 @@ class DocumentStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete(
@@ -310,7 +310,7 @@ class DocumentStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def query(
@@ -342,7 +342,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Document list with items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def count(
@@ -362,7 +362,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Count of documents.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def batch(
@@ -379,7 +379,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Batch operation results.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def transact(
@@ -400,7 +400,7 @@ class DocumentStore(StoreComponent):
             ConflictError:
                 Transaction failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(
@@ -412,7 +412,7 @@ class DocumentStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acreate_collection(
@@ -435,7 +435,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adrop_collection(
@@ -455,7 +455,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_collections(
@@ -467,7 +467,7 @@ class DocumentStore(StoreComponent):
         Returns:
             List of collection names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def ahas_collection(
@@ -484,7 +484,7 @@ class DocumentStore(StoreComponent):
         Returns:
             A value indicating whether the collection exists.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acreate_index(
@@ -506,7 +506,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Index operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adrop_index(
@@ -528,7 +528,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Index operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_indexes(
@@ -541,7 +541,7 @@ class DocumentStore(StoreComponent):
             collection:
                 Collection name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget(
@@ -565,7 +565,7 @@ class DocumentStore(StoreComponent):
             NotFoundError:
                 Document not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aput(
@@ -600,7 +600,7 @@ class DocumentStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate(
@@ -637,7 +637,7 @@ class DocumentStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete(
@@ -666,7 +666,7 @@ class DocumentStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aquery(
@@ -698,7 +698,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Document list with items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acount(
@@ -718,7 +718,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Count of documents.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def abatch(
@@ -735,7 +735,7 @@ class DocumentStore(StoreComponent):
         Returns:
             Batch operation results.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def atransact(
@@ -756,7 +756,7 @@ class DocumentStore(StoreComponent):
             ConflictError:
                 Transaction failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(
@@ -768,4 +768,4 @@ class DocumentStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError

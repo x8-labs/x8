@@ -35,6 +35,8 @@ class ArgParser:
             return operation
         operation = ArgParser.replace_operation_params(operation, params)
         if params is not None:
+            if operation.args is None:
+                operation.args = {}
             operation.args["params"] = params
         return operation
 

@@ -51,7 +51,7 @@ class VectorStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def drop_collection(
@@ -71,7 +71,7 @@ class VectorStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_collections(
@@ -83,7 +83,7 @@ class VectorStore(StoreComponent):
         Returns:
             List of collection names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def has_collection(
@@ -100,7 +100,7 @@ class VectorStore(StoreComponent):
         Returns:
             A value indicating whether the collection exists.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get(
@@ -124,7 +124,7 @@ class VectorStore(StoreComponent):
             NotFoundError:
                 Vector not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def put(
@@ -150,7 +150,7 @@ class VectorStore(StoreComponent):
         Returns:
             Vector item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update(
@@ -173,7 +173,7 @@ class VectorStore(StoreComponent):
         Returns:
             Vector item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update_metadata(
@@ -196,7 +196,7 @@ class VectorStore(StoreComponent):
         Returns:
             Vector item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete(
@@ -225,7 +225,7 @@ class VectorStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def query(
@@ -260,7 +260,7 @@ class VectorStore(StoreComponent):
         Returns:
             List of vectors.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def count(
@@ -283,7 +283,7 @@ class VectorStore(StoreComponent):
         Returns:
             Vector count.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def batch(
@@ -300,7 +300,7 @@ class VectorStore(StoreComponent):
         Returns:
             Batch operation results.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def transact(
@@ -321,7 +321,7 @@ class VectorStore(StoreComponent):
             ConflictError:
                 Transaction failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(
@@ -333,7 +333,7 @@ class VectorStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acreate_collection(
@@ -353,7 +353,7 @@ class VectorStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adrop_collection(
@@ -370,7 +370,7 @@ class VectorStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_collections(
@@ -382,7 +382,7 @@ class VectorStore(StoreComponent):
         Returns:
             List of collection names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def ahas_collection(
@@ -399,7 +399,7 @@ class VectorStore(StoreComponent):
         Returns:
             A value indicating whether the collection exists.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget(
@@ -423,7 +423,7 @@ class VectorStore(StoreComponent):
             NotFoundError:
                 Vector not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aput(
@@ -449,7 +449,7 @@ class VectorStore(StoreComponent):
         Returns:
             Vector item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate(
@@ -472,7 +472,7 @@ class VectorStore(StoreComponent):
         Returns:
             Vector item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate_metadata(
@@ -495,7 +495,7 @@ class VectorStore(StoreComponent):
         Returns:
             Vector item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete(
@@ -524,7 +524,7 @@ class VectorStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aquery(
@@ -559,7 +559,7 @@ class VectorStore(StoreComponent):
         Returns:
             List of vectors.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acount(
@@ -582,7 +582,7 @@ class VectorStore(StoreComponent):
         Returns:
             Vector count.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def abatch(
@@ -599,7 +599,7 @@ class VectorStore(StoreComponent):
         Returns:
             Batch operation results.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def atransact(
@@ -620,7 +620,7 @@ class VectorStore(StoreComponent):
             ConflictError:
                 Transaction failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(
@@ -632,4 +632,4 @@ class VectorStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError

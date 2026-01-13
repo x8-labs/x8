@@ -34,7 +34,8 @@ class TextGeneration(Component):
         stream: Literal[False] | None = None,
         nconfig: dict[str, Any] | None = None,
         **kwargs: Any,
-    ) -> Response[TextGenerationResult]: ...
+    ) -> Response[TextGenerationResult]:
+        raise NotImplementedError
 
     @overload
     def generate(
@@ -54,7 +55,8 @@ class TextGeneration(Component):
         reasoning: dict | Reasoning | None = None,
         nconfig: dict[str, Any] | None = None,
         **kwargs: Any,
-    ) -> Iterator[Response[TextGenerationStreamEvent]]: ...
+    ) -> Iterator[Response[TextGenerationStreamEvent]]:
+        raise NotImplementedError
 
     @operation(
         api={
@@ -83,7 +85,8 @@ class TextGeneration(Component):
     ) -> (
         Response[TextGenerationResult]
         | Iterator[Response[TextGenerationStreamEvent]]
-    ): ...
+    ):
+        raise NotImplementedError
 
     @overload
     async def agenerate(
@@ -103,7 +106,8 @@ class TextGeneration(Component):
         stream: Literal[False] | None = None,
         nconfig: dict[str, Any] | None = None,
         **kwargs: Any,
-    ) -> Response[TextGenerationResult]: ...
+    ) -> Response[TextGenerationResult]:
+        raise NotImplementedError
 
     @overload
     async def agenerate(
@@ -123,7 +127,8 @@ class TextGeneration(Component):
         reasoning: dict | Reasoning | None = None,
         nconfig: dict[str, Any] | None = None,
         **kwargs: Any,
-    ) -> AsyncIterator[Response[TextGenerationStreamEvent]]: ...
+    ) -> AsyncIterator[Response[TextGenerationStreamEvent]]:
+        raise NotImplementedError
 
     @operation(
         api={
@@ -152,4 +157,5 @@ class TextGeneration(Component):
     ) -> (
         Response[TextGenerationResult]
         | AsyncIterator[Response[TextGenerationStreamEvent]]
-    ): ...
+    ):
+        raise NotImplementedError

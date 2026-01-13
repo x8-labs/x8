@@ -609,12 +609,6 @@ class GoogleCloudRun(GoogleProvider, BaseContainerDeploymentProvider):
             raise BadRequestError("Project is required.")
         return self._cached_project
 
-    def _get_default_project(self) -> str:
-        import google.auth
-
-        _, project = google.auth.default()
-        return project
-
     def _get_service_path(self, project: str, service_name: str) -> str:
         parent_path = f"projects/{project}/locations/{self.location}"
         service_path = f"{parent_path}/services/{service_name}"

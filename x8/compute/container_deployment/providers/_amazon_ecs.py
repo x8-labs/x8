@@ -2727,7 +2727,7 @@ class ResultConverter:
                 port_obj = Port(
                     container_port=container_port,
                     name=pm.get("name", None),
-                    protocol=pm.get("protocol", None),
+                    protocol=pm.get("protocol", "TCP"),
                     host_port=pm.get("hostPort", None),
                 )
                 result.append(port_obj)

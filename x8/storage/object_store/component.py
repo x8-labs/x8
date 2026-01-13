@@ -53,7 +53,7 @@ class ObjectStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def drop_collection(
@@ -73,7 +73,7 @@ class ObjectStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_collections(
@@ -85,7 +85,7 @@ class ObjectStore(StoreComponent):
         Returns:
             List of collection names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def has_collection(
@@ -102,7 +102,7 @@ class ObjectStore(StoreComponent):
         Returns:
             A value indicating whether the collection exists.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def put(
@@ -148,7 +148,7 @@ class ObjectStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get(
@@ -192,7 +192,7 @@ class ObjectStore(StoreComponent):
             NotModified:
                 Object not modified.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_metadata(
@@ -221,7 +221,7 @@ class ObjectStore(StoreComponent):
             NotModified:
                 Object not modified.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_properties(
@@ -250,7 +250,7 @@ class ObjectStore(StoreComponent):
             NotModified:
                 Object not modified.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_versions(
@@ -274,7 +274,7 @@ class ObjectStore(StoreComponent):
             NotFoundError:
                 Object not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update(
@@ -309,7 +309,7 @@ class ObjectStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete(
@@ -338,7 +338,7 @@ class ObjectStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def copy(
@@ -365,7 +365,7 @@ class ObjectStore(StoreComponent):
             NotFoundError:
                 Source object not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def generate(
@@ -390,7 +390,7 @@ class ObjectStore(StoreComponent):
         Returns:
             Object item with signed URL.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def query(
@@ -419,7 +419,7 @@ class ObjectStore(StoreComponent):
         Returns:
             List of objects.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def count(
@@ -439,7 +439,7 @@ class ObjectStore(StoreComponent):
         Returns:
             Count of objects.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def batch(
@@ -456,7 +456,7 @@ class ObjectStore(StoreComponent):
         Returns:
             Batch operation results.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(
@@ -468,7 +468,7 @@ class ObjectStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acreate_collection(
@@ -488,7 +488,7 @@ class ObjectStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adrop_collection(
@@ -505,7 +505,7 @@ class ObjectStore(StoreComponent):
         Returns:
             Collection operation result.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_collections(
@@ -517,7 +517,7 @@ class ObjectStore(StoreComponent):
         Returns:
             List of collection names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def ahas_collection(
@@ -534,7 +534,7 @@ class ObjectStore(StoreComponent):
         Returns:
             A value indicating whether the collection exists.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aput(
@@ -580,7 +580,7 @@ class ObjectStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget(
@@ -624,7 +624,7 @@ class ObjectStore(StoreComponent):
             NotModified:
                 Object not modified.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_metadata(
@@ -653,7 +653,7 @@ class ObjectStore(StoreComponent):
             NotModified:
                 Object not modified.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_properties(
@@ -682,7 +682,7 @@ class ObjectStore(StoreComponent):
             NotModified:
                 Object not modified.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_versions(
@@ -706,7 +706,7 @@ class ObjectStore(StoreComponent):
             NotFoundError:
                 Object not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate(
@@ -741,7 +741,7 @@ class ObjectStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete(
@@ -770,7 +770,7 @@ class ObjectStore(StoreComponent):
             PreconditionFailedError:
                 Condition failed.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acopy(
@@ -797,7 +797,7 @@ class ObjectStore(StoreComponent):
             NotFoundError:
                 Source object not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def agenerate(
@@ -822,7 +822,7 @@ class ObjectStore(StoreComponent):
         Returns:
             Object item with signed URL.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aquery(
@@ -851,7 +851,7 @@ class ObjectStore(StoreComponent):
         Returns:
             List of objects.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acount(
@@ -871,7 +871,7 @@ class ObjectStore(StoreComponent):
         Returns:
             Count of objects.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def abatch(
@@ -888,7 +888,7 @@ class ObjectStore(StoreComponent):
         Returns:
             Batch operation results.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(
@@ -900,4 +900,4 @@ class ObjectStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError

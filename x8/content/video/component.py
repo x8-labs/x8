@@ -46,7 +46,7 @@ class Video(Component):
         Returns:
             Video info.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def seek_frame(
@@ -76,7 +76,7 @@ class Video(Component):
         Returns:
             Video frame.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_frame(
@@ -88,7 +88,7 @@ class Video(Component):
         Returns:
             Video frame.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_audio(
@@ -128,7 +128,7 @@ class Video(Component):
         Returns:
             Audio in video.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def save(
@@ -141,12 +141,12 @@ class Video(Component):
         Args:
             path: Local path.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(self, **kwargs) -> None:
         """Close the video."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_info(self, **kwargs) -> VideoInfo:
@@ -155,7 +155,7 @@ class Video(Component):
         Returns:
             Video info.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aseek_frame(
@@ -185,7 +185,7 @@ class Video(Component):
         Returns:
             Video frame.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_frame(
@@ -197,7 +197,7 @@ class Video(Component):
         Returns:
             Video frame.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_audio(
@@ -237,7 +237,7 @@ class Video(Component):
         Returns:
             Audio in video.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def asave(
@@ -250,12 +250,12 @@ class Video(Component):
         Args:
             path: Local path.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(self, **kwargs) -> None:
         """Close the video."""
-        ...
+        raise NotImplementedError
 
     @staticmethod
     def load(video: str | bytes | IO | VideoData | dict) -> Video:

@@ -2,6 +2,7 @@ import json
 from typing import Any
 
 from x8.core import Provider
+from x8.core.exceptions import BadRequestError
 
 
 class GoogleProvider(Provider):
@@ -61,4 +62,6 @@ class GoogleProvider(Provider):
         import google.auth
 
         _, project = google.auth.default()
+        if not project:
+            raise BadRequestError("Default project not found")
         return project

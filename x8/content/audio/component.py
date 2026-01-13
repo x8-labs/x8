@@ -43,6 +43,7 @@ class Audio(Component):
         Returns:
             Audio info.
         """
+        raise NotImplementedError
 
     @operation()
     def convert(
@@ -71,6 +72,7 @@ class Audio(Component):
         Returns:
             Converted audio.
         """
+        raise NotImplementedError
 
     @operation()
     def save(
@@ -96,10 +98,12 @@ class Audio(Component):
             channels:
                 Number of channels.
         """
+        raise NotImplementedError
 
     @operation()
     def close(self, **kwargs) -> None:
         """Close the audio stream."""
+        raise NotImplementedError
 
     @operation()
     async def aget_info(self, **kwargs) -> AudioInfo:
@@ -108,6 +112,7 @@ class Audio(Component):
         Returns:
             Audio info.
         """
+        raise NotImplementedError
 
     @operation()
     async def aconvert(
@@ -136,6 +141,7 @@ class Audio(Component):
         Returns:
             Converted audio.
         """
+        raise NotImplementedError
 
     @operation()
     async def asave(
@@ -161,10 +167,12 @@ class Audio(Component):
             channels:
                 Number of channels.
         """
+        raise NotImplementedError
 
     @operation()
     async def aclose(self, **kwargs) -> None:
         """Close the audio stream."""
+        raise NotImplementedError
 
     @staticmethod
     def load(audio: str | bytes | IO | AudioData | dict) -> Audio:

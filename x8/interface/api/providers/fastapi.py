@@ -18,6 +18,7 @@ from fastapi.security import HTTPBasic, HTTPBearer
 from fastapi.security.api_key import APIKeyHeader, APIKeyQuery
 from pydantic import BaseModel, create_model
 from starlette.middleware.cors import CORSMiddleware
+
 from x8.core import (
     Context,
     DataAccessor,
@@ -209,9 +210,9 @@ class FastAPI(Provider):
             self._app.add_middleware(
                 CORSMiddleware,
                 allow_origins=allow_origins,
-                allow_credentials=allow_credentials,
-                allow_methods=allow_methods,
-                allow_headers=allow_headers,
+                allow_credentials=allow_credentials or False,
+                allow_methods=allow_methods or ["*"],
+                allow_headers=allow_headers or ["*"],
             )
         if self.reload is False and self.workers == 1:
             config = uvicorn.Config(
@@ -686,7 +687,7 @@ class BaseAPI:
                     response_model = None
                     response_class = FastAPIResponse
 
-            responses_meta = None
+            responses_meta: dict | None = None
             if op_info.response:
                 media = (
                     op_info.response.media_type or "application/octet-stream"

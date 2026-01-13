@@ -68,7 +68,7 @@ class VideoGeneration(Component):
             nconfig:
                 Additional native configuration parameters.
         """
-        ...
+        raise NotImplementedError
 
     @overload
     def generate(
@@ -126,7 +126,7 @@ class VideoGeneration(Component):
             nconfig:
                 Additional native configuration parameters.
         """
-        ...
+        raise NotImplementedError
 
     @operation(
         api={
@@ -193,7 +193,7 @@ class VideoGeneration(Component):
             nconfig:
                 Additional native configuration parameters.
         """
-        ...
+        raise NotImplementedError
 
     @operation(
         api={
@@ -211,7 +211,7 @@ class VideoGeneration(Component):
                 The ID of the video generation task.
             **kwargs: Additional keyword arguments.
         """
-        ...
+        raise NotImplementedError
 
     @operation(
         api={
@@ -227,7 +227,7 @@ class VideoGeneration(Component):
         Args:
             **kwargs: Additional keyword arguments.
         """
-        ...
+        raise NotImplementedError
 
     @operation(
         api={
@@ -245,7 +245,7 @@ class VideoGeneration(Component):
                 The ID of the video generation task.
             **kwargs: Additional keyword arguments.
         """
-        ...
+        raise NotImplementedError
 
     @operation(
         api={
@@ -266,7 +266,7 @@ class VideoGeneration(Component):
                 The ID of the video generation task.
             **kwargs: Additional keyword arguments.
         """
-        ...
+        raise NotImplementedError
 
     @overload
     async def agenerate(
@@ -323,7 +323,7 @@ class VideoGeneration(Component):
             nconfig:
                 Additional native configuration parameters.
         """
-        ...
+        raise NotImplementedError
 
     @overload
     async def agenerate(
@@ -380,7 +380,7 @@ class VideoGeneration(Component):
             nconfig:
                 Additional native configuration parameters.
         """
-        ...
+        raise NotImplementedError
 
     @operation(
         api={
@@ -448,7 +448,7 @@ class VideoGeneration(Component):
             nconfig:
                 Additional native configuration parameters.
         """
-        ...
+        raise NotImplementedError
 
     @operation(
         api={
@@ -468,7 +468,7 @@ class VideoGeneration(Component):
                 The ID of the video generation task.
             **kwargs: Additional keyword arguments.
         """
-        ...
+        raise NotImplementedError
 
     @operation(
         api={
@@ -486,7 +486,7 @@ class VideoGeneration(Component):
         Args:
             **kwargs: Additional keyword arguments.
         """
-        ...
+        raise NotImplementedError
 
     @operation(
         api={
@@ -504,7 +504,7 @@ class VideoGeneration(Component):
                 The ID of the video generation task.
             **kwargs: Additional keyword arguments.
         """
-        ...
+        raise NotImplementedError
 
     @operation(
         api={
@@ -525,4 +525,4 @@ class VideoGeneration(Component):
                 The ID of the video generation task.
             **kwargs: Additional keyword arguments.
         """
-        ...
+        raise NotImplementedError

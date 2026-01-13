@@ -15,6 +15,7 @@ from google.api_core.exceptions import Conflict, NotFound
 from google.api_core.exceptions import NotModified as NativeNotModified
 from google.api_core.exceptions import PreconditionFailed
 from google.cloud.storage import Blob, Bucket, Client
+
 from x8._common.google_provider import GoogleProvider
 from x8.core import Context, NCall, Operation, Response
 from x8.core.exceptions import (
@@ -115,11 +116,7 @@ class GoogleCloudStorage(GoogleProvider, StoreProvider):
     def _init_credentials_client(
         self,
     ) -> tuple[Any, Any]:
-        credentials = self._get_credentials(
-            self.service_account_info,
-            self.service_account_file,
-            self.access_token,
-        )
+        credentials = self._get_credentials()
 
         args = dict()
         if self.project is not None:

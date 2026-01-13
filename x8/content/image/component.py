@@ -45,6 +45,7 @@ class Image(Component):
         Returns:
             Image info.
         """
+        raise NotImplementedError
 
     @operation()
     def convert(
@@ -62,6 +63,7 @@ class Image(Component):
         Returns:
             Converted image.
         """
+        raise NotImplementedError
 
     @operation()
     def save(
@@ -76,6 +78,7 @@ class Image(Component):
             path: Local path.
             format: One of "JPEG", "PNG", "BMP".
         """
+        raise NotImplementedError
 
     @operation()
     def show(
@@ -83,6 +86,7 @@ class Image(Component):
         **kwargs,
     ) -> None:
         """Show the image."""
+        raise NotImplementedError
 
     @operation()
     async def aget_info(self) -> ImageInfo:
@@ -91,6 +95,7 @@ class Image(Component):
         Returns:
             Image info.
         """
+        raise NotImplementedError
 
     @operation()
     async def aconvert(
@@ -108,6 +113,7 @@ class Image(Component):
         Returns:
             Converted image.
         """
+        raise NotImplementedError
 
     @operation()
     async def asave(
@@ -122,6 +128,7 @@ class Image(Component):
             path: Local path.
             format: One of "JPEG", "PNG", "BMP".
         """
+        raise NotImplementedError
 
     @operation()
     async def ashow(
@@ -129,6 +136,7 @@ class Image(Component):
         **kwargs,
     ) -> None:
         """Show the image."""
+        raise NotImplementedError
 
     @staticmethod
     def load(image: str | bytes | IO | ImageData | dict) -> Image:

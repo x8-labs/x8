@@ -245,7 +245,7 @@ class SpecBuilder:
             type=provider_type,
             title=title,
             description=description,
-            kind=kind,
+            kind=Kind(kind),
             parameters=SpecBuilder._get_parameters(provider),
             py=PyInfo(path=py_path),
         )

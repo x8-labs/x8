@@ -28,7 +28,7 @@ class ConfigStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def put(
@@ -46,7 +46,7 @@ class ConfigStore(StoreComponent):
         Returns:
             Config item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete(
@@ -65,7 +65,7 @@ class ConfigStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def query(
@@ -81,7 +81,7 @@ class ConfigStore(StoreComponent):
         Returns:
             List of config items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def count(
@@ -97,7 +97,7 @@ class ConfigStore(StoreComponent):
         Returns:
             Count of config items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(
@@ -109,7 +109,7 @@ class ConfigStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget(
@@ -128,7 +128,7 @@ class ConfigStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aput(
@@ -146,7 +146,7 @@ class ConfigStore(StoreComponent):
         Returns:
             Config item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete(
@@ -165,7 +165,7 @@ class ConfigStore(StoreComponent):
         Raises:
             NotFoundError: Key not found.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aquery(
@@ -181,7 +181,7 @@ class ConfigStore(StoreComponent):
         Returns:
             List of config items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acount(
@@ -197,7 +197,7 @@ class ConfigStore(StoreComponent):
         Returns:
             Count of config items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(
@@ -209,4 +209,4 @@ class ConfigStore(StoreComponent):
         Returns:
             None.
         """
-        ...
+        raise NotImplementedError

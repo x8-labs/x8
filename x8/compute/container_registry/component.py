@@ -23,7 +23,7 @@ class ContainerRegistry(Component):
         Returns:
             Registry item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def pull(
@@ -40,7 +40,7 @@ class ContainerRegistry(Component):
         Returns:
             Registry item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def tag(
@@ -59,7 +59,7 @@ class ContainerRegistry(Component):
         Returns:
             Updated image.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def delete(
@@ -75,7 +75,7 @@ class ContainerRegistry(Component):
             digest: Digest to delete. If None, delete all digests.
             tag: Tag to delete. If None, delete all tags.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_images(
@@ -86,7 +86,7 @@ class ContainerRegistry(Component):
         Returns:
             List of registry items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_digests(
@@ -101,12 +101,12 @@ class ContainerRegistry(Component):
         Returns:
             List of digests.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(self) -> Response[None]:
         """Close the container registry client."""
-        pass
+        raise NotImplementedError
 
     @operation()
     async def apush(self, image_name: str) -> Response[ContainerRegistryItem]:
@@ -118,7 +118,7 @@ class ContainerRegistry(Component):
         Returns:
             Registry item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def apull(
@@ -135,7 +135,7 @@ class ContainerRegistry(Component):
         Returns:
             Registry item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def atag(
@@ -154,7 +154,7 @@ class ContainerRegistry(Component):
         Returns:
             Updated image.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adelete(
@@ -170,7 +170,7 @@ class ContainerRegistry(Component):
             digest: Digest to delete. If None, delete all digests.
             tag: Tag to delete. If None, delete all tags.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_images(
@@ -181,7 +181,7 @@ class ContainerRegistry(Component):
         Returns:
             List of registry items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_digests(
@@ -196,9 +196,9 @@ class ContainerRegistry(Component):
         Returns:
             List of digests.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(self) -> Response[None]:
         """Close the container registry client."""
-        pass
+        raise NotImplementedError

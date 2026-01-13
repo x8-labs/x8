@@ -6,6 +6,7 @@ import uuid
 from typing import Any
 
 import psycopg
+
 from x8.core import Context, DataModel, NCall, Operation, Provider, Response
 from x8.core.exceptions import BadRequestError, ConflictError, NotFoundError
 from x8.core.time import Time
@@ -963,6 +964,7 @@ class ClientHelper:
                     lock_duration = lock_duration or (
                         subscription_config.visibility_timeout
                         if subscription_config
+                        and subscription_config.visibility_timeout
                         else DEFAULT_VISIBILITY_TIMEOUT
                     )
                     lock_until_time = now + lock_duration
@@ -1292,6 +1294,7 @@ class AsyncClientHelper:
                         lock_duration = lock_duration or (
                             subscription_config.visibility_timeout
                             if subscription_config
+                            and subscription_config.visibility_timeout
                             else DEFAULT_VISIBILITY_TIMEOUT
                         )
                         lock_until_time = now + lock_duration
@@ -1657,7 +1660,7 @@ class OperationConverter:
         self,
         topic: str,
         subscription: str,
-        config: SubscriptionConfig | None,
+        config: SubscriptionConfig | QueueConfig | None,
         where_exists: bool | None,
     ) -> dict:
         if where_exists is False:

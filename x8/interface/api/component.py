@@ -43,19 +43,19 @@ class API(Component):
     @operation()
     def run(self) -> Response[None]:
         """Run the API."""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def arun(self) -> Response[None]:
         """Run the API asynchronously."""
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_info(self) -> Response[APIInfo]:
         """Get API Info"""
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_info(self) -> Response[APIInfo]:
         """Get API Info"""
-        ...
+        raise NotImplementedError

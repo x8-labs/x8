@@ -6,6 +6,7 @@ from typing import Any
 
 from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError
 from azure.storage.queue import QueueMessage, QueueProperties
+
 from x8._common.azure_provider import AzureProvider
 from x8.core import Context, DataModel, NCall, Operation, Response
 from x8.core.exceptions import BadRequestError, ConflictError, NotFoundError
@@ -841,12 +842,12 @@ class ResultConverter:
         content_type = "text/plain"
         content_type = content.get("content_type", "text/plain")
         if content_type == "text/plain":
-            return content.get("body", None)
+            return content.get("body", {})
         elif content_type == "application/octet-stream":
-            return base64.b64decode(content.get("body", None))
+            return base64.b64decode(content.get("body", {}))
         elif content_type == "application/json":
-            return json.loads(content.get("body", None))
-        return content.get("body", None)
+            return json.loads(content.get("body", {}))
+        return content.get("body", {})
 
     def _convert_metadata(self, content: dict) -> dict | None:
         if "metadata" in content:

@@ -50,7 +50,7 @@ class Queue(Component):
             where:
                 Condition expression.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def update_queue(
@@ -67,7 +67,7 @@ class Queue(Component):
             config:
                 Queue config.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def drop_queue(
@@ -84,7 +84,7 @@ class Queue(Component):
             where:
                 Condition expression.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def list_queues(self, **kwargs: Any) -> Response[list[str]]:
@@ -93,7 +93,7 @@ class Queue(Component):
         Returns:
             List of queue names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def has_queue(
@@ -109,7 +109,7 @@ class Queue(Component):
         Returns:
             True if queue exists, False otherwise.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def get_queue(
@@ -126,7 +126,7 @@ class Queue(Component):
         Returns:
             Queue info.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def put(
@@ -152,7 +152,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def batch(
@@ -168,7 +168,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def pull(
@@ -187,7 +187,7 @@ class Queue(Component):
         Returns:
             Pulled message items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def ack(
@@ -203,7 +203,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def nack(
@@ -219,7 +219,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def extend(
@@ -241,7 +241,7 @@ class Queue(Component):
         Returns:
             Message item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def purge(
@@ -257,7 +257,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     def close(
@@ -270,7 +270,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def acreate_queue(
@@ -287,7 +287,7 @@ class Queue(Component):
             config:
                 Queue config.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aupdate_queue(
@@ -304,7 +304,7 @@ class Queue(Component):
             config:
                 Queue config.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def adrop_queue(
@@ -316,7 +316,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def alist_queues(self, **kwargs: Any) -> Response[list[str]]:
@@ -325,7 +325,7 @@ class Queue(Component):
         Returns:
             List of queue names.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def ahas_queue(
@@ -341,7 +341,7 @@ class Queue(Component):
         Returns:
             True if queue exists, False otherwise.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aget_queue(
@@ -358,7 +358,7 @@ class Queue(Component):
         Returns:
             Queue info.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aput(
@@ -384,7 +384,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def abatch(
@@ -400,7 +400,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def apull(
@@ -419,7 +419,7 @@ class Queue(Component):
         Returns:
             Pulled message items.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aack(
@@ -435,7 +435,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def anack(
@@ -451,7 +451,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aextend(
@@ -473,7 +473,7 @@ class Queue(Component):
         Returns:
             Message item.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def apurge(
@@ -489,7 +489,7 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
 
     @operation()
     async def aclose(
@@ -502,4 +502,4 @@ class Queue(Component):
             queue:
                 Queue name.
         """
-        ...
+        raise NotImplementedError
