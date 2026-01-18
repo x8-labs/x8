@@ -151,6 +151,25 @@ wheels = [
 ]
 
 [[package]]
+name = "anthropic"
+version = "0.76.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "distro" },
+    { name = "docstring-parser" },
+    { name = "httpx" },
+    { name = "jiter" },
+    { name = "pydantic" },
+    { name = "sniffio" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6e/be/d11abafaa15d6304826438170f7574d750218f49a106c54424a40cef4494/anthropic-0.76.0.tar.gz", hash = "sha256:e0cae6a368986d5cf6df743dfbb1b9519e6a9eee9c6c942ad8121c0b34416ffe", size = 495483, upload-time = "2026-01-13T18:41:14.908Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e5/70/7b0fd9c1a738f59d3babe2b4212031c34ab7d0fda4ffef15b58a55c5bcea/anthropic-0.76.0-py3-none-any.whl", hash = "sha256:81efa3113901192af2f0fe977d3ec73fdadb1e691586306c4256cd6d5ccc331c", size = 390309, upload-time = "2026-01-13T18:41:13.483Z" },
+]
+
+[[package]]
 name = "antlr4-python3-runtime"
 version = "4.13.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1321,6 +1340,7 @@ dependencies = [
     { name = "proto-plus" },
     { name = "protobuf" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/f3/a1/992092b4fe263f644886b271f3ed3ebc2d941edfb97399ffc8108561c775/google_cloud_artifact_registry-1.19.0.tar.gz", hash = "sha256:415032dbd0733ddf443b84432a8de4899aa4b6ea641960c98ddf2feb1d749a91", size = 313457, upload-time = "2026-01-15T13:15:48.939Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b5/f1/5233af8b664d8a67586e4f89123fa64ff9806dae6eac54386315120d8edc/google_cloud_artifact_registry-1.19.0-py3-none-any.whl", hash = "sha256:1136294fad38d01285bbd4dd104fe4f2ba4b6bbcfef5c6dcc7a072ebe9d48842", size = 248884, upload-time = "2026-01-09T14:53:01.591Z" },
 ]
@@ -1337,6 +1357,7 @@ dependencies = [
     { name = "proto-plus" },
     { name = "protobuf" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/48/71/b5553d445b12fdddab5e03e33ac332d23ebdad671434dd8e3e58f7c69bb4/google_cloud_build-3.35.0.tar.gz", hash = "sha256:563561a124b2f49aefadb3b3dc509417917967d0dd930b0e47db4447aa040f7e", size = 241556, upload-time = "2026-01-15T13:15:38.973Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/fa/74/980a6ccc237bcf78d44cec7cfbf849d567c9ff21e88ef9af4d6ac212066d/google_cloud_build-3.35.0-py3-none-any.whl", hash = "sha256:8253c236bdf5d7d4dd59d3fb1d475ddc8d334b142e84d7799a32287b399732bf", size = 186415, upload-time = "2026-01-09T14:53:37.245Z" },
 ]
@@ -4453,11 +4474,18 @@ dependencies = [
 
 [package.optional-dependencies]
 ai-all = [
+    { name = "anthropic" },
     { name = "av" },
     { name = "google-auth" },
     { name = "google-genai" },
     { name = "httpx" },
     { name = "openai" },
+    { name = "pillow" },
+]
+ai-text-generation-anthropic = [
+    { name = "anthropic" },
+    { name = "av" },
+    { name = "httpx" },
     { name = "pillow" },
 ]
 ai-text-generation-google = [
@@ -4486,6 +4514,7 @@ ai-video-generation-openai = [
 ]
 all = [
     { name = "aiohttp" },
+    { name = "anthropic" },
     { name = "av" },
     { name = "azure-appconfiguration" },
     { name = "azure-containerregistry" },
@@ -4909,8 +4938,12 @@ requires-dist = [
     { name = "aiohttp", marker = "extra == 'storage-all'" },
     { name = "aiohttp", marker = "extra == 'storage-config-store-azure-app-configuration'" },
     { name = "aiohttp", marker = "extra == 'storage-secret-store-azure-key-vault'" },
+    { name = "anthropic", marker = "extra == 'ai-all'" },
+    { name = "anthropic", marker = "extra == 'ai-text-generation-anthropic'" },
+    { name = "anthropic", marker = "extra == 'all'" },
     { name = "antlr4-python3-runtime" },
     { name = "av", marker = "extra == 'ai-all'" },
+    { name = "av", marker = "extra == 'ai-text-generation-anthropic'" },
     { name = "av", marker = "extra == 'ai-text-generation-google'" },
     { name = "av", marker = "extra == 'ai-text-generation-openai'" },
     { name = "av", marker = "extra == 'ai-video-generation-google'" },
@@ -5061,6 +5094,7 @@ requires-dist = [
     { name = "google-genai", marker = "extra == 'ai-text-generation-google'" },
     { name = "google-genai", marker = "extra == 'all'" },
     { name = "httpx", marker = "extra == 'ai-all'" },
+    { name = "httpx", marker = "extra == 'ai-text-generation-anthropic'" },
     { name = "httpx", marker = "extra == 'ai-text-generation-google'" },
     { name = "httpx", marker = "extra == 'ai-text-generation-openai'" },
     { name = "httpx", marker = "extra == 'ai-video-generation-google'" },
@@ -5106,6 +5140,7 @@ requires-dist = [
     { name = "openai", marker = "extra == 'ai-video-generation-openai'" },
     { name = "openai", marker = "extra == 'all'" },
     { name = "pillow", marker = "extra == 'ai-all'" },
+    { name = "pillow", marker = "extra == 'ai-text-generation-anthropic'" },
     { name = "pillow", marker = "extra == 'ai-text-generation-google'" },
     { name = "pillow", marker = "extra == 'ai-text-generation-openai'" },
     { name = "pillow", marker = "extra == 'ai-video-generation-google'" },
@@ -5172,7 +5207,7 @@ requires-dist = [
     { name = "weaviate-client", marker = "extra == 'storage-all'" },
     { name = "weaviate-client", marker = "extra == 'storage-vector-store-weaviate'" },
 ]
-provides-extras = ["storage-config-store-aws-parameter-store", "storage-config-store-azure-app-configuration", "storage-config-store-google-runtime-configurator", "storage-config-store-env-file", "storage-config-store-yaml-file", "storage-config-store-env", "storage-config-store-document-store-provider", "storage-config-store-local", "storage-config-store-default", "storage-config-store-hosted", "storage-secret-store-amazon-secrets-manager", "storage-secret-store-azure-key-vault", "storage-secret-store-google-secret-manager", "storage-secret-store-hashicorp-vault", "storage-secret-store-env-file", "storage-secret-store-yaml-file", "storage-secret-store-env", "storage-secret-store-document-store-provider", "storage-secret-store-local", "storage-secret-store-default", "storage-secret-store-hosted", "storage-document-store-amazon-dynamodb", "storage-document-store-azure-cosmos-db", "storage-document-store-google-firestore", "storage-document-store-mongodb", "storage-document-store-redis", "storage-document-store-postgresql", "storage-document-store-elasticsearch", "storage-document-store-sqlite", "storage-document-store-memory", "storage-document-store-local", "storage-document-store-default", "storage-document-store-hosted", "storage-object-store-amazon-s3", "storage-object-store-azure-blob-storage", "storage-object-store-google-cloud-storage", "storage-object-store-file-system", "storage-object-store-local", "storage-object-store-default", "storage-object-store-hosted", "storage-vector-store-pinecone", "storage-vector-store-milvus", "storage-vector-store-qdrant", "storage-vector-store-chroma", "storage-vector-store-weaviate", "storage-vector-store-local", "storage-vector-store-default", "storage-vector-store-hosted", "storage-key-value-store-redis", "storage-key-value-store-redis-simple", "storage-key-value-store-memcached", "storage-key-value-store-document-store-provider", "storage-key-value-store-object-store-provider", "storage-key-value-store-memory", "storage-key-value-store-postgresql", "storage-key-value-store-sqlite", "storage-key-value-store-keydb", "storage-key-value-store-dragonfly", "storage-key-value-store-valkey", "storage-key-value-store-local", "storage-key-value-store-default", "storage-key-value-store-hosted", "storage-search-store-elasticsearch", "storage-all", "messaging-queue-amazon-sqs", "messaging-queue-azure-service-bus", "messaging-queue-azure-queue-storage", "messaging-queue-google-pubsub", "messaging-queue-redis", "messaging-queue-postgresql", "messaging-queue-sqlite", "messaging-queue-memory", "messaging-queue-local", "messaging-queue-default", "messaging-queue-hosted", "messaging-pubsub-amazon-sns", "messaging-pubsub-azure-service-bus", "messaging-pubsub-google-pubsub", "messaging-pubsub-redis", "messaging-pubsub-postgresql", "messaging-pubsub-memory", "messaging-pubsub-sqlite", "messaging-pubsub-local", "messaging-pubsub-default", "messaging-pubsub-hosted", "messaging-all", "compute-container-registry-amazon-elastic-container-registry", "compute-container-registry-azure-container-registry", "compute-container-registry-google-artifact-registry", "compute-containerizer-docker", "compute-containerizer-default", "compute-containerizer-local", "compute-container-deployment-amazon-elastic-container-service", "compute-container-deployment-azure-container-instances", "compute-container-deployment-azure-container-apps", "compute-container-deployment-google-cloud-run", "compute-container-deployment-docker-local", "compute-container-deployment-local", "compute-container-deployment-default", "compute-kubernetes-azure-kubernetes-service", "compute-all", "content-image-pillow", "content-image-default", "content-audio-av", "content-audio-default", "content-video-av", "content-video-default", "content-live-stream-av", "content-live-stream-default", "content-all", "ai-text-generation-openai", "ai-text-generation-google", "ai-video-generation-openai", "ai-video-generation-google", "ai-all", "interface-api-fastapi", "interface-api-default", "interface-cli-default", "interface-worker-default", "interface-auth-auth0", "interface-auth-api-key", "interface-auth-api-key-in-store", "interface-auth-mock", "interface-auth-default", "interface-all", "composite-choice-default", "composite-script-default", "composite-all", "all", "dev"]
+provides-extras = ["storage-config-store-aws-parameter-store", "storage-config-store-azure-app-configuration", "storage-config-store-google-runtime-configurator", "storage-config-store-env-file", "storage-config-store-yaml-file", "storage-config-store-env", "storage-config-store-document-store-provider", "storage-config-store-local", "storage-config-store-default", "storage-config-store-hosted", "storage-secret-store-amazon-secrets-manager", "storage-secret-store-azure-key-vault", "storage-secret-store-google-secret-manager", "storage-secret-store-hashicorp-vault", "storage-secret-store-env-file", "storage-secret-store-yaml-file", "storage-secret-store-env", "storage-secret-store-document-store-provider", "storage-secret-store-local", "storage-secret-store-default", "storage-secret-store-hosted", "storage-document-store-amazon-dynamodb", "storage-document-store-azure-cosmos-db", "storage-document-store-google-firestore", "storage-document-store-mongodb", "storage-document-store-redis", "storage-document-store-postgresql", "storage-document-store-elasticsearch", "storage-document-store-sqlite", "storage-document-store-memory", "storage-document-store-local", "storage-document-store-default", "storage-document-store-hosted", "storage-object-store-amazon-s3", "storage-object-store-azure-blob-storage", "storage-object-store-google-cloud-storage", "storage-object-store-file-system", "storage-object-store-local", "storage-object-store-default", "storage-object-store-hosted", "storage-vector-store-pinecone", "storage-vector-store-milvus", "storage-vector-store-qdrant", "storage-vector-store-chroma", "storage-vector-store-weaviate", "storage-vector-store-local", "storage-vector-store-default", "storage-vector-store-hosted", "storage-key-value-store-redis", "storage-key-value-store-redis-simple", "storage-key-value-store-memcached", "storage-key-value-store-document-store-provider", "storage-key-value-store-object-store-provider", "storage-key-value-store-memory", "storage-key-value-store-postgresql", "storage-key-value-store-sqlite", "storage-key-value-store-keydb", "storage-key-value-store-dragonfly", "storage-key-value-store-valkey", "storage-key-value-store-local", "storage-key-value-store-default", "storage-key-value-store-hosted", "storage-search-store-elasticsearch", "storage-all", "messaging-queue-amazon-sqs", "messaging-queue-azure-service-bus", "messaging-queue-azure-queue-storage", "messaging-queue-google-pubsub", "messaging-queue-redis", "messaging-queue-postgresql", "messaging-queue-sqlite", "messaging-queue-memory", "messaging-queue-local", "messaging-queue-default", "messaging-queue-hosted", "messaging-pubsub-amazon-sns", "messaging-pubsub-azure-service-bus", "messaging-pubsub-google-pubsub", "messaging-pubsub-redis", "messaging-pubsub-postgresql", "messaging-pubsub-memory", "messaging-pubsub-sqlite", "messaging-pubsub-local", "messaging-pubsub-default", "messaging-pubsub-hosted", "messaging-all", "compute-container-registry-amazon-elastic-container-registry", "compute-container-registry-azure-container-registry", "compute-container-registry-google-artifact-registry", "compute-containerizer-docker", "compute-containerizer-default", "compute-containerizer-local", "compute-container-deployment-amazon-elastic-container-service", "compute-container-deployment-azure-container-instances", "compute-container-deployment-azure-container-apps", "compute-container-deployment-google-cloud-run", "compute-container-deployment-docker-local", "compute-container-deployment-local", "compute-container-deployment-default", "compute-kubernetes-azure-kubernetes-service", "compute-all", "content-image-pillow", "content-image-default", "content-audio-av", "content-audio-default", "content-video-av", "content-video-default", "content-live-stream-av", "content-live-stream-default", "content-all", "ai-text-generation-openai", "ai-text-generation-google", "ai-text-generation-anthropic", "ai-video-generation-openai", "ai-video-generation-google", "ai-all", "interface-api-fastapi", "interface-api-default", "interface-cli-default", "interface-worker-default", "interface-auth-auth0", "interface-auth-api-key", "interface-auth-api-key-in-store", "interface-auth-mock", "interface-auth-default", "interface-all", "composite-choice-default", "composite-script-default", "composite-all", "all", "dev"]
 
 [[package]]
 name = "yarl"

@@ -59,8 +59,12 @@ def DataModelField(
     exclude: bool | None = None,
     min_length: int | None = None,
     max_length: int | None = None,
+    name: str | None = None,
     **kwargs,
 ) -> Any:
+    # Handle 'name' as alias for serialization/validation
+    if name is not None and alias is None:
+        alias = name
     return Field(
         alias=alias,
         exclude=exclude,

@@ -259,11 +259,20 @@ content-all = ["pillow", "av", "m3u8", "httpx"]
 
 ai-text-generation-openai = ["openai", "httpx", "pillow", "av"]
 ai-text-generation-google = ["google-genai", "httpx", "pillow", "av"]
+ai-text-generation-anthropic = ["anthropic", "httpx", "pillow", "av"]
 
 ai-video-generation-openai = ["openai", "httpx", "pillow", "av"]
 ai-video-generation-google = ["google-auth", "httpx", "pillow", "av"]
 
-ai-all = ["openai", "google-genai", "google-auth", "httpx", "pillow", "av"]
+ai-all = [
+    "openai",
+    "google-genai",
+    "google-auth",
+    "anthropic",
+    "httpx",
+    "pillow",
+    "av",
+]
 
 interface-api-fastapi = ["fastapi", "uvicorn"]
 interface-api-default = ["fastapi", "uvicorn"]
@@ -335,6 +344,7 @@ all = [
     "openai",
     "google-genai",
     "google-auth",
+    "anthropic",
 ]
 dev = [
     "mypy",

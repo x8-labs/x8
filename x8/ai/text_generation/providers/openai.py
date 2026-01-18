@@ -1,4 +1,8 @@
+import base64
+import json
 from typing import Any, AsyncIterator, Iterator, Mapping
+
+import openai
 
 from x8.ai._common.openai_provider import OpenAIProvider
 from x8.core import Response
@@ -40,18 +44,20 @@ from .._models import (
     ResponseReasoningTextDoneEvent,
     ResponseRefusalDeltaEvent,
     ResponseRefusalDoneEvent,
+    ResponseText,
     TextGenerationResult,
     TextGenerationStreamEvent,
     Tool,
     ToolChoice,
     Usage,
+    WebSearchCall,
 )
 
 
 class OpenAI(OpenAIProvider):
     def __init__(
         self,
-        model: str | None = "gpt-4o",
+        model: str | None = "gpt-5.2",
         api_key: str | None = None,
         organization: str | None = None,
         project: str | None = None,
@@ -119,6 +125,7 @@ class OpenAI(OpenAIProvider):
         temperature: float | None = None,
         top_p: float | None = None,
         max_output_tokens: int | None = None,
+        text: dict | ResponseText | None = None,
         tools: list[dict | Tool] | None = None,
         tool_choice: dict | ToolChoice | None = None,
         parallel_tool_calls: bool | None = None,
@@ -138,6 +145,7 @@ class OpenAI(OpenAIProvider):
             temperature=temperature,
             top_p=top_p,
             max_output_tokens=max_output_tokens,
+            text=text,
             tools=tools,
             tool_choice=tool_choice,
             parallel_tool_calls=parallel_tool_calls,
@@ -147,23 +155,26 @@ class OpenAI(OpenAIProvider):
             nconfig=nconfig,
             **kwargs,
         )
-        if not stream:
-            response = self._client.responses.create(**args)
-            result = self._convert_result(response)
-            return Response(result=result)
-        else:
-
-            def _stream_iter() -> (
-                Iterator[Response[TextGenerationStreamEvent]]
-            ):
+        try:
+            if not stream:
                 response = self._client.responses.create(**args)
-                for event in response:
-                    converted_event = self._convert_stream_event(event)
-                    if converted_event is None:
-                        continue
-                    yield Response(result=converted_event)
+                result = self._convert_result(response)
+                return Response(result=result)
+            else:
 
-            return _stream_iter()
+                def _stream_iter() -> (
+                    Iterator[Response[TextGenerationStreamEvent]]
+                ):
+                    response = self._client.responses.create(**args)
+                    for event in response:
+                        converted_event = self._convert_stream_event(event)
+                        if converted_event is None:
+                            continue
+                        yield Response(result=converted_event)
+
+                return _stream_iter()
+        except openai.BadRequestError as e:
+            raise BadRequestError(str(e.message)) from e
 
     async def agenerate(
         self,
@@ -174,6 +185,7 @@ class OpenAI(OpenAIProvider):
         temperature: float | None = None,
         top_p: float | None = None,
         max_output_tokens: int | None = None,
+        text: dict | ResponseText | None = None,
         tools: list[dict | Tool] | None = None,
         tool_choice: dict | ToolChoice | None = None,
         parallel_tool_calls: bool | None = None,
@@ -189,9 +201,11 @@ class OpenAI(OpenAIProvider):
         args = self._convert_generate_args(
             input=input,
             model=model,
+            instructions=instructions,
             temperature=temperature,
             top_p=top_p,
             max_output_tokens=max_output_tokens,
+            text=text,
             tools=tools,
             tool_choice=tool_choice,
             parallel_tool_calls=parallel_tool_calls,
@@ -201,23 +215,26 @@ class OpenAI(OpenAIProvider):
             nconfig=nconfig,
             **kwargs,
         )
-        if not stream:
-            response = await self._aclient.responses.create(**args)
-            result = self._convert_result(response)
-            return Response(result=result)
-        else:
-
-            async def _poll_aiter() -> (
-                AsyncIterator[Response[TextGenerationStreamEvent]]
-            ):
+        try:
+            if not stream:
                 response = await self._aclient.responses.create(**args)
-                async for event in response:
-                    converted_event = self._convert_stream_event(event)
-                    if converted_event is None:
-                        continue
-                    yield Response(result=converted_event)
+                result = self._convert_result(response)
+                return Response(result=result)
+            else:
 
-            return _poll_aiter()
+                async def _poll_aiter() -> (
+                    AsyncIterator[Response[TextGenerationStreamEvent]]
+                ):
+                    response = await self._aclient.responses.create(**args)
+                    async for event in response:
+                        converted_event = self._convert_stream_event(event)
+                        if converted_event is None:
+                            continue
+                        yield Response(result=converted_event)
+
+                return _poll_aiter()
+        except openai.BadRequestError as e:
+            raise BadRequestError(str(e.message)) from e
 
     def _convert_stream_event(
         self, event: Any
@@ -438,9 +455,18 @@ class OpenAI(OpenAIProvider):
         if t == "message":
             return OutputMessage.from_dict(item)
         if t == "function_call":
+            # Convert arguments from JSON string to dict for consistency
+            arguments = item.get("arguments")
+            if isinstance(arguments, str):
+                try:
+                    item = {**item, "arguments": json.loads(arguments)}
+                except json.JSONDecodeError:
+                    pass  # Keep as string if not valid JSON
             return FunctionCall.from_dict(item)
         if t == "reasoning":
             return OutputReasoning.from_dict(item)
+        if t == "web_search_call":
+            return WebSearchCall.from_dict(item)
         raise BadRequestError(f"Unknown output item type: {t}")
 
     def _convert_generate_args(
@@ -451,6 +477,7 @@ class OpenAI(OpenAIProvider):
         temperature: float | None = None,
         top_p: float | None = None,
         max_output_tokens: int | None = None,
+        text: dict | ResponseText | None = None,
         tools: list[dict | Tool] | None = None,
         tool_choice: dict | ToolChoice | None = None,
         parallel_tool_calls: bool | None = None,
@@ -468,9 +495,9 @@ class OpenAI(OpenAIProvider):
             items: list[Any] = []
             for it in input:
                 if isinstance(it, dict):
-                    items.append(it)
+                    items.append(self._convert_input_item(it))
                 else:
-                    items.append(it.to_dict())
+                    items.append(self._convert_input_item(it.to_dict()))
             args["input"] = items
 
         if instructions is not None:
@@ -481,6 +508,11 @@ class OpenAI(OpenAIProvider):
             args["top_p"] = top_p
         if max_output_tokens is not None:
             args["max_output_tokens"] = max_output_tokens
+        if text is not None:
+            if isinstance(text, dict):
+                args["text"] = text
+            else:
+                args["text"] = text.to_dict()
         if parallel_tool_calls is not None:
             args["parallel_tool_calls"] = parallel_tool_calls
         if max_tool_calls is not None:
@@ -514,3 +546,108 @@ class OpenAI(OpenAIProvider):
             args.update(nconfig)
 
         return args
+
+    def _convert_input_item(self, item: dict[str, Any]) -> dict[str, Any]:
+        """Convert input item, handling bytes to base64 for images."""
+        item_type = item.get("type")
+
+        if item_type == "message":
+            content = item.get("content")
+            if isinstance(content, list):
+                converted_content = []
+                for part in content:
+                    converted_content.append(self._convert_input_content(part))
+                return {**item, "content": converted_content}
+
+        if item_type == "function_call":
+            # Build only the fields OpenAI expects
+            arguments = item.get("arguments")
+            if isinstance(arguments, dict):
+                arguments = json.dumps(arguments)
+            return {
+                "type": "function_call",
+                "id": item.get("id"),
+                "call_id": item.get("call_id"),
+                "name": item.get("name"),
+                "arguments": arguments,
+            }
+
+        if item_type == "function_call_output":
+            return {
+                "type": "function_call_output",
+                "call_id": item.get("call_id"),
+                "output": item.get("output"),
+                "id": item.get("id"),
+                "status": item.get("status"),
+            }
+
+        return item
+
+    def _convert_input_content(self, part: dict[str, Any]) -> dict[str, Any]:
+        """Convert input content part, encoding image bytes to base64."""
+        part_type = part.get("type")
+
+        if part_type == "input_image":
+            image = part.get("image")
+            if isinstance(image, dict):
+                content = image.get("content")
+                if isinstance(content, (bytes, bytearray)):
+                    # Convert bytes to base64 data URL
+                    media_type = image.get("media_type", "image/jpeg")
+                    b64_data = base64.b64encode(content).decode("utf-8")
+                    return {
+                        "type": "input_image",
+                        "image_url": f"data:{media_type};base64,{b64_data}",
+                        "detail": part.get("detail", "auto"),
+                    }
+                elif isinstance(content, str):
+                    # Already base64 string
+                    media_type = image.get("media_type", "image/jpeg")
+                    return {
+                        "type": "input_image",
+                        "image_url": f"data:{media_type};base64,{content}",
+                        "detail": part.get("detail", "auto"),
+                    }
+                source = image.get("source")
+                if isinstance(source, str):
+                    # URL
+                    return {
+                        "type": "input_image",
+                        "image_url": source,
+                        "detail": part.get("detail", "auto"),
+                    }
+
+        if part_type == "input_file":
+            file = part.get("file")
+            if isinstance(file, dict):
+                content = file.get("content")
+                if isinstance(content, (bytes, bytearray)):
+                    # Convert bytes to base64
+                    b64_data = base64.b64encode(content).decode("utf-8")
+                    return {
+                        "type": "input_file",
+                        "filename": file.get("filename", "document.pdf"),
+                        "file_data": f"data:application/pdf;base64,{b64_data}",
+                    }
+                elif isinstance(content, str):
+                    # Already base64 string
+                    return {
+                        "type": "input_file",
+                        "filename": file.get("filename", "document.pdf"),
+                        "file_data": f"data:application/pdf;base64,{content}",
+                    }
+                source = file.get("source")
+                if isinstance(source, str):
+                    # URL or file_id
+                    if source.startswith("file-"):
+                        return {
+                            "type": "input_file",
+                            "file_id": source,
+                        }
+                    else:
+                        return {
+                            "type": "input_file",
+                            "file_url": source,
+                        }
+
+        return part

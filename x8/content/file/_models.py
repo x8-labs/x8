@@ -5,3 +5,4 @@ class FileData(DataModel):
     source: str | None = None
     content: bytes | str | None = None
     filename: str | None = None
+    media_type: str | None = None

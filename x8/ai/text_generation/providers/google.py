@@ -1,23 +1,34 @@
-from typing import Any, AsyncIterator, Iterator
+import base64
+import json
+from typing import Any, AsyncIterator, Iterator, Literal
 
-from google.genai import Client, types
+from google.genai import Client
+from google.genai import errors as google_errors
+from google.genai import types
+
 from x8._common.google_provider import GoogleProvider
 from x8.core import Response
 from x8.core.exceptions import BadRequestError
 
 from .._models import (
     AllowedTools,
+    ErrorDetail,
     FunctionCall,
     InputItem,
     OutputItem,
     OutputMessage,
     OutputMessageContent,
+    OutputReasoning,
     OutputReasoningContentText,
     OutputText,
     Reasoning,
     ResponseCompletedEvent,
+    ResponseFailedEvent,
+    ResponseFunctionCallArgumentsDeltaEvent,
+    ResponseIncompleteEvent,
     ResponseOutputTextDeltaEvent,
     ResponseReasoningTextDeltaEvent,
+    ResponseText,
     TextGenerationResult,
     TextGenerationStreamEvent,
     Tool,
@@ -42,8 +53,8 @@ class Google(GoogleProvider):
         self,
         vertexai: bool = True,
         project: str | None = None,
-        location: str = "us-central1",
-        model: str = "gemini-3-pro-preview",
+        location: str = "global",
+        model: str = "gemini-3-flash-preview",
         api_key: str | None = None,
         service_account_info: str | None = None,
         service_account_file: str | None = None,
@@ -57,6 +68,7 @@ class Google(GoogleProvider):
         self.model = model
         self.api_key = api_key
         self.nparams = nparams
+        self._init = False
         super().__init__(
             service_account_info=service_account_info,
             service_account_file=service_account_file,
@@ -93,6 +105,7 @@ class Google(GoogleProvider):
         temperature: float | None = None,
         top_p: float | None = None,
         max_output_tokens: int | None = None,
+        text: dict | ResponseText | None = None,
         tools: list[dict | Tool] | None = None,
         tool_choice: dict | ToolChoice | None = None,
         parallel_tool_calls: bool | None = None,
@@ -112,6 +125,7 @@ class Google(GoogleProvider):
             temperature=temperature,
             top_p=top_p,
             max_output_tokens=max_output_tokens,
+            text=text,
             tools=tools,
             tool_choice=tool_choice,
             parallel_tool_calls=parallel_tool_calls,
@@ -121,23 +135,27 @@ class Google(GoogleProvider):
             nconfig=nconfig,
             **kwargs,
         )
-        if not stream:
-            response = self._client.models.generate_content(**args)
-            result = self._convert_result(response)
-            return Response(result=result)
-        else:
+        try:
+            if not stream:
+                response = self._client.models.generate_content(**args)
+                result = self._convert_result(response)
+                return Response(result=result)
+            else:
 
-            def _stream_iter() -> (
-                Iterator[Response[TextGenerationStreamEvent]]
-            ):
-                response = self._client.models.generate_content_stream(**args)
-                for event in response:
-                    converted_event = self._convert_stream_event(event)
-                    if converted_event is None:
-                        continue
-                    yield Response(result=converted_event)
+                def _stream_iter() -> (
+                    Iterator[Response[TextGenerationStreamEvent]]
+                ):
+                    response = self._client.models.generate_content_stream(
+                        **args
+                    )
+                    for event in response:
+                        converted_events = self._convert_stream_event(event)
+                        for converted_event in converted_events:
+                            yield Response(result=converted_event)
 
-            return _stream_iter()
+                return _stream_iter()
+        except google_errors.ClientError as e:
+            raise BadRequestError(str(e)) from e
 
     async def agenerate(
         self,
@@ -148,6 +166,7 @@ class Google(GoogleProvider):
         temperature: float | None = None,
         top_p: float | None = None,
         max_output_tokens: int | None = None,
+        text: dict | ResponseText | None = None,
         tools: list[dict | Tool] | None = None,
         tool_choice: dict | ToolChoice | None = None,
         parallel_tool_calls: bool | None = None,
@@ -167,6 +186,7 @@ class Google(GoogleProvider):
             temperature=temperature,
             top_p=top_p,
             max_output_tokens=max_output_tokens,
+            text=text,
             tools=tools,
             tool_choice=tool_choice,
             parallel_tool_calls=parallel_tool_calls,
@@ -176,87 +196,141 @@ class Google(GoogleProvider):
             nconfig=nconfig,
             **kwargs,
         )
-        if not stream:
-            response = await self._client.aio.models.generate_content(**args)
-            result = self._convert_result(response)
-            return Response(result=result)
-        else:
-
-            async def _poll_aiter() -> (
-                AsyncIterator[Response[TextGenerationStreamEvent]]
-            ):
-                response = (
-                    await self._client.aio.models.generate_content_stream(
-                        **args
-                    )
+        try:
+            if not stream:
+                response = await self._client.aio.models.generate_content(
+                    **args
                 )
-                async for event in response:
-                    converted_event = self._convert_stream_event(event)
-                    if converted_event is None:
-                        continue
-                    yield Response(result=converted_event)
+                result = self._convert_result(response)
+                return Response(result=result)
+            else:
 
-            return _poll_aiter()
+                async def _poll_aiter() -> (
+                    AsyncIterator[Response[TextGenerationStreamEvent]]
+                ):
+                    response = (
+                        await self._client.aio.models.generate_content_stream(
+                            **args
+                        )
+                    )
+                    async for event in response:
+                        converted_events = self._convert_stream_event(event)
+                        for converted_event in converted_events:
+                            yield Response(result=converted_event)
+
+                return _poll_aiter()
+        except google_errors.ClientError as e:
+            raise BadRequestError(str(e)) from e
 
     def _convert_stream_event(
         self, event: Any
-    ) -> TextGenerationStreamEvent | None:
-        # Google streaming returns GenerateContentResponse chunks, not typed
-        # events. We'll synthesize internal events based on available data.
+    ) -> list[TextGenerationStreamEvent]:
+        # Google streaming returns GenerateContentResponse chunks.
+        # We synthesize unified stream events based on available data.
+        # Returns a list because a single chunk
+        # may contain both content and finish_reason.
+        results: list[TextGenerationStreamEvent] = []
+
         try:
-            # Prefer model_dump to get a dict we can inspect.
             e: dict[str, Any] = (
                 event.model_dump() if hasattr(event, "model_dump") else event
             )
         except Exception:
             e = {}
 
-        # Emit text delta if present.
-        # Note: event.text is the concatenation of text parts in this chunk;
-        # without incremental indices, we provide it as a delta unit.
-        try:
-            text = getattr(event, "text", None)
-        except Exception:
-            text = None
-
-        if isinstance(text, str) and text:
-            return ResponseOutputTextDeltaEvent(delta=text)
-
-        # Emit reasoning delta parts if present in this chunk.
-        # Parts with thought=True are considered reasoning.
-        parts = e.get("parts")
-        if parts and isinstance(parts, list):
-            for p in parts:
-                if isinstance(p, dict):
-                    if p.get("thought") and isinstance(p.get("text"), str):
-                        return ResponseReasoningTextDeltaEvent(
-                            delta=p.get("text") or ""
-                        )
-
-        # If finish_reason is available in the first candidate, emit completed.
+        # Check candidates for content and finish state
         candidates = e.get("candidates")
-        if candidates and isinstance(candidates, list):
-            c0 = candidates[0] if candidates else None
-            if isinstance(c0, dict) and c0.get("finish_reason"):
-                return ResponseCompletedEvent(
-                    response=self._convert_result(event)
-                )
+        candidate0: dict[str, Any] | None = None
+        if isinstance(candidates, list) and candidates:
+            c0 = candidates[0]
+            if isinstance(c0, dict):
+                candidate0 = c0
 
-        # Otherwise no event to emit for this chunk.
-        return None
+        # Process parts for delta events FIRST (before terminal events)
+        if candidate0:
+            content = candidate0.get("content")
+            if isinstance(content, dict):
+                parts = content.get("parts")
+                if isinstance(parts, list):
+                    for part in parts:
+                        if not isinstance(part, dict):
+                            continue
+
+                        # Text delta (reasoning or regular)
+                        txt = part.get("text")
+                        if isinstance(txt, str) and txt:
+                            if part.get("thought"):
+                                results.append(
+                                    ResponseReasoningTextDeltaEvent(delta=txt)
+                                )
+                            else:
+                                results.append(
+                                    ResponseOutputTextDeltaEvent(delta=txt)
+                                )
+
+                        # Function call arguments delta
+                        fc = part.get("function_call")
+                        if isinstance(fc, dict):
+                            args = fc.get("args")
+                            if args is not None:
+                                args_str = (
+                                    json.dumps(args)
+                                    if isinstance(args, dict)
+                                    else str(args)
+                                )
+                                results.append(
+                                    ResponseFunctionCallArgumentsDeltaEvent(
+                                        delta=args_str,
+                                        item_id=fc.get("id"),
+                                    )
+                                )
+
+        # Fallback: try to get text directly from event if no parts found
+        if not results:
+            try:
+                text = getattr(event, "text", None)
+            except Exception:
+                text = None
+
+            if isinstance(text, str) and text:
+                results.append(ResponseOutputTextDeltaEvent(delta=text))
+
+        # Check for finish_reason to emit terminal events AFTER content
+        if candidate0:
+            finish_reason = candidate0.get("finish_reason")
+            if finish_reason:
+                if finish_reason == "MAX_TOKENS":
+                    results.append(
+                        ResponseIncompleteEvent(
+                            response=self._convert_result(event)
+                        )
+                    )
+                elif finish_reason in ("SAFETY", "BLOCKED", "RECITATION"):
+                    results.append(
+                        ResponseFailedEvent(
+                            response=self._convert_result(event)
+                        )
+                    )
+                else:
+                    # STOP or other normal completion
+                    results.append(
+                        ResponseCompletedEvent(
+                            response=self._convert_result(event)
+                        )
+                    )
+
+        return results
 
     def _convert_result(self, response: Any) -> TextGenerationResult:
-        # Convert Google GenerateContentResponse to internal
-        # TextGenerationResult.
         r: dict[str, Any] = (
             response.model_dump()
             if hasattr(response, "model_dump")
             else response
         )
 
-        # Build output items: one assistant message (text + reasoning content),
-        # plus any function calls.
         output_items: list[OutputItem] = []
+        message_content: list[OutputMessageContent] = []
+        reasoning_content: list[OutputReasoningContentText] = []
 
         # Extract first candidate content parts.
         candidates = r.get("candidates")
@@ -266,7 +340,6 @@ class Google(GoogleProvider):
             if isinstance(c0, dict):
                 candidate0 = c0
 
-        message_content: list[OutputMessageContent] = []
         if candidate0:
             content = candidate0.get("content")
             if isinstance(content, dict):
@@ -275,28 +348,40 @@ class Google(GoogleProvider):
                     for part in parts:
                         if not isinstance(part, dict):
                             continue
-                        # Map text parts. "thought" indicates reasoning text.
+                        # Text parts - "thought" indicates reasoning text
                         txt = part.get("text")
                         if isinstance(txt, str):
-                            if bool(part.get("thought")):
-                                message_content.append(
+                            if part.get("thought"):
+                                reasoning_content.append(
                                     OutputReasoningContentText(text=txt)
                                 )
                             else:
                                 message_content.append(OutputText(text=txt))
-                        # Function call parts become separate output items.
+                        # Function call parts
                         fc = part.get("function_call")
-                        if isinstance(fc, dict) and isinstance(
-                            fc.get("name"), str
-                        ):
+                        if isinstance(fc, dict) and fc.get("name"):
                             output_items.append(
                                 FunctionCall(
                                     name=fc.get("name") or "",
                                     arguments=fc.get("args"),
+                                    call_id=fc.get("id"),
+                                    thought_signature=part.get(
+                                        "thought_signature"
+                                    ),
                                 )
                             )
 
-        # Add assistant message if any content collected.
+        # Add reasoning as separate output item if present
+        if reasoning_content:
+            output_items.insert(
+                0,
+                OutputReasoning(
+                    content=reasoning_content,
+                    status="completed",
+                ),
+            )
+
+        # Add assistant message if any content collected
         if message_content:
             output_items.insert(
                 0,
@@ -307,7 +392,7 @@ class Google(GoogleProvider):
                 ),
             )
 
-        # Usage mapping from usage_metadata.
+        # Usage mapping from usage_metadata
         usage_obj: Usage | None = None
         usage = r.get("usage_metadata")
         if isinstance(usage, dict):
@@ -315,7 +400,6 @@ class Google(GoogleProvider):
             output_tokens = int(usage.get("candidates_token_count") or 0)
             total_tokens = int(usage.get("total_token_count") or 0)
 
-            # Details (flatten modality counts if present)
             def _modality_details(items: Any) -> dict[str, int] | None:
                 if not isinstance(items, list) or not items:
                     return None
@@ -330,17 +414,58 @@ class Google(GoogleProvider):
 
             usage_obj = Usage(
                 input_tokens=input_tokens,
-                input_tokens_details=_modality_details(
-                    usage.get("prompt_tokens_details")
-                ),
+                # input_tokens_details=_modality_details(
+                #    usage.get("prompt_tokens_details")
+                # ),
                 output_tokens=output_tokens,
-                output_tokens_details=_modality_details(
-                    usage.get("candidates_tokens_details")
-                ),
+                output_tokens_details={
+                    "reasoning_tokens": int(
+                        usage.get("thoughts_token_count") or 0
+                    )
+                },
                 total_tokens=total_tokens,
             )
 
-        # created_at: convert datetime to epoch seconds if present.
+        # Error handling
+        error_obj: ErrorDetail | None = None
+        # Check for blocked content or other errors
+        if candidate0:
+            finish_reason = candidate0.get("finish_reason")
+            if finish_reason in ("SAFETY", "BLOCKED", "RECITATION"):
+                error_obj = ErrorDetail(
+                    code=finish_reason.lower(),
+                    message=f"Response blocked due to {finish_reason}",
+                )
+            # Check for content filter results
+            safety_ratings = candidate0.get("safety_ratings")
+            if isinstance(safety_ratings, list):
+                for rating in safety_ratings:
+                    if isinstance(rating, dict) and rating.get("blocked"):
+                        error_obj = ErrorDetail(
+                            code="content_filter",
+                            message=f"Blocked by {rating.get('category')}",
+                        )
+                        break
+
+        # Determine status
+        status: Literal[
+            "completed",
+            "failed",
+            "in_progress",
+            "cancelled",
+            "queued",
+            "incomplete",
+        ] = "completed"
+        if candidate0:
+            finish_reason = candidate0.get("finish_reason")
+            if finish_reason == "MAX_TOKENS":
+                status = "incomplete"
+            elif finish_reason in ("SAFETY", "BLOCKED", "RECITATION"):
+                status = "failed"
+        if error_obj:
+            status = "failed"
+
+        # created_at: convert datetime to epoch seconds if present
         created_at: int | None = None
         create_time = r.get("create_time")
         try:
@@ -349,15 +474,12 @@ class Google(GoogleProvider):
         except Exception:
             created_at = None
 
-        # Model info
-        model_version = r.get("model_version")
-
         result = TextGenerationResult(
             id=r.get("response_id"),
-            model=model_version,
+            model=r.get("model_version"),
             created_at=created_at,
-            status="completed",
-            error=None,
+            status=status,
+            error=error_obj,
             output=output_items or None,
             usage=usage_obj,
         )
@@ -371,6 +493,7 @@ class Google(GoogleProvider):
         temperature: float | None = None,
         top_p: float | None = None,
         max_output_tokens: int | None = None,
+        text: dict | ResponseText | None = None,
         tools: list[dict | Tool] | None = None,
         tool_choice: dict | ToolChoice | None = None,
         parallel_tool_calls: bool | None = None,
@@ -385,151 +508,148 @@ class Google(GoogleProvider):
 
         contents: list[dict[str, Any]] = []
 
-        def _convert_input_message(msg: InputItem | dict[str, Any]) -> None:
-            m: dict[str, Any]
-            if isinstance(msg, dict):
-                m = msg
-            else:
-                m = msg.to_dict()
-            if m.get("type") != "message":
-                return
-            role = m.get("role")
-            raw_content = m.get("content")
+        def _convert_content_part(c: dict[str, Any]) -> dict[str, Any] | None:
+            """Convert a single content part to Google format."""
+            ct = c.get("type")
+            if ct == "input_text":
+                return {"text": c.get("text")}
+            if ct == "output_text":
+                # Handle output text from previous assistant messages
+                return {"text": c.get("text")}
+            if ct == "input_image":
+                img = c.get("image")
+                if not isinstance(img, dict):
+                    return None
+                media_type = (
+                    img.get("media_type") or "application/octet-stream"
+                )
+                content = img.get("content")
+                source = img.get("source")
+                if isinstance(content, (bytes, bytearray)):
+                    return {
+                        "inline_data": {
+                            "data": bytes(content),
+                            "mime_type": media_type,
+                        }
+                    }
+                elif isinstance(content, str):
+                    return {
+                        "inline_data": {
+                            "data": base64.b64decode(content),
+                            "mime_type": media_type,
+                        }
+                    }
+                if isinstance(source, str):
+                    return {
+                        "file_data": {
+                            "file_uri": source,
+                            "mime_type": media_type,
+                        }
+                    }
+            if ct == "input_file":
+                f = c.get("file")
+                if isinstance(f, dict):
+                    content = f.get("content")
+                    mime_type = (
+                        f.get("media_type") or "application/octet-stream"
+                    )
+                    if isinstance(content, (bytes, bytearray)):
+                        return {
+                            "inline_data": {
+                                "data": bytes(content),
+                                "mime_type": mime_type,
+                            }
+                        }
+                    elif isinstance(content, str):
+                        # Treat string content as base64-encoded
+                        return {
+                            "inline_data": {
+                                "data": base64.b64decode(content),
+                                "mime_type": mime_type,
+                            }
+                        }
+                    source = f.get("source")
+                    if isinstance(source, str):
+                        return {
+                            "file_data": {
+                                "file_uri": source,
+                                "mime_type": mime_type,
+                            }
+                        }
+            return None
 
-            # Map system/developer to system_instruction
-            if role in ("system", "developer"):
-                # Build a single Content for system_instruction
-                parts: list[dict[str, Any]] = []
-                if isinstance(raw_content, str):
-                    parts.append({"text": raw_content})
-                elif isinstance(raw_content, list):
-                    for c in raw_content:
-                        if not isinstance(c, dict):
-                            continue
-                        ct = c.get("type")
-                        if ct == "input_text":
-                            parts.append({"text": c.get("text")})
-                        elif ct == "input_image":
-                            img = c.get("image")
-                            detail = c.get("detail")
-                            _ = detail  # unused for now
-                            # ImageData mapping
-                            if isinstance(img, dict):
-                                media_type = img.get("media_type")
-                                content = img.get("content")
-                                source = img.get("source")
-                                if isinstance(content, (bytes, bytearray)):
-                                    parts.append(
-                                        {
-                                            "inline_data": {
-                                                "data": bytes(content),
-                                                "mime_type": media_type
-                                                or "application/octet-stream",
-                                            }
-                                        }
-                                    )
-                                elif isinstance(source, str):
-                                    parts.append(
-                                        {
-                                            "file_data": {
-                                                "file_uri": source,
-                                                "mime_type": media_type
-                                                or "application/octet-stream",
-                                            }
-                                        }
-                                    )
-                        elif ct == "input_file":
-                            f = c.get("file")
-                            if isinstance(f, dict):
-                                parts.append(
-                                    {
-                                        "file_data": {
-                                            "file_uri": (
-                                                f.get("file_uri")
-                                                or f.get("path")
-                                                or f.get("source")
-                                            ),
-                                            "mime_type": (
-                                                f.get("mime_type")
-                                                or f.get("media_type")
-                                            ),
-                                        }
-                                    }
-                                )
-                return
-
-            # Regular user/assistant messages become contents
-            role_map: dict[str, str] = {
-                "user": "user",
-                "assistant": "model",
-                "developer": "user",
-                "system": "user",
-            }
-            g_role = role_map.get(
-                role if isinstance(role, str) else "user",
-                "user",
-            )
-            msg_parts: list[dict[str, Any]] = []
+        def _convert_content_to_parts(
+            raw_content: str | list | None,
+        ) -> list[dict[str, Any]]:
+            """Convert message content to Google parts list."""
             if isinstance(raw_content, str):
-                msg_parts.append({"text": raw_content})
-            elif isinstance(raw_content, list):
+                return [{"text": raw_content}]
+            if isinstance(raw_content, list):
+                parts = []
                 for c in raw_content:
-                    if not isinstance(c, dict):
-                        continue
-                    ct = c.get("type")
-                    if ct == "input_text":
-                        msg_parts.append({"text": c.get("text")})
-                    elif ct == "input_image":
-                        img = c.get("image")
-                        detail = c.get("detail")
-                        _ = detail
-                        if isinstance(img, dict):
-                            media_type = img.get("media_type")
-                            content = img.get("content")
-                            source = img.get("source")
-                            if isinstance(content, (bytes, bytearray)):
-                                msg_parts.append(
-                                    {
-                                        "inline_data": {
-                                            "data": bytes(content),
-                                            "mime_type": (
-                                                media_type
-                                                or "application/octet-stream"
-                                            ),
-                                        }
-                                    }
-                                )
-                            elif isinstance(source, str):
-                                msg_parts.append(
-                                    {
-                                        "file_data": {
-                                            "file_uri": source,
-                                            "mime_type": (
-                                                media_type
-                                                or "application/octet-stream"
-                                            ),
-                                        }
-                                    }
-                                )
-                    elif ct == "input_file":
-                        f = c.get("file")
-                        if isinstance(f, dict):
-                            msg_parts.append(
-                                {
-                                    "file_data": {
-                                        "file_uri": (
-                                            f.get("file_uri")
-                                            or f.get("path")
-                                            or f.get("source")
-                                        ),
-                                        "mime_type": (
-                                            f.get("mime_type")
-                                            or f.get("media_type")
-                                        ),
-                                    }
+                    if isinstance(c, dict):
+                        part = _convert_content_part(c)
+                        if part:
+                            parts.append(part)
+                return parts
+            return []
+
+        def _convert_input_item(msg: InputItem | dict[str, Any]) -> None:
+            m: dict[str, Any] = msg if isinstance(msg, dict) else msg.to_dict()
+            item_type = m.get("type")
+
+            if item_type == "function_call":
+                fc_dict: dict[str, Any] = {
+                    "name": m.get("name"),
+                    "args": m.get("arguments") or {},
+                }
+                # Build the part with function_call
+                part: dict[str, Any] = {"function_call": fc_dict}
+                thought_sig = m.get("thought_signature")
+                if thought_sig:
+                    part["thought_signature"] = thought_sig
+                contents.append(
+                    {
+                        "role": "model",
+                        "parts": [part],
+                    }
+                )
+                return
+
+            if item_type == "function_call_output":
+                contents.append(
+                    {
+                        "role": "user",
+                        "parts": [
+                            {
+                                "function_response": {
+                                    "name": m.get("name") or m.get("call_id"),
+                                    "response": {"output": m.get("output")},
                                 }
-                            )
-            contents.append({"role": g_role, "parts": msg_parts})
+                            }
+                        ],
+                    }
+                )
+                return
+
+            # Handle OutputReasoning (skip - not sent back to Google)
+            if item_type == "reasoning":
+                return
+
+            if item_type != "message":
+                return
+
+            role = m.get("role")
+            # Map roles to Google format
+            if role == "assistant":
+                g_role = "model"
+            elif role in ("system", "developer"):
+                g_role = "user"
+            else:
+                g_role = "user"
+
+            parts = _convert_content_to_parts(m.get("content"))
+            contents.append({"role": g_role, "parts": parts})
 
         # Input may be a raw string or a sequence of InputItems.
         if isinstance(input, str):
@@ -538,7 +658,7 @@ class Google(GoogleProvider):
             )
         else:
             for it in input:
-                _convert_input_message(it)
+                _convert_input_item(it)
 
         args["contents"] = contents
         config: dict[str, Any] = {}
@@ -548,15 +668,39 @@ class Google(GoogleProvider):
             config["top_p"] = top_p
         if max_output_tokens:
             config["max_output_tokens"] = max_output_tokens
+        if text:
+            config["response_modalities"] = ["TEXT"]
+            text_dict = text if isinstance(text, dict) else text.to_dict()
+            fmt = text_dict.get("format")
+            if isinstance(fmt, dict) and fmt.get("type") == "json_schema":
+                config["response_mime_type"] = "application/json"
+                schema = fmt.get("schema")
+                if schema:
+                    config["response_schema"] = schema
         if tools:
-            config["tools"] = [self._convert_tools(tools)]
+            config["tools"] = self._convert_tools(tools)
         if tool_choice:
             config["tool_config"] = self._convert_tool_choice(tool_choice)
         if instructions:
             config["system_instruction"] = instructions
         if reasoning:
+            if isinstance(reasoning, dict):
+                effort = reasoning.get("effort", "low")
+            elif isinstance(reasoning, Reasoning):
+                effort = reasoning.effort
+            else:
+                effort = "low"
+            thinking_level_map: dict[str, types.ThinkingLevel] = {
+                "none": types.ThinkingLevel.MINIMAL,
+                "low": types.ThinkingLevel.LOW,
+                "medium": types.ThinkingLevel.MEDIUM,
+                "high": types.ThinkingLevel.HIGH,
+            }
             config["thinking_config"] = types.ThinkingConfig(
-                include_thoughts=True
+                include_thoughts=True,
+                thinking_level=thinking_level_map.get(
+                    effort, types.ThinkingLevel.MINIMAL
+                ),
             )
         if config:
             args["config"] = config

@@ -5,6 +5,24 @@ from typing import Any, Literal
 from x8.content.file import FileData
 from x8.content.image import ImageData
 from x8.core import DataModel
+from x8.core.data_model import DataModelField
+
+
+class ResponseFormatText(DataModel):
+    type: Literal["text"] = "text"
+
+
+class ResponseFormatJSONSchema(DataModel):
+    type: Literal["json_schema"] = "json_schema"
+    name: str
+    schema_: dict[str, Any] = DataModelField(name="schema")
+    description: str | None = None
+    strict: bool | None = None
+
+
+class ResponseText(DataModel):
+    format: ResponseFormatText | ResponseFormatJSONSchema
+    versbosity: Literal["low", "medium", "high"] | None = None
 
 
 class Function(DataModel):
@@ -85,6 +103,7 @@ class FunctionCall(DataModel):
     id: str | None = None
     arguments: str | dict[str, Any] | None = None
     status: Literal["completed", "in_progress", "incomplete"] | None = None
+    thought_signature: str | bytes | None = None
 
 
 class FunctionCallOutput(DataModel):
@@ -93,6 +112,7 @@ class FunctionCallOutput(DataModel):
     output: str | dict[str, Any] | None = None
     id: str | None = None
     status: Literal["completed", "in_progress", "incomplete"] | None = None
+    name: str | None = None
 
 
 class OutputText(DataModel):
@@ -139,6 +159,20 @@ class OutputMessage(DataModel):
     id: str | None = None
 
 
+class WebSearchAction(DataModel):
+    type: Literal["search"] = "search"
+    query: str | None = None
+    queries: list[str] | None = None
+    sources: list[dict[str, Any]] | None = None
+
+
+class WebSearchCall(DataModel):
+    type: Literal["web_search_call"] = "web_search_call"
+    id: str | None = None
+    status: Literal["completed", "in_progress", "incomplete"] | None = None
+    action: WebSearchAction | None = None
+
+
 InputItem = (
     InputMessage
     | OutputMessage
@@ -146,7 +180,7 @@ InputItem = (
     | FunctionCallOutput
     | OutputReasoning
 )
-OutputItem = OutputMessage | FunctionCall | OutputReasoning
+OutputItem = OutputMessage | FunctionCall | OutputReasoning | WebSearchCall
 
 
 class ErrorDetail(DataModel):
@@ -295,7 +329,7 @@ class ResponseFunctionCallArgumentsDoneEvent(StreamEvent):
     type: Literal["function_call_arguments_done"] = (
         "function_call_arguments_done"
     )
-    name: str
+    name: str | None = None
     arguments: str
     item_id: str | None = None
     output_index: int | None = None
