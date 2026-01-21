@@ -260,6 +260,10 @@ content-all = ["pillow", "av", "m3u8", "httpx"]
 ai-text-generation-openai = ["openai", "httpx", "pillow", "av"]
 ai-text-generation-google = ["google-genai", "httpx", "pillow", "av"]
 ai-text-generation-anthropic = ["anthropic", "httpx", "pillow", "av"]
+ai-text-generation-xai = ["xai-sdk", "httpx", "pillow", "av"]
+ai-text-generation-deepseek = ["openai", "httpx", "pillow", "av"]
+ai-text-generation-ollama = ["ollama", "httpx", "pillow", "av"]
+ai-text-generation-groq = ["openai", "httpx", "pillow", "av"]
 
 ai-video-generation-openai = ["openai", "httpx", "pillow", "av"]
 ai-video-generation-google = ["google-auth", "httpx", "pillow", "av"]
@@ -269,6 +273,8 @@ ai-all = [
     "google-genai",
     "google-auth",
     "anthropic",
+    "xai-sdk",
+    "ollama",
     "httpx",
     "pillow",
     "av",
@@ -345,6 +351,8 @@ all = [
     "google-genai",
     "google-auth",
     "anthropic",
+    "xai-sdk",
+    "ollama",
 ]
 dev = [
     "mypy",

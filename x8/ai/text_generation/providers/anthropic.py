@@ -1,6 +1,6 @@
 import base64
 import json
-from typing import Any, AsyncIterator, Iterator, Literal
+from typing import Any, AsyncIterator, Iterator, Literal, Mapping
 
 import anthropic
 
@@ -36,6 +36,12 @@ from .._models import (
 
 class Anthropic(Provider):
     api_key: str | None
+    auth_token: str | None
+    base_url: str | None
+    timeout: float | None
+    max_retries: int | None
+    default_headers: Mapping[str, str] | None
+    default_query: Mapping[str, object] | None
     model: str
     max_tokens: int
     nparams: dict[str, Any] | None
@@ -43,37 +49,105 @@ class Anthropic(Provider):
     _client: anthropic.Anthropic
     _async_client: anthropic.AsyncAnthropic
     _init: bool
+    _ainit: bool
 
     def __init__(
         self,
         api_key: str | None = None,
+        auth_token: str | None = None,
+        base_url: str | None = None,
+        timeout: float | None = None,
+        max_retries: int | None = None,
+        default_headers: Mapping[str, str] | None = None,
+        default_query: Mapping[str, object] | None = None,
         model: str = "claude-sonnet-4-20250514",
         max_tokens: int = 16384,
         nparams: dict[str, Any] | None = None,
         **kwargs,
     ):
+        """Initialize.
+
+        Args:
+            api_key:
+                Anthropic API key.
+            auth_token:
+                Anthropic auth token (alternative to api_key).
+            base_url:
+                Anthropic base url for API requests.
+            timeout:
+                Timeout for client requests.
+            max_retries:
+                Maximum number of retries for failed requests.
+            default_headers:
+                Default headers to include in every request.
+            default_query:
+                Default query parameters to include in every request.
+            model:
+                Anthropic model to use for text generation.
+            max_tokens:
+                Default maximum tokens for responses.
+            nparams:
+                Native params for Anthropic client.
+        """
         self.api_key = api_key
+        self.auth_token = auth_token
+        self.base_url = base_url
+        self.timeout = timeout
+        self.max_retries = max_retries
+        self.default_headers = default_headers
+        self.default_query = default_query
         self.model = model
         self.max_tokens = max_tokens
         self.nparams = nparams
         self._init = False
+        self._ainit = False
         super().__init__(**kwargs)
 
     def __setup__(self, context=None):
         if self._init:
             return
-        self._client = anthropic.Anthropic(
-            api_key=self.api_key,
-            **(self.nparams or {}),
-        )
-        self._async_client = anthropic.AsyncAnthropic(
-            api_key=self.api_key,
-            **(self.nparams or {}),
-        )
+        client_kwargs = {}
+        if self.api_key is not None:
+            client_kwargs["api_key"] = self.api_key
+        if self.auth_token is not None:
+            client_kwargs["auth_token"] = self.auth_token
+        if self.base_url is not None:
+            client_kwargs["base_url"] = self.base_url
+        if self.timeout is not None:
+            client_kwargs["timeout"] = self.timeout
+        if self.max_retries is not None:
+            client_kwargs["max_retries"] = self.max_retries
+        if self.default_headers is not None:
+            client_kwargs["default_headers"] = self.default_headers
+        if self.default_query is not None:
+            client_kwargs["default_query"] = self.default_query
+        if self.nparams:
+            client_kwargs.update(self.nparams)
+        self._client = anthropic.Anthropic(**client_kwargs)
         self._init = True
 
     async def __asetup__(self, context=None):
-        return self.__setup__(context)
+        if self._ainit:
+            return
+        client_kwargs = {}
+        if self.api_key is not None:
+            client_kwargs["api_key"] = self.api_key
+        if self.auth_token is not None:
+            client_kwargs["auth_token"] = self.auth_token
+        if self.base_url is not None:
+            client_kwargs["base_url"] = self.base_url
+        if self.timeout is not None:
+            client_kwargs["timeout"] = self.timeout
+        if self.max_retries is not None:
+            client_kwargs["max_retries"] = self.max_retries
+        if self.default_headers is not None:
+            client_kwargs["default_headers"] = self.default_headers
+        if self.default_query is not None:
+            client_kwargs["default_query"] = self.default_query
+        if self.nparams:
+            client_kwargs.update(self.nparams)
+        self._async_client = anthropic.AsyncAnthropic(**client_kwargs)
+        self._ainit = True
 
     def generate(
         self,
