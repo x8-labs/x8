@@ -17,6 +17,11 @@ class TextGenerationProvider:
     OLLAMA = "ollama"
     GROQ = "groq"
     GROQ_LLAMA = "groq_llama"
+    MISTRAL = "mistral"
+    COHERE = "cohere"
+    COHERE_VISION = "cohere_vision"
+    AZURE_OPENAI = "azure_openai"
+    AMAZON_BEDROCK = "amazon_bedrock"
 
 
 provider_types: dict[str, str] = {
@@ -29,6 +34,11 @@ provider_types: dict[str, str] = {
     TextGenerationProvider.OLLAMA: "ollama",
     TextGenerationProvider.GROQ: "groq",
     TextGenerationProvider.GROQ_LLAMA: "groq",
+    TextGenerationProvider.MISTRAL: "mistral",
+    TextGenerationProvider.COHERE: "cohere",
+    TextGenerationProvider.COHERE_VISION: "cohere",
+    TextGenerationProvider.AZURE_OPENAI: "azure_openai",
+    TextGenerationProvider.AMAZON_BEDROCK: "amazon_bedrock",
 }
 
 
@@ -56,6 +66,26 @@ provider_parameters: dict[str, dict[str, Any]] = {
     TextGenerationProvider.GROQ_LLAMA: {
         "api_key": secrets["GROQ_API_KEY"],
         "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+    },
+    TextGenerationProvider.MISTRAL: {
+        "api_key": secrets["MISTRAL_API_KEY"],
+    },
+    TextGenerationProvider.COHERE: {
+        "api_key": secrets["COHERE_API_KEY"],
+    },
+    TextGenerationProvider.COHERE_VISION: {
+        "api_key": secrets["COHERE_API_KEY"],
+        "model": "command-a-vision-07-2025",
+    },
+    TextGenerationProvider.AZURE_OPENAI: {
+        "api_version": "2024-12-01-preview",
+        "azure_endpoint": secrets["AZURE_OPENAI_ENDPOINT"],  # noqa
+        "model": "model-router",
+        "api_key": secrets["AZURE_OPENAI_API_KEY"],
+    },
+    TextGenerationProvider.AMAZON_BEDROCK: {
+        "model": "us.amazon.nova-lite-v1:0",
+        "region": "us-east-1",
     },
 }
 

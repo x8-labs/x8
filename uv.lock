@@ -833,6 +833,25 @@ wheels = [
 ]
 
 [[package]]
+name = "cohere"
+version = "5.20.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "fastavro" },
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "pydantic-core" },
+    { name = "requests" },
+    { name = "tokenizers" },
+    { name = "types-requests" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4b/ed/bb02083654bdc089ae4ef1cd7691fd2233f1fd9f32bcbfacc80ff57d9775/cohere-5.20.1.tar.gz", hash = "sha256:50973f63d2c6138ff52ce37d8d6f78ccc539af4e8c43865e960d68e0bf835b6f", size = 180820, upload-time = "2025-12-18T16:39:50.975Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7a/e3/94eb11ac3ebaaa3a6afb5d2ff23db95d58bc468ae538c388edf49f2f20b5/cohere-5.20.1-py3-none-any.whl", hash = "sha256:d230fd13d95ba92ae927fce3dd497599b169883afc7954fe29b39fb8d5df5fc7", size = 318973, upload-time = "2025-12-18T16:39:49.504Z" },
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -1100,6 +1119,15 @@ wheels = [
 ]
 
 [[package]]
+name = "eval-type-backport"
+version = "0.3.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/fb/a3/cafafb4558fd638aadfe4121dc6cefb8d743368c085acb2f521df0f3d9d7/eval_type_backport-0.3.1.tar.gz", hash = "sha256:57e993f7b5b69d271e37482e62f74e76a0276c82490cf8e4f0dffeb6b332d5ed", size = 9445, upload-time = "2025-12-02T11:51:42.987Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cf/22/fdc2e30d43ff853720042fa15baa3e6122722be1a7950a98233ebb55cd71/eval_type_backport-0.3.1-py3-none-any.whl", hash = "sha256:279ab641905e9f11129f56a8a78f493518515b83402b860f6f06dd7c011fdfa8", size = 6063, upload-time = "2025-12-02T11:51:41.665Z" },
+]
+
+[[package]]
 name = "fastapi"
 version = "0.128.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1112,6 +1140,47 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/52/08/8c8508db6c7b9aae8f7175046af41baad690771c9bcde676419965e338c7/fastapi-0.128.0.tar.gz", hash = "sha256:1cc179e1cef10a6be60ffe429f79b829dce99d8de32d7acb7e6c8dfdf7f2645a", size = 365682, upload-time = "2025-12-27T15:21:13.714Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5c/05/5cbb59154b093548acd0f4c7c474a118eda06da25aa75c616b72d8fcd92a/fastapi-0.128.0-py3-none-any.whl", hash = "sha256:aebd93f9716ee3b4f4fcfe13ffb7cf308d99c9f3ab5622d8877441072561582d", size = 103094, upload-time = "2025-12-27T15:21:12.154Z" },
+]
+
+[[package]]
+name = "fastavro"
+version = "1.12.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/65/8b/fa2d3287fd2267be6261d0177c6809a7fa12c5600ddb33490c8dc29e77b2/fastavro-1.12.1.tar.gz", hash = "sha256:2f285be49e45bc047ab2f6bed040bb349da85db3f3c87880e4b92595ea093b2b", size = 1025661, upload-time = "2025-10-10T15:40:55.41Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a0/e9/31c64b47cefc0951099e7c0c8c8ea1c931edd1350f34d55c27cbfbb08df1/fastavro-1.12.1-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:6b632b713bc5d03928a87d811fa4a11d5f25cd43e79c161e291c7d3f7aa740fd", size = 1016585, upload-time = "2025-10-10T15:41:13.717Z" },
+    { url = "https://files.pythonhosted.org/packages/10/76/111560775b548f5d8d828c1b5285ff90e2d2745643fb80ecbf115344eea4/fastavro-1.12.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:eaa7ab3769beadcebb60f0539054c7755f63bd9cf7666e2c15e615ab605f89a8", size = 3404629, upload-time = "2025-10-10T15:41:15.642Z" },
+    { url = "https://files.pythonhosted.org/packages/b0/07/6bb93cb963932146c2b6c5c765903a0a547ad9f0f8b769a4a9aad8c06369/fastavro-1.12.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:123fb221df3164abd93f2d042c82f538a1d5a43ce41375f12c91ce1355a9141e", size = 3428594, upload-time = "2025-10-10T15:41:17.779Z" },
+    { url = "https://files.pythonhosted.org/packages/d1/67/8115ec36b584197ea737ec79e3499e1f1b640b288d6c6ee295edd13b80f6/fastavro-1.12.1-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:632a4e3ff223f834ddb746baae0cc7cee1068eb12c32e4d982c2fee8a5b483d0", size = 3344145, upload-time = "2025-10-10T15:41:19.89Z" },
+    { url = "https://files.pythonhosted.org/packages/9e/9e/a7cebb3af967e62539539897c10138fa0821668ec92525d1be88a9cd3ee6/fastavro-1.12.1-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:83e6caf4e7a8717d932a3b1ff31595ad169289bbe1128a216be070d3a8391671", size = 3431942, upload-time = "2025-10-10T15:41:22.076Z" },
+    { url = "https://files.pythonhosted.org/packages/c0/d1/7774ddfb8781c5224294c01a593ebce2ad3289b948061c9701bd1903264d/fastavro-1.12.1-cp311-cp311-win_amd64.whl", hash = "sha256:b91a0fe5a173679a6c02d53ca22dcaad0a2c726b74507e0c1c2e71a7c3f79ef9", size = 450542, upload-time = "2025-10-10T15:41:23.333Z" },
+    { url = "https://files.pythonhosted.org/packages/7c/f0/10bd1a3d08667fa0739e2b451fe90e06df575ec8b8ba5d3135c70555c9bd/fastavro-1.12.1-cp312-cp312-macosx_10_13_universal2.whl", hash = "sha256:509818cb24b98a804fc80be9c5fed90f660310ae3d59382fc811bfa187122167", size = 1009057, upload-time = "2025-10-10T15:41:24.556Z" },
+    { url = "https://files.pythonhosted.org/packages/78/ad/0d985bc99e1fa9e74c636658000ba38a5cd7f5ab2708e9c62eaf736ecf1a/fastavro-1.12.1-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:089e155c0c76e0d418d7e79144ce000524dd345eab3bc1e9c5ae69d500f71b14", size = 3391866, upload-time = "2025-10-10T15:41:26.882Z" },
+    { url = "https://files.pythonhosted.org/packages/0d/9e/b4951dc84ebc34aac69afcbfbb22ea4a91080422ec2bfd2c06076ff1d419/fastavro-1.12.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:44cbff7518901c91a82aab476fcab13d102e4999499df219d481b9e15f61af34", size = 3458005, upload-time = "2025-10-10T15:41:29.017Z" },
+    { url = "https://files.pythonhosted.org/packages/af/f8/5a8df450a9f55ca8441f22ea0351d8c77809fc121498b6970daaaf667a21/fastavro-1.12.1-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:a275e48df0b1701bb764b18a8a21900b24cf882263cb03d35ecdba636bbc830b", size = 3295258, upload-time = "2025-10-10T15:41:31.564Z" },
+    { url = "https://files.pythonhosted.org/packages/99/b2/40f25299111d737e58b85696e91138a66c25b7334f5357e7ac2b0e8966f8/fastavro-1.12.1-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:2de72d786eb38be6b16d556b27232b1bf1b2797ea09599507938cdb7a9fe3e7c", size = 3430328, upload-time = "2025-10-10T15:41:33.689Z" },
+    { url = "https://files.pythonhosted.org/packages/e0/07/85157a7c57c5f8b95507d7829b5946561e5ee656ff80e9dd9a757f53ddaf/fastavro-1.12.1-cp312-cp312-win_amd64.whl", hash = "sha256:9090f0dee63fe022ee9cc5147483366cc4171c821644c22da020d6b48f576b4f", size = 444140, upload-time = "2025-10-10T15:41:34.902Z" },
+    { url = "https://files.pythonhosted.org/packages/bb/57/26d5efef9182392d5ac9f253953c856ccb66e4c549fd3176a1e94efb05c9/fastavro-1.12.1-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:78df838351e4dff9edd10a1c41d1324131ffecbadefb9c297d612ef5363c049a", size = 1000599, upload-time = "2025-10-10T15:41:36.554Z" },
+    { url = "https://files.pythonhosted.org/packages/33/cb/8ab55b21d018178eb126007a56bde14fd01c0afc11d20b5f2624fe01e698/fastavro-1.12.1-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:780476c23175d2ae457c52f45b9ffa9d504593499a36cd3c1929662bf5b7b14b", size = 3335933, upload-time = "2025-10-10T15:41:39.07Z" },
+    { url = "https://files.pythonhosted.org/packages/fe/03/9c94ec9bf873eb1ffb0aa694f4e71940154e6e9728ddfdc46046d7e8ced4/fastavro-1.12.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:0714b285160fcd515eb0455540f40dd6dac93bdeacdb03f24e8eac3d8aa51f8d", size = 3402066, upload-time = "2025-10-10T15:41:41.608Z" },
+    { url = "https://files.pythonhosted.org/packages/75/c8/cb472347c5a584ccb8777a649ebb28278fccea39d005fc7df19996f41df8/fastavro-1.12.1-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:a8bc2dcec5843d499f2489bfe0747999108f78c5b29295d877379f1972a3d41a", size = 3240038, upload-time = "2025-10-10T15:41:43.743Z" },
+    { url = "https://files.pythonhosted.org/packages/e1/77/569ce9474c40304b3a09e109494e020462b83e405545b78069ddba5f614e/fastavro-1.12.1-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:3b1921ac35f3d89090a5816b626cf46e67dbecf3f054131f84d56b4e70496f45", size = 3369398, upload-time = "2025-10-10T15:41:45.719Z" },
+    { url = "https://files.pythonhosted.org/packages/4a/1f/9589e35e9ea68035385db7bdbf500d36b8891db474063fb1ccc8215ee37c/fastavro-1.12.1-cp313-cp313-win_amd64.whl", hash = "sha256:5aa777b8ee595b50aa084104cd70670bf25a7bbb9fd8bb5d07524b0785ee1699", size = 444220, upload-time = "2025-10-10T15:41:47.39Z" },
+    { url = "https://files.pythonhosted.org/packages/6c/d2/78435fe737df94bd8db2234b2100f5453737cffd29adee2504a2b013de84/fastavro-1.12.1-cp313-cp313t-macosx_10_13_universal2.whl", hash = "sha256:c3d67c47f177e486640404a56f2f50b165fe892cc343ac3a34673b80cc7f1dd6", size = 1086611, upload-time = "2025-10-10T15:41:48.818Z" },
+    { url = "https://files.pythonhosted.org/packages/b6/be/428f99b10157230ddac77ec8cc167005b29e2bd5cbe228345192bb645f30/fastavro-1.12.1-cp313-cp313t-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:5217f773492bac43dae15ff2931432bce2d7a80be7039685a78d3fab7df910bd", size = 3541001, upload-time = "2025-10-10T15:41:50.871Z" },
+    { url = "https://files.pythonhosted.org/packages/16/08/a2eea4f20b85897740efe44887e1ac08f30dfa4bfc3de8962bdcbb21a5a1/fastavro-1.12.1-cp313-cp313t-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:469fecb25cba07f2e1bfa4c8d008477cd6b5b34a59d48715e1b1a73f6160097d", size = 3432217, upload-time = "2025-10-10T15:41:53.149Z" },
+    { url = "https://files.pythonhosted.org/packages/87/bb/b4c620b9eb6e9838c7f7e4b7be0762834443adf9daeb252a214e9ad3178c/fastavro-1.12.1-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:d71c8aa841ef65cfab709a22bb887955f42934bced3ddb571e98fdbdade4c609", size = 3366742, upload-time = "2025-10-10T15:41:55.237Z" },
+    { url = "https://files.pythonhosted.org/packages/3d/d1/e69534ccdd5368350646fea7d93be39e5f77c614cca825c990bd9ca58f67/fastavro-1.12.1-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:b81fc04e85dfccf7c028e0580c606e33aa8472370b767ef058aae2c674a90746", size = 3383743, upload-time = "2025-10-10T15:41:57.68Z" },
+    { url = "https://files.pythonhosted.org/packages/58/54/b7b4a0c3fb5fcba38128542da1b26c4e6d69933c923f493548bdfd63ab6a/fastavro-1.12.1-cp314-cp314-macosx_10_15_universal2.whl", hash = "sha256:9445da127751ba65975d8e4bdabf36bfcfdad70fc35b2d988e3950cce0ec0e7c", size = 1001377, upload-time = "2025-10-10T15:41:59.241Z" },
+    { url = "https://files.pythonhosted.org/packages/1e/4f/0e589089c7df0d8f57d7e5293fdc34efec9a3b758a0d4d0c99a7937e2492/fastavro-1.12.1-cp314-cp314-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:ed924233272719b5d5a6a0b4d80ef3345fc7e84fc7a382b6232192a9112d38a6", size = 3320401, upload-time = "2025-10-10T15:42:01.682Z" },
+    { url = "https://files.pythonhosted.org/packages/f9/19/260110d56194ae29d7e423a336fccea8bcd103196d00f0b364b732bdb84e/fastavro-1.12.1-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:3616e2f0e1c9265e92954fa099db79c6e7817356d3ff34f4bcc92699ae99697c", size = 3350894, upload-time = "2025-10-10T15:42:04.073Z" },
+    { url = "https://files.pythonhosted.org/packages/d0/96/58b0411e8be9694d5972bee3167d6c1fd1fdfdf7ce253c1a19a327208f4f/fastavro-1.12.1-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:cb0337b42fd3c047fcf0e9b7597bd6ad25868de719f29da81eabb6343f08d399", size = 3229644, upload-time = "2025-10-10T15:42:06.221Z" },
+    { url = "https://files.pythonhosted.org/packages/5b/db/38660660eac82c30471d9101f45b3acfdcbadfe42d8f7cdb129459a45050/fastavro-1.12.1-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:64961ab15b74b7c168717bbece5660e0f3d457837c3cc9d9145181d011199fa7", size = 3329704, upload-time = "2025-10-10T15:42:08.384Z" },
+    { url = "https://files.pythonhosted.org/packages/9d/a9/1672910f458ecb30b596c9e59e41b7c00309b602a0494341451e92e62747/fastavro-1.12.1-cp314-cp314-win_amd64.whl", hash = "sha256:792356d320f6e757e89f7ac9c22f481e546c886454a6709247f43c0dd7058004", size = 452911, upload-time = "2025-10-10T15:42:09.795Z" },
+    { url = "https://files.pythonhosted.org/packages/dc/8d/2e15d0938ded1891b33eff252e8500605508b799c2e57188a933f0bd744c/fastavro-1.12.1-cp314-cp314t-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:120aaf82ac19d60a1016afe410935fe94728752d9c2d684e267e5b7f0e70f6d9", size = 3541999, upload-time = "2025-10-10T15:42:11.794Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/1c/6dfd082a205be4510543221b734b1191299e6a1810c452b6bc76dfa6968e/fastavro-1.12.1-cp314-cp314t-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:b6a3462934b20a74f9ece1daa49c2e4e749bd9a35fa2657b53bf62898fba80f5", size = 3433972, upload-time = "2025-10-10T15:42:14.485Z" },
+    { url = "https://files.pythonhosted.org/packages/24/90/9de694625a1a4b727b1ad0958d220cab25a9b6cf7f16a5c7faa9ea7b2261/fastavro-1.12.1-cp314-cp314t-musllinux_1_2_aarch64.whl", hash = "sha256:1f81011d54dd47b12437b51dd93a70a9aa17b61307abf26542fc3c13efbc6c51", size = 3368752, upload-time = "2025-10-10T15:42:16.618Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/93/b44f67589e4d439913dab6720f7e3507b0fa8b8e56d06f6fc875ced26afb/fastavro-1.12.1-cp314-cp314t-musllinux_1_2_x86_64.whl", hash = "sha256:43ded16b3f4a9f1a42f5970c2aa618acb23ea59c4fcaa06680bdf470b255e5a8", size = 3386636, upload-time = "2025-10-10T15:42:18.974Z" },
 ]
 
 [[package]]
@@ -1856,6 +1925,15 @@ wheels = [
 ]
 
 [[package]]
+name = "invoke"
+version = "2.2.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/de/bd/b461d3424a24c80490313fd77feeb666ca4f6a28c7e72713e3d9095719b4/invoke-2.2.1.tar.gz", hash = "sha256:515bf49b4a48932b79b024590348da22f39c4942dff991ad1fb8b8baea1be707", size = 304762, upload-time = "2025-10-11T00:36:35.172Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/32/4b/b99e37f88336009971405cbb7630610322ed6fbfa31e1d7ab3fbf3049a2d/invoke-2.2.1-py3-none-any.whl", hash = "sha256:2413bc441b376e5cd3f55bb5d364f973ad8bdd7bf87e53c79de3c11bf3feecc8", size = 160287, upload-time = "2025-10-11T00:36:33.703Z" },
+]
+
+[[package]]
 name = "isodate"
 version = "0.7.2"
 source = { registry = "https://pypi.org/simple" }
@@ -2106,6 +2184,28 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d6/54/cfe61301667036ec958cb99bd3efefba235e65cdeb9c84d24a8293ba1d90/mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba", size = 8729, upload-time = "2022-08-14T12:40:10.846Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl", hash = "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8", size = 9979, upload-time = "2022-08-14T12:40:09.779Z" },
+]
+
+[[package]]
+name = "mistralai"
+version = "1.10.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "eval-type-backport" },
+    { name = "httpx" },
+    { name = "invoke" },
+    { name = "opentelemetry-api" },
+    { name = "opentelemetry-exporter-otlp-proto-http" },
+    { name = "opentelemetry-sdk" },
+    { name = "opentelemetry-semantic-conventions" },
+    { name = "pydantic" },
+    { name = "python-dateutil" },
+    { name = "pyyaml" },
+    { name = "typing-inspection" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/11/1b/1b5276136413856425a69f2aa72d84d261724877fe4cbab40c4dad079302/mistralai-1.10.1.tar.gz", hash = "sha256:2162c56840dc325bddac4d36877c4d97765ee0cf4db5f2825f469c14511063e9", size = 227097, upload-time = "2026-01-16T09:20:27.563Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/af/50/b9c0d514e699a7775ff70303113a9441ce9f1250c60057f322282a53f03d/mistralai-1.10.1-py3-none-any.whl", hash = "sha256:f9526ec1a42b950f1cec019626b9c1a0f5fb7fbac904a844b1d038286c8ee5f0", size = 478250, upload-time = "2026-01-16T09:20:26.159Z" },
 ]
 
 [[package]]
@@ -2586,32 +2686,32 @@ wheels = [
 
 [[package]]
 name = "opentelemetry-api"
-version = "1.39.1"
+version = "1.38.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "importlib-metadata" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/97/b9/3161be15bb8e3ad01be8be5a968a9237c3027c5be504362ff800fca3e442/opentelemetry_api-1.39.1.tar.gz", hash = "sha256:fbde8c80e1b937a2c61f20347e91c0c18a1940cecf012d62e65a7caf08967c9c", size = 65767, upload-time = "2025-12-11T13:32:39.182Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/08/d8/0f354c375628e048bd0570645b310797299754730079853095bf000fba69/opentelemetry_api-1.38.0.tar.gz", hash = "sha256:f4c193b5e8acb0912b06ac5b16321908dd0843d75049c091487322284a3eea12", size = 65242, upload-time = "2025-10-16T08:35:50.25Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cf/df/d3f1ddf4bb4cb50ed9b1139cc7b1c54c34a1e7ce8fd1b9a37c0d1551a6bd/opentelemetry_api-1.39.1-py3-none-any.whl", hash = "sha256:2edd8463432a7f8443edce90972169b195e7d6a05500cd29e6d13898187c9950", size = 66356, upload-time = "2025-12-11T13:32:17.304Z" },
+    { url = "https://files.pythonhosted.org/packages/ae/a2/d86e01c28300bd41bab8f18afd613676e2bd63515417b77636fc1add426f/opentelemetry_api-1.38.0-py3-none-any.whl", hash = "sha256:2891b0197f47124454ab9f0cf58f3be33faca394457ac3e09daba13ff50aa582", size = 65947, upload-time = "2025-10-16T08:35:30.23Z" },
 ]
 
 [[package]]
 name = "opentelemetry-exporter-otlp-proto-common"
-version = "1.39.1"
+version = "1.38.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-proto" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e9/9d/22d241b66f7bbde88a3bfa6847a351d2c46b84de23e71222c6aae25c7050/opentelemetry_exporter_otlp_proto_common-1.39.1.tar.gz", hash = "sha256:763370d4737a59741c89a67b50f9e39271639ee4afc999dadfe768541c027464", size = 20409, upload-time = "2025-12-11T13:32:40.885Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/19/83/dd4660f2956ff88ed071e9e0e36e830df14b8c5dc06722dbde1841accbe8/opentelemetry_exporter_otlp_proto_common-1.38.0.tar.gz", hash = "sha256:e333278afab4695aa8114eeb7bf4e44e65c6607d54968271a249c180b2cb605c", size = 20431, upload-time = "2025-10-16T08:35:53.285Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8c/02/ffc3e143d89a27ac21fd557365b98bd0653b98de8a101151d5805b5d4c33/opentelemetry_exporter_otlp_proto_common-1.39.1-py3-none-any.whl", hash = "sha256:08f8a5862d64cc3435105686d0216c1365dc5701f86844a8cd56597d0c764fde", size = 18366, upload-time = "2025-12-11T13:32:20.2Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/9e/55a41c9601191e8cd8eb626b54ee6827b9c9d4a46d736f32abc80d8039fc/opentelemetry_exporter_otlp_proto_common-1.38.0-py3-none-any.whl", hash = "sha256:03cb76ab213300fe4f4c62b7d8f17d97fcfd21b89f0b5ce38ea156327ddda74a", size = 18359, upload-time = "2025-10-16T08:35:34.099Z" },
 ]
 
 [[package]]
 name = "opentelemetry-exporter-otlp-proto-grpc"
-version = "1.39.1"
+version = "1.38.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "googleapis-common-protos" },
@@ -2622,48 +2722,66 @@ dependencies = [
     { name = "opentelemetry-sdk" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/53/48/b329fed2c610c2c32c9366d9dc597202c9d1e58e631c137ba15248d8850f/opentelemetry_exporter_otlp_proto_grpc-1.39.1.tar.gz", hash = "sha256:772eb1c9287485d625e4dbe9c879898e5253fea111d9181140f51291b5fec3ad", size = 24650, upload-time = "2025-12-11T13:32:41.429Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a2/c0/43222f5b97dc10812bc4f0abc5dc7cd0a2525a91b5151d26c9e2e958f52e/opentelemetry_exporter_otlp_proto_grpc-1.38.0.tar.gz", hash = "sha256:2473935e9eac71f401de6101d37d6f3f0f1831db92b953c7dcc912536158ebd6", size = 24676, upload-time = "2025-10-16T08:35:53.83Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/81/a3/cc9b66575bd6597b98b886a2067eea2693408d2d5f39dad9ab7fc264f5f3/opentelemetry_exporter_otlp_proto_grpc-1.39.1-py3-none-any.whl", hash = "sha256:fa1c136a05c7e9b4c09f739469cbdb927ea20b34088ab1d959a849b5cc589c18", size = 19766, upload-time = "2025-12-11T13:32:21.027Z" },
+    { url = "https://files.pythonhosted.org/packages/28/f0/bd831afbdba74ca2ce3982142a2fad707f8c487e8a3b6fef01f1d5945d1b/opentelemetry_exporter_otlp_proto_grpc-1.38.0-py3-none-any.whl", hash = "sha256:7c49fd9b4bd0dbe9ba13d91f764c2d20b0025649a6e4ac35792fb8d84d764bc7", size = 19695, upload-time = "2025-10-16T08:35:35.053Z" },
+]
+
+[[package]]
+name = "opentelemetry-exporter-otlp-proto-http"
+version = "1.38.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "googleapis-common-protos" },
+    { name = "opentelemetry-api" },
+    { name = "opentelemetry-exporter-otlp-proto-common" },
+    { name = "opentelemetry-proto" },
+    { name = "opentelemetry-sdk" },
+    { name = "requests" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/81/0a/debcdfb029fbd1ccd1563f7c287b89a6f7bef3b2902ade56797bfd020854/opentelemetry_exporter_otlp_proto_http-1.38.0.tar.gz", hash = "sha256:f16bd44baf15cbe07633c5112ffc68229d0edbeac7b37610be0b2def4e21e90b", size = 17282, upload-time = "2025-10-16T08:35:54.422Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e5/77/154004c99fb9f291f74aa0822a2f5bbf565a72d8126b3a1b63ed8e5f83c7/opentelemetry_exporter_otlp_proto_http-1.38.0-py3-none-any.whl", hash = "sha256:84b937305edfc563f08ec69b9cb2298be8188371217e867c1854d77198d0825b", size = 19579, upload-time = "2025-10-16T08:35:36.269Z" },
 ]
 
 [[package]]
 name = "opentelemetry-proto"
-version = "1.39.1"
+version = "1.38.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "protobuf" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/49/1d/f25d76d8260c156c40c97c9ed4511ec0f9ce353f8108ca6e7561f82a06b2/opentelemetry_proto-1.39.1.tar.gz", hash = "sha256:6c8e05144fc0d3ed4d22c2289c6b126e03bcd0e6a7da0f16cedd2e1c2772e2c8", size = 46152, upload-time = "2025-12-11T13:32:48.681Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/51/14/f0c4f0f6371b9cb7f9fa9ee8918bfd59ac7040c7791f1e6da32a1839780d/opentelemetry_proto-1.38.0.tar.gz", hash = "sha256:88b161e89d9d372ce723da289b7da74c3a8354a8e5359992be813942969ed468", size = 46152, upload-time = "2025-10-16T08:36:01.612Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/51/95/b40c96a7b5203005a0b03d8ce8cd212ff23f1793d5ba289c87a097571b18/opentelemetry_proto-1.39.1-py3-none-any.whl", hash = "sha256:22cdc78efd3b3765d09e68bfbd010d4fc254c9818afd0b6b423387d9dee46007", size = 72535, upload-time = "2025-12-11T13:32:33.866Z" },
+    { url = "https://files.pythonhosted.org/packages/b6/6a/82b68b14efca5150b2632f3692d627afa76b77378c4999f2648979409528/opentelemetry_proto-1.38.0-py3-none-any.whl", hash = "sha256:b6ebe54d3217c42e45462e2a1ae28c3e2bf2ec5a5645236a490f55f45f1a0a18", size = 72535, upload-time = "2025-10-16T08:35:45.749Z" },
 ]
 
 [[package]]
 name = "opentelemetry-sdk"
-version = "1.39.1"
+version = "1.38.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-api" },
     { name = "opentelemetry-semantic-conventions" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/eb/fb/c76080c9ba07e1e8235d24cdcc4d125ef7aa3edf23eb4e497c2e50889adc/opentelemetry_sdk-1.39.1.tar.gz", hash = "sha256:cf4d4563caf7bff906c9f7967e2be22d0d6b349b908be0d90fb21c8e9c995cc6", size = 171460, upload-time = "2025-12-11T13:32:49.369Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/85/cb/f0eee1445161faf4c9af3ba7b848cc22a50a3d3e2515051ad8628c35ff80/opentelemetry_sdk-1.38.0.tar.gz", hash = "sha256:93df5d4d871ed09cb4272305be4d996236eedb232253e3ab864c8620f051cebe", size = 171942, upload-time = "2025-10-16T08:36:02.257Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7c/98/e91cf858f203d86f4eccdf763dcf01cf03f1dae80c3750f7e635bfa206b6/opentelemetry_sdk-1.39.1-py3-none-any.whl", hash = "sha256:4d5482c478513ecb0a5d938dcc61394e647066e0cc2676bee9f3af3f3f45f01c", size = 132565, upload-time = "2025-12-11T13:32:35.069Z" },
+    { url = "https://files.pythonhosted.org/packages/2f/2e/e93777a95d7d9c40d270a371392b6d6f1ff170c2a3cb32d6176741b5b723/opentelemetry_sdk-1.38.0-py3-none-any.whl", hash = "sha256:1c66af6564ecc1553d72d811a01df063ff097cdc82ce188da9951f93b8d10f6b", size = 132349, upload-time = "2025-10-16T08:35:46.995Z" },
 ]
 
 [[package]]
 name = "opentelemetry-semantic-conventions"
-version = "0.60b1"
+version = "0.59b0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-api" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/91/df/553f93ed38bf22f4b999d9be9c185adb558982214f33eae539d3b5cd0858/opentelemetry_semantic_conventions-0.60b1.tar.gz", hash = "sha256:87c228b5a0669b748c76d76df6c364c369c28f1c465e50f661e39737e84bc953", size = 137935, upload-time = "2025-12-11T13:32:50.487Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/40/bc/8b9ad3802cd8ac6583a4eb7de7e5d7db004e89cb7efe7008f9c8a537ee75/opentelemetry_semantic_conventions-0.59b0.tar.gz", hash = "sha256:7a6db3f30d70202d5bf9fa4b69bc866ca6a30437287de6c510fb594878aed6b0", size = 129861, upload-time = "2025-10-16T08:36:03.346Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7a/5e/5958555e09635d09b75de3c4f8b9cae7335ca545d77392ffe7331534c402/opentelemetry_semantic_conventions-0.60b1-py3-none-any.whl", hash = "sha256:9fa8c8b0c110da289809292b0591220d3a7b53c1526a23021e977d68597893fb", size = 219982, upload-time = "2025-12-11T13:32:36.955Z" },
+    { url = "https://files.pythonhosted.org/packages/24/7d/c88d7b15ba8fe5c6b8f93be50fc11795e9fc05386c44afaf6b76fe191f9b/opentelemetry_semantic_conventions-0.59b0-py3-none-any.whl", hash = "sha256:35d3b8833ef97d614136e253c1da9342b4c3c083bbaf29ce31d572a1c3825eed", size = 207954, upload-time = "2025-10-16T08:35:48.054Z" },
 ]
 
 [[package]]
@@ -4185,6 +4303,18 @@ wheels = [
 ]
 
 [[package]]
+name = "types-requests"
+version = "2.32.4.20260107"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "urllib3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0f/f3/a0663907082280664d745929205a89d41dffb29e89a50f753af7d57d0a96/types_requests-2.32.4.20260107.tar.gz", hash = "sha256:018a11ac158f801bfa84857ddec1650750e393df8a004a8a9ae2a9bec6fcb24f", size = 23165, upload-time = "2026-01-07T03:20:54.091Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1c/12/709ea261f2bf91ef0a26a9eed20f2623227a8ed85610c1e54c5805692ecb/types_requests-2.32.4.20260107-py3-none-any.whl", hash = "sha256:b703fe72f8ce5b31ef031264fe9395cac8f46a04661a79f7ed31a80fb308730d", size = 20676, upload-time = "2026-01-07T03:20:52.929Z" },
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.15.0"
 source = { registry = "https://pypi.org/simple" }
@@ -4474,17 +4604,40 @@ dependencies = [
 ai-all = [
     { name = "anthropic" },
     { name = "av" },
+    { name = "azure-identity" },
+    { name = "boto3" },
+    { name = "cohere" },
     { name = "google-auth" },
     { name = "google-genai" },
     { name = "httpx" },
+    { name = "mistralai" },
     { name = "ollama" },
     { name = "openai" },
     { name = "pillow" },
     { name = "xai-sdk" },
 ]
+ai-text-generation-amazon-bedrock = [
+    { name = "av" },
+    { name = "boto3" },
+    { name = "httpx" },
+    { name = "pillow" },
+]
 ai-text-generation-anthropic = [
     { name = "anthropic" },
     { name = "av" },
+    { name = "httpx" },
+    { name = "pillow" },
+]
+ai-text-generation-azure-openai = [
+    { name = "av" },
+    { name = "azure-identity" },
+    { name = "httpx" },
+    { name = "openai" },
+    { name = "pillow" },
+]
+ai-text-generation-cohere = [
+    { name = "av" },
+    { name = "cohere" },
     { name = "httpx" },
     { name = "pillow" },
 ]
@@ -4504,6 +4657,12 @@ ai-text-generation-groq = [
     { name = "av" },
     { name = "httpx" },
     { name = "openai" },
+    { name = "pillow" },
+]
+ai-text-generation-mistral = [
+    { name = "av" },
+    { name = "httpx" },
+    { name = "mistralai" },
     { name = "pillow" },
 ]
 ai-text-generation-ollama = [
@@ -4556,6 +4715,7 @@ all = [
     { name = "azure-storage-queue" },
     { name = "boto3" },
     { name = "chromadb" },
+    { name = "cohere" },
     { name = "docker" },
     { name = "elasticsearch" },
     { name = "fastapi" },
@@ -4573,6 +4733,7 @@ all = [
     { name = "hvac" },
     { name = "kubernetes" },
     { name = "m3u8" },
+    { name = "mistralai" },
     { name = "motor" },
     { name = "ollama" },
     { name = "openai" },
@@ -4969,10 +5130,14 @@ requires-dist = [
     { name = "anthropic", marker = "extra == 'all'" },
     { name = "antlr4-python3-runtime" },
     { name = "av", marker = "extra == 'ai-all'" },
+    { name = "av", marker = "extra == 'ai-text-generation-amazon-bedrock'" },
     { name = "av", marker = "extra == 'ai-text-generation-anthropic'" },
+    { name = "av", marker = "extra == 'ai-text-generation-azure-openai'" },
+    { name = "av", marker = "extra == 'ai-text-generation-cohere'" },
     { name = "av", marker = "extra == 'ai-text-generation-deepseek'" },
     { name = "av", marker = "extra == 'ai-text-generation-google'" },
     { name = "av", marker = "extra == 'ai-text-generation-groq'" },
+    { name = "av", marker = "extra == 'ai-text-generation-mistral'" },
     { name = "av", marker = "extra == 'ai-text-generation-ollama'" },
     { name = "av", marker = "extra == 'ai-text-generation-openai'" },
     { name = "av", marker = "extra == 'ai-text-generation-xai'" },
@@ -4997,6 +5162,8 @@ requires-dist = [
     { name = "azure-cosmos", marker = "extra == 'all'" },
     { name = "azure-cosmos", marker = "extra == 'storage-all'" },
     { name = "azure-cosmos", marker = "extra == 'storage-document-store-azure-cosmos-db'" },
+    { name = "azure-identity", marker = "extra == 'ai-all'" },
+    { name = "azure-identity", marker = "extra == 'ai-text-generation-azure-openai'" },
     { name = "azure-identity", marker = "extra == 'all'" },
     { name = "azure-identity", marker = "extra == 'compute-all'" },
     { name = "azure-identity", marker = "extra == 'compute-container-deployment-azure-container-apps'" },
@@ -5046,6 +5213,8 @@ requires-dist = [
     { name = "azure-storage-queue", marker = "extra == 'all'" },
     { name = "azure-storage-queue", marker = "extra == 'messaging-all'" },
     { name = "azure-storage-queue", marker = "extra == 'messaging-queue-azure-queue-storage'" },
+    { name = "boto3", marker = "extra == 'ai-all'" },
+    { name = "boto3", marker = "extra == 'ai-text-generation-amazon-bedrock'" },
     { name = "boto3", marker = "extra == 'all'" },
     { name = "boto3", marker = "extra == 'compute-all'" },
     { name = "boto3", marker = "extra == 'compute-container-deployment-amazon-elastic-container-service'" },
@@ -5062,6 +5231,9 @@ requires-dist = [
     { name = "chromadb", marker = "extra == 'storage-all'" },
     { name = "chromadb", marker = "extra == 'storage-vector-store-chroma'" },
     { name = "chromadb", marker = "extra == 'storage-vector-store-local'" },
+    { name = "cohere", marker = "extra == 'ai-all'" },
+    { name = "cohere", marker = "extra == 'ai-text-generation-cohere'" },
+    { name = "cohere", marker = "extra == 'all'" },
     { name = "docker", marker = "extra == 'all'" },
     { name = "docker", marker = "extra == 'compute-all'" },
     { name = "docker", marker = "extra == 'compute-container-deployment-amazon-elastic-container-service'" },
@@ -5124,10 +5296,14 @@ requires-dist = [
     { name = "google-genai", marker = "extra == 'ai-text-generation-google'" },
     { name = "google-genai", marker = "extra == 'all'" },
     { name = "httpx", marker = "extra == 'ai-all'" },
+    { name = "httpx", marker = "extra == 'ai-text-generation-amazon-bedrock'" },
     { name = "httpx", marker = "extra == 'ai-text-generation-anthropic'" },
+    { name = "httpx", marker = "extra == 'ai-text-generation-azure-openai'" },
+    { name = "httpx", marker = "extra == 'ai-text-generation-cohere'" },
     { name = "httpx", marker = "extra == 'ai-text-generation-deepseek'" },
     { name = "httpx", marker = "extra == 'ai-text-generation-google'" },
     { name = "httpx", marker = "extra == 'ai-text-generation-groq'" },
+    { name = "httpx", marker = "extra == 'ai-text-generation-mistral'" },
     { name = "httpx", marker = "extra == 'ai-text-generation-ollama'" },
     { name = "httpx", marker = "extra == 'ai-text-generation-openai'" },
     { name = "httpx", marker = "extra == 'ai-text-generation-xai'" },
@@ -5165,6 +5341,9 @@ requires-dist = [
     { name = "m3u8", marker = "extra == 'content-all'" },
     { name = "m3u8", marker = "extra == 'content-live-stream-av'" },
     { name = "m3u8", marker = "extra == 'content-live-stream-default'" },
+    { name = "mistralai", marker = "extra == 'ai-all'" },
+    { name = "mistralai", marker = "extra == 'ai-text-generation-mistral'" },
+    { name = "mistralai", marker = "extra == 'all'" },
     { name = "motor", marker = "extra == 'all'" },
     { name = "motor", marker = "extra == 'storage-all'" },
     { name = "motor", marker = "extra == 'storage-document-store-mongodb'" },
@@ -5173,16 +5352,21 @@ requires-dist = [
     { name = "ollama", marker = "extra == 'ai-text-generation-ollama'" },
     { name = "ollama", marker = "extra == 'all'" },
     { name = "openai", marker = "extra == 'ai-all'" },
+    { name = "openai", marker = "extra == 'ai-text-generation-azure-openai'" },
     { name = "openai", marker = "extra == 'ai-text-generation-deepseek'" },
     { name = "openai", marker = "extra == 'ai-text-generation-groq'" },
     { name = "openai", marker = "extra == 'ai-text-generation-openai'" },
     { name = "openai", marker = "extra == 'ai-video-generation-openai'" },
     { name = "openai", marker = "extra == 'all'" },
     { name = "pillow", marker = "extra == 'ai-all'" },
+    { name = "pillow", marker = "extra == 'ai-text-generation-amazon-bedrock'" },
     { name = "pillow", marker = "extra == 'ai-text-generation-anthropic'" },
+    { name = "pillow", marker = "extra == 'ai-text-generation-azure-openai'" },
+    { name = "pillow", marker = "extra == 'ai-text-generation-cohere'" },
     { name = "pillow", marker = "extra == 'ai-text-generation-deepseek'" },
     { name = "pillow", marker = "extra == 'ai-text-generation-google'" },
     { name = "pillow", marker = "extra == 'ai-text-generation-groq'" },
+    { name = "pillow", marker = "extra == 'ai-text-generation-mistral'" },
     { name = "pillow", marker = "extra == 'ai-text-generation-ollama'" },
     { name = "pillow", marker = "extra == 'ai-text-generation-openai'" },
     { name = "pillow", marker = "extra == 'ai-text-generation-xai'" },
@@ -5253,7 +5437,7 @@ requires-dist = [
     { name = "xai-sdk", marker = "extra == 'ai-text-generation-xai'" },
     { name = "xai-sdk", marker = "extra == 'all'" },
 ]
-provides-extras = ["storage-config-store-aws-parameter-store", "storage-config-store-azure-app-configuration", "storage-config-store-google-runtime-configurator", "storage-config-store-env-file", "storage-config-store-yaml-file", "storage-config-store-env", "storage-config-store-document-store-provider", "storage-config-store-local", "storage-config-store-default", "storage-config-store-hosted", "storage-secret-store-amazon-secrets-manager", "storage-secret-store-azure-key-vault", "storage-secret-store-google-secret-manager", "storage-secret-store-hashicorp-vault", "storage-secret-store-env-file", "storage-secret-store-yaml-file", "storage-secret-store-env", "storage-secret-store-document-store-provider", "storage-secret-store-local", "storage-secret-store-default", "storage-secret-store-hosted", "storage-document-store-amazon-dynamodb", "storage-document-store-azure-cosmos-db", "storage-document-store-google-firestore", "storage-document-store-mongodb", "storage-document-store-redis", "storage-document-store-postgresql", "storage-document-store-elasticsearch", "storage-document-store-sqlite", "storage-document-store-memory", "storage-document-store-local", "storage-document-store-default", "storage-document-store-hosted", "storage-object-store-amazon-s3", "storage-object-store-azure-blob-storage", "storage-object-store-google-cloud-storage", "storage-object-store-file-system", "storage-object-store-local", "storage-object-store-default", "storage-object-store-hosted", "storage-vector-store-pinecone", "storage-vector-store-milvus", "storage-vector-store-qdrant", "storage-vector-store-chroma", "storage-vector-store-weaviate", "storage-vector-store-local", "storage-vector-store-default", "storage-vector-store-hosted", "storage-key-value-store-redis", "storage-key-value-store-redis-simple", "storage-key-value-store-memcached", "storage-key-value-store-document-store-provider", "storage-key-value-store-object-store-provider", "storage-key-value-store-memory", "storage-key-value-store-postgresql", "storage-key-value-store-sqlite", "storage-key-value-store-keydb", "storage-key-value-store-dragonfly", "storage-key-value-store-valkey", "storage-key-value-store-local", "storage-key-value-store-default", "storage-key-value-store-hosted", "storage-search-store-elasticsearch", "storage-all", "messaging-queue-amazon-sqs", "messaging-queue-azure-service-bus", "messaging-queue-azure-queue-storage", "messaging-queue-google-pubsub", "messaging-queue-redis", "messaging-queue-postgresql", "messaging-queue-sqlite", "messaging-queue-memory", "messaging-queue-local", "messaging-queue-default", "messaging-queue-hosted", "messaging-pubsub-amazon-sns", "messaging-pubsub-azure-service-bus", "messaging-pubsub-google-pubsub", "messaging-pubsub-redis", "messaging-pubsub-postgresql", "messaging-pubsub-memory", "messaging-pubsub-sqlite", "messaging-pubsub-local", "messaging-pubsub-default", "messaging-pubsub-hosted", "messaging-all", "compute-container-registry-amazon-elastic-container-registry", "compute-container-registry-azure-container-registry", "compute-container-registry-google-artifact-registry", "compute-containerizer-docker", "compute-containerizer-default", "compute-containerizer-local", "compute-container-deployment-amazon-elastic-container-service", "compute-container-deployment-azure-container-instances", "compute-container-deployment-azure-container-apps", "compute-container-deployment-google-cloud-run", "compute-container-deployment-docker-local", "compute-container-deployment-local", "compute-container-deployment-default", "compute-kubernetes-azure-kubernetes-service", "compute-all", "content-image-pillow", "content-image-default", "content-audio-av", "content-audio-default", "content-video-av", "content-video-default", "content-live-stream-av", "content-live-stream-default", "content-all", "ai-text-generation-openai", "ai-text-generation-google", "ai-text-generation-anthropic", "ai-text-generation-xai", "ai-text-generation-deepseek", "ai-text-generation-ollama", "ai-text-generation-groq", "ai-video-generation-openai", "ai-video-generation-google", "ai-all", "interface-api-fastapi", "interface-api-default", "interface-cli-default", "interface-worker-default", "interface-auth-auth0", "interface-auth-api-key", "interface-auth-api-key-in-store", "interface-auth-mock", "interface-auth-default", "interface-all", "composite-choice-default", "composite-script-default", "composite-all", "all", "dev"]
+provides-extras = ["storage-config-store-aws-parameter-store", "storage-config-store-azure-app-configuration", "storage-config-store-google-runtime-configurator", "storage-config-store-env-file", "storage-config-store-yaml-file", "storage-config-store-env", "storage-config-store-document-store-provider", "storage-config-store-local", "storage-config-store-default", "storage-config-store-hosted", "storage-secret-store-amazon-secrets-manager", "storage-secret-store-azure-key-vault", "storage-secret-store-google-secret-manager", "storage-secret-store-hashicorp-vault", "storage-secret-store-env-file", "storage-secret-store-yaml-file", "storage-secret-store-env", "storage-secret-store-document-store-provider", "storage-secret-store-local", "storage-secret-store-default", "storage-secret-store-hosted", "storage-document-store-amazon-dynamodb", "storage-document-store-azure-cosmos-db", "storage-document-store-google-firestore", "storage-document-store-mongodb", "storage-document-store-redis", "storage-document-store-postgresql", "storage-document-store-elasticsearch", "storage-document-store-sqlite", "storage-document-store-memory", "storage-document-store-local", "storage-document-store-default", "storage-document-store-hosted", "storage-object-store-amazon-s3", "storage-object-store-azure-blob-storage", "storage-object-store-google-cloud-storage", "storage-object-store-file-system", "storage-object-store-local", "storage-object-store-default", "storage-object-store-hosted", "storage-vector-store-pinecone", "storage-vector-store-milvus", "storage-vector-store-qdrant", "storage-vector-store-chroma", "storage-vector-store-weaviate", "storage-vector-store-local", "storage-vector-store-default", "storage-vector-store-hosted", "storage-key-value-store-redis", "storage-key-value-store-redis-simple", "storage-key-value-store-memcached", "storage-key-value-store-document-store-provider", "storage-key-value-store-object-store-provider", "storage-key-value-store-memory", "storage-key-value-store-postgresql", "storage-key-value-store-sqlite", "storage-key-value-store-keydb", "storage-key-value-store-dragonfly", "storage-key-value-store-valkey", "storage-key-value-store-local", "storage-key-value-store-default", "storage-key-value-store-hosted", "storage-search-store-elasticsearch", "storage-all", "messaging-queue-amazon-sqs", "messaging-queue-azure-service-bus", "messaging-queue-azure-queue-storage", "messaging-queue-google-pubsub", "messaging-queue-redis", "messaging-queue-postgresql", "messaging-queue-sqlite", "messaging-queue-memory", "messaging-queue-local", "messaging-queue-default", "messaging-queue-hosted", "messaging-pubsub-amazon-sns", "messaging-pubsub-azure-service-bus", "messaging-pubsub-google-pubsub", "messaging-pubsub-redis", "messaging-pubsub-postgresql", "messaging-pubsub-memory", "messaging-pubsub-sqlite", "messaging-pubsub-local", "messaging-pubsub-default", "messaging-pubsub-hosted", "messaging-all", "compute-container-registry-amazon-elastic-container-registry", "compute-container-registry-azure-container-registry", "compute-container-registry-google-artifact-registry", "compute-containerizer-docker", "compute-containerizer-default", "compute-containerizer-local", "compute-container-deployment-amazon-elastic-container-service", "compute-container-deployment-azure-container-instances", "compute-container-deployment-azure-container-apps", "compute-container-deployment-google-cloud-run", "compute-container-deployment-docker-local", "compute-container-deployment-local", "compute-container-deployment-default", "compute-kubernetes-azure-kubernetes-service", "compute-all", "content-image-pillow", "content-image-default", "content-audio-av", "content-audio-default", "content-video-av", "content-video-default", "content-live-stream-av", "content-live-stream-default", "content-all", "ai-text-generation-openai", "ai-text-generation-google", "ai-text-generation-anthropic", "ai-text-generation-xai", "ai-text-generation-deepseek", "ai-text-generation-ollama", "ai-text-generation-groq", "ai-text-generation-mistral", "ai-text-generation-cohere", "ai-text-generation-azure-openai", "ai-text-generation-amazon-bedrock", "ai-video-generation-openai", "ai-video-generation-google", "ai-all", "interface-api-fastapi", "interface-api-default", "interface-cli-default", "interface-worker-default", "interface-auth-auth0", "interface-auth-api-key", "interface-auth-api-key-in-store", "interface-auth-mock", "interface-auth-default", "interface-all", "composite-choice-default", "composite-script-default", "composite-all", "all", "dev"]
 
 [[package]]
 name = "xai-sdk"

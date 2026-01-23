@@ -13,6 +13,7 @@ from ._sync_and_async_client import TextGenerationSyncAndAsyncClient
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -21,6 +22,9 @@ from ._sync_and_async_client import TextGenerationSyncAndAsyncClient
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -70,6 +74,7 @@ async def test_simple(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -77,6 +82,8 @@ async def test_simple(provider_type: str, async_call: bool):
         TextGenerationProvider.XAI,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ_LLAMA,
+        TextGenerationProvider.COHERE_VISION,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -156,6 +163,7 @@ async def test_image(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -163,6 +171,8 @@ async def test_image(provider_type: str, async_call: bool):
         TextGenerationProvider.XAI,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ_LLAMA,
+        TextGenerationProvider.COHERE_VISION,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -254,6 +264,7 @@ async def test_multiple_images(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -262,6 +273,9 @@ async def test_multiple_images(provider_type: str, async_call: bool):
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -332,6 +346,7 @@ async def test_multi_turn(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -340,6 +355,9 @@ async def test_multi_turn(provider_type: str, async_call: bool):
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -412,6 +430,7 @@ async def test_tool(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -420,6 +439,9 @@ async def test_tool(provider_type: str, async_call: bool):
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -571,6 +593,7 @@ async def test_tool_multi_turn(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -579,6 +602,9 @@ async def test_tool_multi_turn(provider_type: str, async_call: bool):
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -647,6 +673,7 @@ async def test_json(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -655,6 +682,9 @@ async def test_json(provider_type: str, async_call: bool):
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -752,6 +782,7 @@ async def test_stream_simple(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -760,6 +791,9 @@ async def test_stream_simple(provider_type: str, async_call: bool):
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -944,6 +978,7 @@ async def test_reasoning(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -952,6 +987,9 @@ async def test_reasoning(provider_type: str, async_call: bool):
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -1001,6 +1039,9 @@ async def test_system_message(provider_type: str, async_call: bool):
         TextGenerationProvider.GOOGLE,
         TextGenerationProvider.ANTHROPIC,
         TextGenerationProvider.XAI,
+        TextGenerationProvider.MISTRAL,
+        TextGenerationProvider.AMAZON_BEDROCK,
+        # Note: COHERE uses documents parameter, not content items for PDFs
     ],
 )
 @pytest.mark.parametrize(
@@ -1160,6 +1201,7 @@ async def test_web_search(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -1168,6 +1210,9 @@ async def test_web_search(provider_type: str, async_call: bool):
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -1228,6 +1273,7 @@ async def test_error(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -1235,6 +1281,8 @@ async def test_error(provider_type: str, async_call: bool):
         TextGenerationProvider.XAI,
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.GROQ_LLAMA,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -1295,6 +1343,7 @@ async def test_max_output_tokens(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -1303,6 +1352,9 @@ async def test_max_output_tokens(provider_type: str, async_call: bool):
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.OLLAMA,
         TextGenerationProvider.GROQ_LLAMA,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(
@@ -1401,6 +1453,7 @@ async def test_parallel_tool_calls(provider_type: str, async_call: bool):
 @pytest.mark.parametrize(
     "provider_type",
     [
+        TextGenerationProvider.MISTRAL,
         TextGenerationProvider.OPENAI,
         TextGenerationProvider.OPENAI_LEGACY,
         TextGenerationProvider.GOOGLE,
@@ -1408,6 +1461,9 @@ async def test_parallel_tool_calls(provider_type: str, async_call: bool):
         TextGenerationProvider.XAI,
         TextGenerationProvider.DEEPSEEK,
         TextGenerationProvider.GROQ,
+        TextGenerationProvider.COHERE,
+        TextGenerationProvider.AZURE_OPENAI,
+        TextGenerationProvider.AMAZON_BEDROCK,
     ],
 )
 @pytest.mark.parametrize(

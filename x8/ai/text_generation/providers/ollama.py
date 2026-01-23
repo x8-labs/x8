@@ -37,11 +37,6 @@ class Ollama(Provider):
     This provider uses the native Ollama Python SDK to interact with
     locally running Ollama models. Supports vision, tools, JSON output,
     and reasoning (think mode) for compatible models.
-
-    Recommended models:
-    - qwen3-vl:2b - Vision + tools + reasoning (1.9 GB, default)
-    - qwen3-vl:8b - More capable vision model
-    - qwen2.5:7b - Good tool support (no vision)
     """
 
     host: str | None
@@ -69,7 +64,6 @@ class Ollama(Provider):
                 Ollama server host URL. Defaults to http://localhost:11434.
             model:
                 Ollama model to use for text generation.
-                Recommended: qwen3-vl:2b (vision/tools/reasoning).
             max_tokens:
                 Default maximum tokens for responses.
             nparams:

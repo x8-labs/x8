@@ -41,6 +41,8 @@ class OpenAILegacy(Provider):
     """
 
     api_key: str | None
+    organization: str | None
+    project: str | None
     base_url: str | None
     timeout: float | None
     max_retries: int | None
@@ -58,6 +60,8 @@ class OpenAILegacy(Provider):
     def __init__(
         self,
         api_key: str | None = None,
+        organization: str | None = None,
+        project: str | None = None,
         base_url: str | None = None,
         timeout: float | None = None,
         max_retries: int | None = None,
@@ -73,6 +77,10 @@ class OpenAILegacy(Provider):
         Args:
             api_key:
                 OpenAI API key.
+            organization:
+                OpenAI organization ID.
+            project:
+                OpenAI project ID.
             base_url:
                 API base url. None uses OpenAI's default.
             timeout:
@@ -91,6 +99,8 @@ class OpenAILegacy(Provider):
                 Native params for OpenAI client.
         """
         self.api_key = api_key
+        self.organization = organization
+        self.project = project
         self.base_url = base_url
         self.timeout = timeout
         self.max_retries = max_retries
@@ -109,6 +119,10 @@ class OpenAILegacy(Provider):
         client_kwargs = {}
         if self.api_key is not None:
             client_kwargs["api_key"] = self.api_key
+        if self.organization is not None:
+            client_kwargs["organization"] = self.organization
+        if self.project is not None:
+            client_kwargs["project"] = self.project
         if self.base_url is not None:
             client_kwargs["base_url"] = self.base_url
         if self.timeout is not None:
@@ -130,6 +144,10 @@ class OpenAILegacy(Provider):
         client_kwargs = {}
         if self.api_key is not None:
             client_kwargs["api_key"] = self.api_key
+        if self.organization is not None:
+            client_kwargs["organization"] = self.organization
+        if self.project is not None:
+            client_kwargs["project"] = self.project
         if self.base_url is not None:
             client_kwargs["base_url"] = self.base_url
         if self.timeout is not None:

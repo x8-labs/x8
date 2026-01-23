@@ -264,6 +264,16 @@ ai-text-generation-xai = ["xai-sdk", "httpx", "pillow", "av"]
 ai-text-generation-deepseek = ["openai", "httpx", "pillow", "av"]
 ai-text-generation-ollama = ["ollama", "httpx", "pillow", "av"]
 ai-text-generation-groq = ["openai", "httpx", "pillow", "av"]
+ai-text-generation-mistral = ["mistralai", "httpx", "pillow", "av"]
+ai-text-generation-cohere = ["cohere", "httpx", "pillow", "av"]
+ai-text-generation-azure-openai = [
+    "azure-identity",
+    "openai",
+    "httpx",
+    "pillow",
+    "av",
+]
+ai-text-generation-amazon-bedrock = ["boto3", "httpx", "pillow", "av"]
 
 ai-video-generation-openai = ["openai", "httpx", "pillow", "av"]
 ai-video-generation-google = ["google-auth", "httpx", "pillow", "av"]
@@ -275,6 +285,10 @@ ai-all = [
     "anthropic",
     "xai-sdk",
     "ollama",
+    "mistralai",
+    "cohere",
+    "azure-identity",
+    "boto3",
     "httpx",
     "pillow",
     "av",
@@ -353,6 +367,9 @@ all = [
     "anthropic",
     "xai-sdk",
     "ollama",
+    "mistralai",
+    "cohere",
+    "boto3",
 ]
 dev = [
     "mypy",
