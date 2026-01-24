@@ -274,6 +274,8 @@ ai-text-generation-azure-openai = [
     "av",
 ]
 ai-text-generation-amazon-bedrock = ["boto3", "httpx", "pillow", "av"]
+ai-text-generation-together = ["together", "httpx", "pillow", "av"]
+ai-text-generation-fireworks = ["fireworks-ai", "httpx", "pillow", "av"]
 
 ai-video-generation-openai = ["openai", "httpx", "pillow", "av"]
 ai-video-generation-google = ["google-auth", "httpx", "pillow", "av"]
@@ -289,6 +291,8 @@ ai-all = [
     "cohere",
     "azure-identity",
     "boto3",
+    "together",
+    "fireworks-ai",
     "httpx",
     "pillow",
     "av",
@@ -369,7 +373,8 @@ all = [
     "ollama",
     "mistralai",
     "cohere",
-    "boto3",
+    "together",
+    "fireworks-ai",
 ]
 dev = [
     "mypy",

@@ -22,6 +22,8 @@ class TextGenerationProvider:
     COHERE_VISION = "cohere_vision"
     AZURE_OPENAI = "azure_openai"
     AMAZON_BEDROCK = "amazon_bedrock"
+    TOGETHER = "together"
+    FIREWORKS = "fireworks"
 
 
 provider_types: dict[str, str] = {
@@ -39,6 +41,8 @@ provider_types: dict[str, str] = {
     TextGenerationProvider.COHERE_VISION: "cohere",
     TextGenerationProvider.AZURE_OPENAI: "azure_openai",
     TextGenerationProvider.AMAZON_BEDROCK: "amazon_bedrock",
+    TextGenerationProvider.TOGETHER: "together",
+    TextGenerationProvider.FIREWORKS: "fireworks",
 }
 
 
@@ -86,6 +90,14 @@ provider_parameters: dict[str, dict[str, Any]] = {
     TextGenerationProvider.AMAZON_BEDROCK: {
         "model": "us.amazon.nova-lite-v1:0",
         "region": "us-east-1",
+    },
+    TextGenerationProvider.TOGETHER: {
+        "api_key": secrets["TOGETHER_API_KEY"],
+        "model": "Qwen/Qwen3-VL-32B-Instruct",
+    },
+    TextGenerationProvider.FIREWORKS: {
+        "api_key": secrets["FIREWORKS_API_KEY"],
+        "model": "accounts/fireworks/models/qwen3-vl-235b-a22b-thinking",
     },
 }
 
