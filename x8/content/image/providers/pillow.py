@@ -11,10 +11,11 @@ from typing import Any
 
 from PIL import Image as PILImage
 from PIL.Image import Image
+
 from x8.core import Context, Provider
 from x8.core.exceptions import BadRequestError
 
-from .._models import ImageInfo
+from .._models import ImageData, ImageInfo
 
 
 class Pillow(Provider):
@@ -67,6 +68,13 @@ class Pillow(Provider):
     def get_info(self) -> ImageInfo:
         self.__setup__()
         return ImageInfo(width=self._image.width, height=self._image.height)
+
+    def get_data(self) -> ImageData:
+        self.__setup__()
+        return ImageData(
+            content=self.convert(type="bytes", format="jpeg"),
+            media_type="image/jpeg",
+        )
 
     def convert(self, type: str, format: str | None = None) -> Any:
         self.__setup__()

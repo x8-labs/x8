@@ -36,7 +36,9 @@ class Image(Component):
         if data is not None:
             self.source = data.source
             self.content = data.content
-        super().__init__(**kwargs)
+        super().__init__(
+            __provider__=kwargs.pop("__provider__", "default"), **kwargs
+        )
 
     @operation()
     def get_info(self) -> ImageInfo:
@@ -44,6 +46,15 @@ class Image(Component):
 
         Returns:
             Image info.
+        """
+        raise NotImplementedError
+
+    @operation()
+    def get_data(self) -> ImageData:
+        """Get image data.
+
+        Returns:
+            Image data.
         """
         raise NotImplementedError
 
@@ -94,6 +105,15 @@ class Image(Component):
 
         Returns:
             Image info.
+        """
+        raise NotImplementedError
+
+    @operation()
+    async def aget_data(self) -> ImageData:
+        """Get image data.
+
+        Returns:
+            Image data.
         """
         raise NotImplementedError
 

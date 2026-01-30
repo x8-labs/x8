@@ -24,6 +24,7 @@ class TextGenerationProvider:
     AMAZON_BEDROCK = "amazon_bedrock"
     TOGETHER = "together"
     FIREWORKS = "fireworks"
+    REPLICATE = "replicate"
 
 
 provider_types: dict[str, str] = {
@@ -43,6 +44,7 @@ provider_types: dict[str, str] = {
     TextGenerationProvider.AMAZON_BEDROCK: "amazon_bedrock",
     TextGenerationProvider.TOGETHER: "together",
     TextGenerationProvider.FIREWORKS: "fireworks",
+    TextGenerationProvider.REPLICATE: "replicate",
 }
 
 
@@ -98,6 +100,10 @@ provider_parameters: dict[str, dict[str, Any]] = {
     TextGenerationProvider.FIREWORKS: {
         "api_key": secrets["FIREWORKS_API_KEY"],
         "model": "accounts/fireworks/models/qwen3-vl-235b-a22b-thinking",
+    },
+    TextGenerationProvider.REPLICATE: {
+        "api_key": secrets["REPLICATE_API_KEY"],
+        "model": "google/gemini-3-pro",
     },
 }
 

@@ -7,6 +7,7 @@ from typing import Any, AsyncIterator, Iterator, List, Mapping
 
 from openai import NotFoundError as OpenAINotFoundError
 from openai.types import Video
+
 from x8.ai._common.openai_provider import OpenAIProvider
 from x8.content.image import ImageData
 from x8.content.video import VideoData
@@ -133,7 +134,7 @@ class OpenAI(OpenAIProvider):
                         )
                         base64_encoded_video = base64.b64encode(
                             content_response.read()
-                        )
+                        ).decode("ascii")
                         result = self._convert_result(polled)
                         result.videos = [
                             VideoData(
@@ -155,18 +156,25 @@ class OpenAI(OpenAIProvider):
             response = self._client.videos.create_and_poll(
                 **args, poll_interval_ms=int(poll_interval * 1000)
             )
-            content_response = self._client.videos.download_content(
-                response.id,
-                **kwargs,
-            )
-            base64_encoded_video = base64.b64encode(content_response.read())
             result = self._convert_result(response)
-            result.videos = [
-                VideoData(
-                    content=base64_encoded_video,
-                    media_type="video/mp4",
+            if response.status == "completed":
+                content_response = self._client.videos.download_content(
+                    response.id,
+                    **kwargs,
                 )
-            ]
+                base64_encoded_video = base64.b64encode(
+                    content_response.read()
+                ).decode("ascii")
+                result.videos = [
+                    VideoData(
+                        content=base64_encoded_video,
+                        media_type="video/mp4",
+                    )
+                ]
+            elif response.status == "failed":
+                raise BadRequestError(
+                    f"Video generation failed: {result.error or 'Unknown error'}"  # noqa
+                )
         return Response(result=result)
 
     def get(self, id: str, **kwargs: Any) -> Response[VideoGenerationResult]:
@@ -266,7 +274,7 @@ class OpenAI(OpenAIProvider):
                         )
                         base64_encoded_video = base64.b64encode(
                             content_response.read()
-                        )
+                        ).decode("ascii")
                         result = self._convert_result(polled)
                         result.videos = [
                             VideoData(
@@ -288,18 +296,24 @@ class OpenAI(OpenAIProvider):
                 **args, poll_interval_ms=int(poll_interval * 1000)
             )
             result = self._convert_result(response)
-            content_response = await self._aclient.videos.download_content(
-                response.id,
-                **kwargs,
-            )
-            base64_encoded_video = base64.b64encode(content_response.read())
-            result = self._convert_result(response)
-            result.videos = [
-                VideoData(
-                    content=base64_encoded_video,
-                    media_type="video/mp4",
+            if response.status == "completed":
+                content_response = await self._aclient.videos.download_content(
+                    response.id,
+                    **kwargs,
                 )
-            ]
+                base64_encoded_video = base64.b64encode(
+                    content_response.read()
+                ).decode("ascii")
+                result.videos = [
+                    VideoData(
+                        content=base64_encoded_video,
+                        media_type="video/mp4",
+                    )
+                ]
+            elif response.status == "failed":
+                raise BadRequestError(
+                    f"Video generation failed: {result.error or 'Unknown error'}"  # noqa
+                )
         return Response(result=result)
 
     async def aget(

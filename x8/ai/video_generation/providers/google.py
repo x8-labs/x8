@@ -6,6 +6,7 @@ from typing import Any, AsyncIterator, Iterator, List
 import google.auth
 import google.auth.transport.requests
 import httpx
+
 from x8._common.google_provider import GoogleProvider
 from x8.content.image import ImageData
 from x8.content.video import VideoData
@@ -195,7 +196,6 @@ class Google(GoogleProvider):
 
     def get(self, id: str, **kwargs: Any) -> Response[VideoGenerationResult]:
         body = {"operationName": self._get_full_name(id)}
-        print(body)
         headers = self._get_headers()
         res = httpx.post(self._get_poll_url(), headers=headers, json=body)
         if res.status_code == 404:
@@ -375,7 +375,6 @@ class Google(GoogleProvider):
         self, id: str, **kwargs: Any
     ) -> Response[VideoGenerationResult]:
         body = {"operationName": self._get_full_name(id)}
-        print(body)
         headers = self._get_headers()
         async with httpx.AsyncClient() as client:
             res = await client.post(
