@@ -887,6 +887,22 @@ wheels = [
 ]
 
 [[package]]
+name = "claude-agent-sdk"
+version = "0.1.31"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "mcp" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6d/df/071dce5803c4db8cd53708bcda3b6022c1c4b68fc00e9007593309515286/claude_agent_sdk-0.1.31.tar.gz", hash = "sha256:b68c681083d7cc985dd3e48f73aabf459f056c1a7e1c5b9c47033c6af94da1a1", size = 61191, upload-time = "2026-02-06T02:01:51.043Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0c/7c/e249a3b4215e28a9722b3d9ab6057bceeeaa2b948530f022065ef2154555/claude_agent_sdk-0.1.31-py3-none-macosx_11_0_arm64.whl", hash = "sha256:801bacfe4192782a7cc7b61b0d23a57f061c069993dd3dfa8109aa2e7050a530", size = 54284257, upload-time = "2026-02-06T02:01:35.61Z" },
+    { url = "https://files.pythonhosted.org/packages/d6/a8/1a8288736aeafcc48e3dcb3326ec7f487dbf89ebba77d526e9464786a299/claude_agent_sdk-0.1.31-py3-none-manylinux_2_17_aarch64.whl", hash = "sha256:0b608e0cbfcedcb827427e6d16a73fe573d58e7f93e15f95435066feacbe6511", size = 68462461, upload-time = "2026-02-06T02:01:40.074Z" },
+    { url = "https://files.pythonhosted.org/packages/26/7a/7dcd0b77263ed55b17554fa3a67a6772b788e7048a524fd06c9baa970564/claude_agent_sdk-0.1.31-py3-none-manylinux_2_17_x86_64.whl", hash = "sha256:d0cb30e026a22246e84d9237d23bb4df20be5146913a04d2802ddd37d4f8b8c9", size = 70173234, upload-time = "2026-02-06T02:01:44.486Z" },
+    { url = "https://files.pythonhosted.org/packages/37/a5/4a8de7a9738f454b54aa97557f0fba9c74b0901ea418597008c668243fea/claude_agent_sdk-0.1.31-py3-none-win_amd64.whl", hash = "sha256:8ceca675c2770ad739bd1208362059a830e91c74efcf128045b5a7af14d36f2b", size = 72366975, upload-time = "2026-02-06T02:01:48.647Z" },
+]
+
+[[package]]
 name = "click"
 version = "8.3.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2443,6 +2459,31 @@ wheels = [
 ]
 
 [[package]]
+name = "mcp"
+version = "1.26.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "httpx" },
+    { name = "httpx-sse" },
+    { name = "jsonschema" },
+    { name = "pydantic" },
+    { name = "pydantic-settings" },
+    { name = "pyjwt", extra = ["crypto"] },
+    { name = "python-multipart" },
+    { name = "pywin32", marker = "sys_platform == 'win32'" },
+    { name = "sse-starlette" },
+    { name = "starlette" },
+    { name = "typing-extensions" },
+    { name = "typing-inspection" },
+    { name = "uvicorn", marker = "sys_platform != 'emscripten'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fc/6d/62e76bbb8144d6ed86e202b5edd8a4cb631e7c8130f3f4893c3f90262b10/mcp-1.26.0.tar.gz", hash = "sha256:db6e2ef491eecc1a0d93711a76f28dec2e05999f93afd48795da1c1137142c66", size = 608005, upload-time = "2026-01-24T19:40:32.468Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fd/d9/eaa1f80170d2b7c5ba23f3b59f766f3a0bb41155fbc32a69adfa1adaaef9/mcp-1.26.0-py3-none-any.whl", hash = "sha256:904a21c33c25aa98ddbeb47273033c435e595bbacfdb177f4bd87f6dceebe1ca", size = 233615, upload-time = "2026-01-24T19:40:30.652Z" },
+]
+
+[[package]]
 name = "mdurl"
 version = "0.1.2"
 source = { registry = "https://pypi.org/simple" }
@@ -3864,6 +3905,20 @@ wheels = [
 ]
 
 [[package]]
+name = "pydantic-settings"
+version = "2.12.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "python-dotenv" },
+    { name = "typing-inspection" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/43/4b/ac7e0aae12027748076d72a8764ff1c9d82ca75a7a52622e67ed3f765c54/pydantic_settings-2.12.0.tar.gz", hash = "sha256:005538ef951e3c2a68e1c08b292b5f2e71490def8589d4221b95dab00dafcfd0", size = 194184, upload-time = "2025-11-10T14:25:47.013Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c1/60/5d4751ba3f4a40a6891f24eec885f51afd78d208498268c734e256fb13c4/pydantic_settings-2.12.0-py3-none-any.whl", hash = "sha256:fddb9fd99a5b18da837b29710391e945b1e30c135477f484084ee513adb93809", size = 51880, upload-time = "2025-11-10T14:25:45.546Z" },
+]
+
+[[package]]
 name = "pyflakes"
 version = "3.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -4077,6 +4132,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f0/26/19cadc79a718c5edbec86fd4919a6b6d3f681039a2f6d66d14be94e75fb9/python_dotenv-1.2.1.tar.gz", hash = "sha256:42667e897e16ab0d66954af0e60a9caa94f0fd4ecf3aaf6d2d260eec1aa36ad6", size = 44221, upload-time = "2025-10-26T15:12:10.434Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/14/1b/a298b06749107c305e1fe0f814c6c74aea7b2f1e10989cb30f544a1b3253/python_dotenv-1.2.1-py3-none-any.whl", hash = "sha256:b81ee9561e9ca4004139c6cbba3a238c32b03e4894671e181b671e8cb8425d61", size = 21230, upload-time = "2025-10-26T15:12:09.109Z" },
+]
+
+[[package]]
+name = "python-multipart"
+version = "0.0.22"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/94/01/979e98d542a70714b0cb2b6728ed0b7c46792b695e3eaec3e20711271ca3/python_multipart-0.0.22.tar.gz", hash = "sha256:7340bef99a7e0032613f56dc36027b959fd3b30a787ed62d310e951f7c3a3a58", size = 37612, upload-time = "2026-01-25T10:15:56.219Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1b/d0/397f9626e711ff749a95d96b7af99b9c566a9bb5129b8e4c10fc4d100304/python_multipart-0.0.22-py3-none-any.whl", hash = "sha256:2b2cd894c83d21bf49d702499531c7bafd057d730c201782048f7945d82de155", size = 24579, upload-time = "2026-01-25T10:15:54.811Z" },
 ]
 
 [[package]]
@@ -4487,6 +4551,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/a2/87/a6771e1546d97e7e041b6ae58d80074f81b7d5121207425c964ddf5cfdbd/sniffio-1.3.1.tar.gz", hash = "sha256:f4324edc670a0f49750a81b895f35c3adb843cca46f0530f79fc1babb23789dc", size = 20372, upload-time = "2024-02-25T23:20:04.057Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e9/44/75a9c9421471a6c4805dbf2356f7c181a29c1879239abab1ea2cc8f38b40/sniffio-1.3.1-py3-none-any.whl", hash = "sha256:2f6da418d1f1e0fddd844478f41680e794e6051915791a034ff65e5f100525a2", size = 10235, upload-time = "2024-02-25T23:20:01.196Z" },
+]
+
+[[package]]
+name = "sse-starlette"
+version = "3.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "starlette" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8b/8d/00d280c03ffd39aaee0e86ec81e2d3b9253036a0f93f51d10503adef0e65/sse_starlette-3.2.0.tar.gz", hash = "sha256:8127594edfb51abe44eac9c49e59b0b01f1039d0c7461c6fd91d4e03b70da422", size = 27253, upload-time = "2026-01-17T13:11:05.62Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/96/7f/832f015020844a8b8f7a9cbc103dd76ba8e3875004c41e08440ea3a2b41a/sse_starlette-3.2.0-py3-none-any.whl", hash = "sha256:5876954bd51920fc2cd51baee47a080eb88a37b5b784e615abb0b283f801cdbf", size = 12763, upload-time = "2026-01-17T13:11:03.775Z" },
 ]
 
 [[package]]
@@ -4991,11 +5068,15 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+ai-agent-claude = [
+    { name = "claude-agent-sdk" },
+]
 ai-all = [
     { name = "anthropic" },
     { name = "av" },
     { name = "azure-identity" },
     { name = "boto3" },
+    { name = "claude-agent-sdk" },
     { name = "cohere" },
     { name = "fireworks-ai" },
     { name = "google-auth" },
@@ -5126,6 +5207,7 @@ all = [
     { name = "azure-storage-queue" },
     { name = "boto3" },
     { name = "chromadb" },
+    { name = "claude-agent-sdk" },
     { name = "cohere" },
     { name = "docker" },
     { name = "elasticsearch" },
@@ -5648,6 +5730,9 @@ requires-dist = [
     { name = "chromadb", marker = "extra == 'storage-all'" },
     { name = "chromadb", marker = "extra == 'storage-vector-store-chroma'" },
     { name = "chromadb", marker = "extra == 'storage-vector-store-local'" },
+    { name = "claude-agent-sdk", marker = "extra == 'ai-agent-claude'" },
+    { name = "claude-agent-sdk", marker = "extra == 'ai-all'" },
+    { name = "claude-agent-sdk", marker = "extra == 'all'" },
     { name = "cohere", marker = "extra == 'ai-all'" },
     { name = "cohere", marker = "extra == 'ai-text-generation-cohere'" },
     { name = "cohere", marker = "extra == 'all'" },
@@ -5869,7 +5954,7 @@ requires-dist = [
     { name = "xai-sdk", marker = "extra == 'ai-text-generation-xai'" },
     { name = "xai-sdk", marker = "extra == 'all'" },
 ]
-provides-extras = ["storage-config-store-aws-parameter-store", "storage-config-store-azure-app-configuration", "storage-config-store-google-runtime-configurator", "storage-config-store-env-file", "storage-config-store-yaml-file", "storage-config-store-env", "storage-config-store-document-store-provider", "storage-config-store-local", "storage-config-store-default", "storage-config-store-hosted", "storage-secret-store-amazon-secrets-manager", "storage-secret-store-azure-key-vault", "storage-secret-store-google-secret-manager", "storage-secret-store-hashicorp-vault", "storage-secret-store-env-file", "storage-secret-store-yaml-file", "storage-secret-store-env", "storage-secret-store-document-store-provider", "storage-secret-store-local", "storage-secret-store-default", "storage-secret-store-hosted", "storage-document-store-amazon-dynamodb", "storage-document-store-azure-cosmos-db", "storage-document-store-google-firestore", "storage-document-store-mongodb", "storage-document-store-redis", "storage-document-store-postgresql", "storage-document-store-elasticsearch", "storage-document-store-sqlite", "storage-document-store-memory", "storage-document-store-local", "storage-document-store-default", "storage-document-store-hosted", "storage-object-store-amazon-s3", "storage-object-store-azure-blob-storage", "storage-object-store-google-cloud-storage", "storage-object-store-file-system", "storage-object-store-local", "storage-object-store-default", "storage-object-store-hosted", "storage-vector-store-pinecone", "storage-vector-store-milvus", "storage-vector-store-qdrant", "storage-vector-store-chroma", "storage-vector-store-weaviate", "storage-vector-store-local", "storage-vector-store-default", "storage-vector-store-hosted", "storage-key-value-store-redis", "storage-key-value-store-redis-simple", "storage-key-value-store-memcached", "storage-key-value-store-document-store-provider", "storage-key-value-store-object-store-provider", "storage-key-value-store-memory", "storage-key-value-store-postgresql", "storage-key-value-store-sqlite", "storage-key-value-store-keydb", "storage-key-value-store-dragonfly", "storage-key-value-store-valkey", "storage-key-value-store-local", "storage-key-value-store-default", "storage-key-value-store-hosted", "storage-search-store-elasticsearch", "storage-all", "messaging-queue-amazon-sqs", "messaging-queue-azure-service-bus", "messaging-queue-azure-queue-storage", "messaging-queue-google-pubsub", "messaging-queue-redis", "messaging-queue-postgresql", "messaging-queue-sqlite", "messaging-queue-memory", "messaging-queue-local", "messaging-queue-default", "messaging-queue-hosted", "messaging-pubsub-amazon-sns", "messaging-pubsub-azure-service-bus", "messaging-pubsub-google-pubsub", "messaging-pubsub-redis", "messaging-pubsub-postgresql", "messaging-pubsub-memory", "messaging-pubsub-sqlite", "messaging-pubsub-local", "messaging-pubsub-default", "messaging-pubsub-hosted", "messaging-all", "compute-container-registry-amazon-elastic-container-registry", "compute-container-registry-azure-container-registry", "compute-container-registry-google-artifact-registry", "compute-containerizer-docker", "compute-containerizer-default", "compute-containerizer-local", "compute-container-deployment-amazon-elastic-container-service", "compute-container-deployment-azure-container-instances", "compute-container-deployment-azure-container-apps", "compute-container-deployment-google-cloud-run", "compute-container-deployment-docker-local", "compute-container-deployment-local", "compute-container-deployment-default", "compute-kubernetes-azure-kubernetes-service", "compute-all", "content-image-pillow", "content-image-default", "content-audio-av", "content-audio-default", "content-video-av", "content-video-default", "content-live-stream-av", "content-live-stream-default", "content-all", "ai-text-generation-openai", "ai-text-generation-google", "ai-text-generation-anthropic", "ai-text-generation-xai", "ai-text-generation-deepseek", "ai-text-generation-ollama", "ai-text-generation-groq", "ai-text-generation-mistral", "ai-text-generation-cohere", "ai-text-generation-azure-openai", "ai-text-generation-amazon-bedrock", "ai-text-generation-together", "ai-text-generation-fireworks", "ai-text-generation-replicate", "ai-video-generation-openai", "ai-video-generation-google", "ai-all", "interface-api-fastapi", "interface-api-default", "interface-cli-default", "interface-worker-default", "interface-auth-auth0", "interface-auth-api-key", "interface-auth-api-key-in-store", "interface-auth-mock", "interface-auth-default", "interface-all", "composite-choice-default", "composite-script-default", "composite-all", "all", "dev"]
+provides-extras = ["storage-config-store-aws-parameter-store", "storage-config-store-azure-app-configuration", "storage-config-store-google-runtime-configurator", "storage-config-store-env-file", "storage-config-store-yaml-file", "storage-config-store-env", "storage-config-store-document-store-provider", "storage-config-store-local", "storage-config-store-default", "storage-config-store-hosted", "storage-secret-store-amazon-secrets-manager", "storage-secret-store-azure-key-vault", "storage-secret-store-google-secret-manager", "storage-secret-store-hashicorp-vault", "storage-secret-store-env-file", "storage-secret-store-yaml-file", "storage-secret-store-env", "storage-secret-store-document-store-provider", "storage-secret-store-local", "storage-secret-store-default", "storage-secret-store-hosted", "storage-document-store-amazon-dynamodb", "storage-document-store-azure-cosmos-db", "storage-document-store-google-firestore", "storage-document-store-mongodb", "storage-document-store-redis", "storage-document-store-postgresql", "storage-document-store-elasticsearch", "storage-document-store-sqlite", "storage-document-store-memory", "storage-document-store-local", "storage-document-store-default", "storage-document-store-hosted", "storage-object-store-amazon-s3", "storage-object-store-azure-blob-storage", "storage-object-store-google-cloud-storage", "storage-object-store-file-system", "storage-object-store-local", "storage-object-store-default", "storage-object-store-hosted", "storage-vector-store-pinecone", "storage-vector-store-milvus", "storage-vector-store-qdrant", "storage-vector-store-chroma", "storage-vector-store-weaviate", "storage-vector-store-local", "storage-vector-store-default", "storage-vector-store-hosted", "storage-key-value-store-redis", "storage-key-value-store-redis-simple", "storage-key-value-store-memcached", "storage-key-value-store-document-store-provider", "storage-key-value-store-object-store-provider", "storage-key-value-store-memory", "storage-key-value-store-postgresql", "storage-key-value-store-sqlite", "storage-key-value-store-keydb", "storage-key-value-store-dragonfly", "storage-key-value-store-valkey", "storage-key-value-store-local", "storage-key-value-store-default", "storage-key-value-store-hosted", "storage-search-store-elasticsearch", "storage-all", "messaging-queue-amazon-sqs", "messaging-queue-azure-service-bus", "messaging-queue-azure-queue-storage", "messaging-queue-google-pubsub", "messaging-queue-redis", "messaging-queue-postgresql", "messaging-queue-sqlite", "messaging-queue-memory", "messaging-queue-local", "messaging-queue-default", "messaging-queue-hosted", "messaging-pubsub-amazon-sns", "messaging-pubsub-azure-service-bus", "messaging-pubsub-google-pubsub", "messaging-pubsub-redis", "messaging-pubsub-postgresql", "messaging-pubsub-memory", "messaging-pubsub-sqlite", "messaging-pubsub-local", "messaging-pubsub-default", "messaging-pubsub-hosted", "messaging-all", "compute-container-registry-amazon-elastic-container-registry", "compute-container-registry-azure-container-registry", "compute-container-registry-google-artifact-registry", "compute-containerizer-docker", "compute-containerizer-default", "compute-containerizer-local", "compute-container-deployment-amazon-elastic-container-service", "compute-container-deployment-azure-container-instances", "compute-container-deployment-azure-container-apps", "compute-container-deployment-google-cloud-run", "compute-container-deployment-docker-local", "compute-container-deployment-local", "compute-container-deployment-default", "compute-kubernetes-azure-kubernetes-service", "compute-all", "content-image-pillow", "content-image-default", "content-audio-av", "content-audio-default", "content-video-av", "content-video-default", "content-live-stream-av", "content-live-stream-default", "content-all", "ai-text-generation-openai", "ai-text-generation-google", "ai-text-generation-anthropic", "ai-text-generation-xai", "ai-text-generation-deepseek", "ai-text-generation-ollama", "ai-text-generation-groq", "ai-text-generation-mistral", "ai-text-generation-cohere", "ai-text-generation-azure-openai", "ai-text-generation-amazon-bedrock", "ai-text-generation-together", "ai-text-generation-fireworks", "ai-text-generation-replicate", "ai-video-generation-openai", "ai-video-generation-google", "ai-agent-claude", "ai-all", "interface-api-fastapi", "interface-api-default", "interface-cli-default", "interface-worker-default", "interface-auth-auth0", "interface-auth-api-key", "interface-auth-api-key-in-store", "interface-auth-mock", "interface-auth-default", "interface-all", "composite-choice-default", "composite-script-default", "composite-all", "all", "dev"]
 
 [[package]]
 name = "xai-sdk"

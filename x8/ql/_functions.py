@@ -63,15 +63,11 @@ class QueryFunction:
 
     @staticmethod
     def is_defined(field: str) -> Function:
-        return Function(
-            name=QueryFunctionName.IS_DEFINED, args=[Field(path=field)]
-        )
+        return Function(name=QueryFunctionName.IS_DEFINED, args=[Field(path=field)])
 
     @staticmethod
     def is_not_defined(field: str) -> Function:
-        return Function(
-            name=QueryFunctionName.IS_NOT_DEFINED, args=[Field(path=field)]
-        )
+        return Function(name=QueryFunctionName.IS_NOT_DEFINED, args=[Field(path=field)])
 
     @staticmethod
     def is_type(field: str, type: str) -> Function:
@@ -115,9 +111,7 @@ class QueryFunction:
 
     @staticmethod
     def length(field: str) -> Function:
-        return Function(
-            name=QueryFunctionName.LENGTH, args=[Field(path=field)]
-        )
+        return Function(name=QueryFunctionName.LENGTH, args=[Field(path=field)])
 
     @staticmethod
     def array_contains(field: str, value: Value) -> Function:
@@ -141,9 +135,7 @@ class QueryFunction:
 
     @staticmethod
     def array_length(field: str) -> Function:
-        return Function(
-            name=QueryFunctionName.ARRAY_LENGTH, args=[Field(path=field)]
-        )
+        return Function(name=QueryFunctionName.ARRAY_LENGTH, args=[Field(path=field)])
 
     @staticmethod
     def starts_with_delimited(
@@ -172,9 +164,7 @@ class QueryFunction:
     ):
         return Function(
             name=QueryFunctionName.VECTOR_SEARCH,
-            named_args=dict(
-                vector=vector, sparse_vector=sparse_vector, field=field
-            ),
+            named_args=dict(vector=vector, sparse_vector=sparse_vector, field=field),
         )
 
     @staticmethod
@@ -217,9 +207,7 @@ class QueryFunction:
         sparse_vector: dict[int, float] | None = None,
         sparse_vector_field: str | None = None,
         # fusion
-        hybrid_mode: (
-            Literal["add", "multiply", "max", "min", "rrf"] | None
-        ) = None,
+        hybrid_mode: (Literal["add", "multiply", "max", "min", "rrf"] | None) = None,
         vector_weight: float | None = None,
         sparse_vector_weight: float | None = None,
     ) -> Function:
@@ -286,9 +274,7 @@ class QueryFunction:
         sparse_vector: dict[int, float] | None = None,
         sparse_vector_field: str | None = None,
         # fusion
-        hybrid_mode: (
-            Literal["add", "multiply", "max", "min", "rrf"] | None
-        ) = None,
+        hybrid_mode: (Literal["add", "multiply", "max", "min", "rrf"] | None) = None,
         text_weight: float | None = None,
         vector_weight: float | None = None,
     ) -> Function:

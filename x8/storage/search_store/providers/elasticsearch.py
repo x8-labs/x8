@@ -951,6 +951,7 @@ class OperationConverter:
         args = {
             "index": self.collection,
             "id": id,
+            "source_includes": ["*"],
         }
         return args
 
@@ -1243,9 +1244,7 @@ class OperationConverter:
 
                     # Assign dest = src
                     script_lines.append(
-                        f"if ({field_expr} != null) {{ "
-                        f"  {dest_expr} = {field_expr}; "
-                        f"}}"
+                        f"if ({field_expr} != null) {{   {dest_expr} = {field_expr}; }}"  # noqa
                     )
                     # Remove source key
                     if len(src_splits) == 1:
@@ -1354,18 +1353,28 @@ class OperationConverter:
             "index": self.collection,
             "seq_no_primary_term": True,
             "track_scores": True,
-            "source": {"exclude_vectors": False},
         }
+        # Use source_includes=["*"] to ensure vector fields are returned
+        # unless a specific select is provided
+        if not select:
+            args["source_includes"] = ["*"]
+
         if limit:
             args["size"] = self.convert_limit(limit=limit)
         if offset:
             args["from_"] = self.convert_offset(offset=offset)
         if select:
-            args["source"] = self.convert_select(
-                select=StoreOperationParser.parse_select(
-                    select=select, params=kwargs.get("params", None)
+            # Handle SELECT * specially - include all fields including vectors
+            if isinstance(select, str) and select.strip() == "*":
+                args["source_includes"] = ["*"]
+            else:
+                select_fields = self.convert_select(
+                    select=StoreOperationParser.parse_select(
+                        select=select, params=kwargs.get("params", None)
+                    )
                 )
-            )
+                if select_fields:
+                    args["source"] = select_fields
         if order_by:
             args["sort"] = self.convert_order_by(
                 order_by=StoreOperationParser.parse_order_by(
@@ -1784,6 +1793,21 @@ class OperationConverter:
 
         if name == QueryFunctionName.HYBRID_TEXT_SEARCH:
             return self._convert_hybrid_text_search_func(
+                args=args, named_args=named_args
+            )
+
+        if name == QueryFunctionName.GEO_SEARCH_DISTANCE:
+            return self._convert_geo_search_distance_func(
+                args=args, named_args=named_args
+            )
+
+        if name == QueryFunctionName.GEO_SEARCH_POLYGON:
+            return self._convert_geo_search_polygon_func(
+                args=args, named_args=named_args
+            )
+
+        if name == QueryFunctionName.GEO_SEARCH_BBOX:
+            return self._convert_geo_search_bbox_func(
                 args=args, named_args=named_args
             )
 
@@ -2229,6 +2253,125 @@ class OperationConverter:
         set_if_not_none(body, "analyzer", analyzer)
 
         return {"multi_match": body}
+
+    def _convert_geo_search_distance_func(
+        self,
+        args: list[Any],
+        named_args: dict[str, Any],
+    ) -> dict[str, Any]:
+        """
+        Convert geo_search_distance to ElasticSearch geo_distance query.
+        """
+        field = named_args.get("field")
+        if isinstance(field, Field):
+            field = field.path
+
+        if not field:
+            raise BadRequestError(
+                "GEO_SEARCH_DISTANCE requires 'field' argument"
+            )
+
+        center = named_args.get("center")
+        if not center:
+            raise BadRequestError(
+                "GEO_SEARCH_DISTANCE requires 'center' argument"
+            )
+
+        distance = named_args.get("distance")
+        if distance is None:
+            raise BadRequestError(
+                "GEO_SEARCH_DISTANCE requires 'distance' argument"
+            )
+
+        unit = named_args.get("unit", "m")
+
+        return {
+            "geo_distance": {
+                "distance": f"{distance}{unit}",
+                field: center,
+            }
+        }
+
+    def _convert_geo_search_polygon_func(
+        self,
+        args: list[Any],
+        named_args: dict[str, Any],
+    ) -> dict[str, Any]:
+        """
+        Convert geo_search_polygon to ElasticSearch geo_shape query with GeoJSON polygon. # noqa
+        """
+        field = named_args.get("field")
+        if isinstance(field, Field):
+            field = field.path
+
+        if not field:
+            raise BadRequestError(
+                "GEO_SEARCH_POLYGON requires 'field' argument"
+            )
+
+        points = named_args.get("points")
+        if not points:
+            raise BadRequestError(
+                "GEO_SEARCH_POLYGON requires 'points' argument"
+            )
+
+        # Convert points to GeoJSON format
+        # GeoJSON uses [longitude, latitude] order and requires closing the polygon # noqa
+        coordinates = []
+        for point in points:
+            # Extract lat/lon from point dict
+            lat = point.get("lat")
+            lon = point.get("lon")
+            coordinates.append([lon, lat])
+
+        # Close the polygon by adding the first point at the end
+        if coordinates and coordinates[0] != coordinates[-1]:
+            coordinates.append(coordinates[0])
+
+        return {
+            "geo_shape": {
+                field: {
+                    "shape": {"type": "polygon", "coordinates": [coordinates]},
+                    "relation": "intersects",
+                }
+            }
+        }
+
+    def _convert_geo_search_bbox_func(
+        self,
+        args: list[Any],
+        named_args: dict[str, Any],
+    ) -> dict[str, Any]:
+        """
+        Convert geo_search_bbox to ElasticSearch geo_bounding_box query.
+        """
+        field = named_args.get("field")
+        if isinstance(field, Field):
+            field = field.path
+
+        if not field:
+            raise BadRequestError("GEO_SEARCH_BBOX requires 'field' argument")
+
+        top_left = named_args.get("top_left")
+        if not top_left:
+            raise BadRequestError(
+                "GEO_SEARCH_BBOX requires 'top_left' argument"
+            )
+
+        bottom_right = named_args.get("bottom_right")
+        if not bottom_right:
+            raise BadRequestError(
+                "GEO_SEARCH_BBOX requires 'bottom_right' argument"
+            )
+
+        return {
+            "geo_bounding_box": {
+                field: {
+                    "top_left": top_left,
+                    "bottom_right": bottom_right,
+                }
+            }
+        }
 
     def _convert_length_condition(
         self,

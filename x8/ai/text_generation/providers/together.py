@@ -1,6 +1,6 @@
 import base64
 import json
-from typing import Any, AsyncIterator, Iterator
+from typing import Any, AsyncIterator, Iterator, Literal
 
 import together
 from together import AsyncTogether
@@ -676,12 +676,10 @@ class Together(Provider):
             if tool_choice.type in ["auto", "none", "required"]:
                 return tool_choice.type
             elif tool_choice.type == "function":
-                func = tool_choice.function
-                if func:
-                    return {
-                        "type": "function",
-                        "function": {"name": func.name},
-                    }
+                return {
+                    "type": "function",
+                    "function": {"name": tool_choice.name},
+                }
 
         return "auto"
 
@@ -765,7 +763,7 @@ class Together(Provider):
             )
 
         # Determine status
-        status = "completed"
+        status: Literal["completed", "incomplete"] = "completed"
         if response.choices:
             finish_reason = response.choices[0].finish_reason
             if hasattr(finish_reason, "value"):

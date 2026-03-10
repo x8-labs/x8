@@ -15,6 +15,7 @@ documents = [
             "0": 1,
             "2": 1,
         },
+        "location": {"lat": 40.7128, "lon": -74.0060},  # New York City
         "obj": {
             "nstr": "0",
             "nint": -0,
@@ -46,6 +47,7 @@ documents = [
             "1": 2,
             "3": 2,
         },
+        "location": {"lat": 51.5074, "lon": -0.1278},  # London
         "obj": {
             "nstr": "1",
             "nint": -1,
@@ -78,6 +80,7 @@ documents = [
             "0": 3,
             "2": 3,
         },
+        "location": {"lat": 48.8566, "lon": 2.3522},  # Paris
         "obj": {
             "nstr": "2",
             "nint": -2,
@@ -110,6 +113,7 @@ documents = [
             "1": 4,
             "3": 4,
         },
+        "location": {"lat": 35.6762, "lon": 139.6503},  # Tokyo
         "obj": {
             "nstr": "3",
             "nint": -3,
@@ -142,6 +146,7 @@ documents = [
             "0": 5,
             "4": 5,
         },
+        "location": {"lat": -33.8688, "lon": 151.2093},  # Sydney
         "obj": {
             "nstr": "4",
             "nint": -4,
@@ -174,6 +179,7 @@ documents = [
             "1": 6,
             "4": 6,
         },
+        "location": {"lat": 37.7749, "lon": -122.4194},  # San Francisco
         "obj": {
             "nstr": "5",
             "nint": -5,
@@ -206,6 +212,7 @@ documents = [
             "0": 6,
             "5": 6,
         },
+        "location": {"lat": 52.5200, "lon": 13.4050},  # Berlin
         "obj": {
             "nstr": "6",
             "nint": -6,
@@ -237,6 +244,7 @@ documents = [
             "2": 1,
             "5": 1,
         },
+        "location": {"lat": 41.9028, "lon": 12.4964},  # Rome
         "obj": {
             "nstr": "7",
             "nint": -7,
@@ -267,6 +275,7 @@ documents = [
             "3": 2,
             "6": 2,
         },
+        "location": {"lat": 55.7558, "lon": 37.6173},  # Moscow
         "obj": {
             "nstr": "8",
             "nint": -8,
@@ -299,6 +308,7 @@ documents = [
             "4": 9,
             "5": 9,
         },
+        "location": {"lat": 19.4326, "lon": -99.1332},  # Mexico City
         "obj": {
             "nstr": "9",
             "nint": -9,

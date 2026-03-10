@@ -81,7 +81,7 @@ class Replicate(Provider):
     def __setup__(self, context=None):
         if self._init:
             return
-        client_kwargs: dict[str, Any] = {}
+        client_kwargs = {}
         if self.api_key is not None:
             client_kwargs["api_token"] = self.api_key
         if self.nparams:
@@ -93,7 +93,7 @@ class Replicate(Provider):
         if self._ainit:
             return
         # Replicate uses the same client for sync and async
-        client_kwargs: dict[str, Any] = {}
+        client_kwargs = {}
         if self.api_key is not None:
             client_kwargs["api_token"] = self.api_key
         if self.nparams:
@@ -496,7 +496,6 @@ class Replicate(Provider):
             model=model,
             status="completed",
             output=output_items,
-            text=text_content,
             usage=usage,
         )
 
@@ -532,6 +531,5 @@ class Replicate(Provider):
             model=model,
             status="completed",
             output=output_items,
-            text=accumulated_text,
             usage=usage,
         )

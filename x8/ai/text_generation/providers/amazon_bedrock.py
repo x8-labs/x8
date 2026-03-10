@@ -17,6 +17,7 @@ from .._models import (
     InputItem,
     OutputItem,
     OutputMessage,
+    OutputMessageContent,
     OutputReasoning,
     OutputReasoningContentText,
     OutputText,
@@ -831,7 +832,7 @@ class AmazonBedrock(Provider):
     ) -> TextGenerationResult:
         """Convert Bedrock response to unified TextGenerationResult."""
         output_items: list[OutputItem] = []
-        message_content: list[OutputText] = []
+        message_content: list[OutputMessageContent] = []
         reasoning_content: list[OutputReasoningContentText] = []
         function_calls: list[FunctionCall] = []
 

@@ -2,7 +2,7 @@ import base64
 import json
 import sys
 import types
-from typing import Any, AsyncIterator, Iterator
+from typing import Any, AsyncIterator, Iterator, Literal
 
 # Block fireworks __init__.py which has problematic protobuf imports
 # that conflict with google-cloud-aiplatform's protobuf definitions.
@@ -113,7 +113,7 @@ class Fireworks(Provider):
     def __setup__(self, context=None):
         if self._init:
             return
-        client_kwargs: dict[str, Any] = {}
+        client_kwargs = {}
         if self.api_key is not None:
             client_kwargs["api_key"] = self.api_key
         if self.base_url is not None:
@@ -128,7 +128,7 @@ class Fireworks(Provider):
     async def __asetup__(self, context=None):
         if self._ainit:
             return
-        client_kwargs: dict[str, Any] = {}
+        client_kwargs = {}
         if self.api_key is not None:
             client_kwargs["api_key"] = self.api_key
         if self.base_url is not None:
@@ -683,12 +683,10 @@ class Fireworks(Provider):
             if tool_choice.type in ["auto", "none", "required"]:
                 return tool_choice.type
             elif tool_choice.type == "function":
-                func = tool_choice.function
-                if func:
-                    return {
-                        "type": "function",
-                        "function": {"name": func.name},
-                    }
+                return {
+                    "type": "function",
+                    "function": {"name": tool_choice.name},
+                }
 
         return "auto"
 
@@ -775,7 +773,7 @@ class Fireworks(Provider):
             )
 
         # Determine status
-        status = "completed"
+        status: Literal["completed", "incomplete"] = "completed"
         if response.choices:
             finish_reason = response.choices[0].finish_reason
             if finish_reason == "length":

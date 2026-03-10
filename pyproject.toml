@@ -281,6 +281,9 @@ ai-text-generation-replicate = ["replicate", "httpx", "pillow", "av"]
 ai-video-generation-openai = ["openai", "httpx", "pillow", "av"]
 ai-video-generation-google = ["google-auth", "httpx", "pillow", "av"]
 
+ai-agent-claude = ["claude-agent-sdk"]
+ai-agent-github-copilot = ["github-copilot-sdk"]
+
 ai-all = [
     "openai",
     "google-genai",
@@ -298,6 +301,8 @@ ai-all = [
     "httpx",
     "pillow",
     "av",
+    "claude-agent-sdk",
+    "github-copilot-sdk",
 ]
 
 interface-api-fastapi = ["fastapi", "uvicorn"]
@@ -378,6 +383,8 @@ all = [
     "together",
     "fireworks-ai",
     "replicate",
+    "claude-agent-sdk",
+    "github-copilot-sdk",
 ]
 dev = [
     "mypy",
