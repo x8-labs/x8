@@ -15,7 +15,6 @@ Ensure that **Python 3.11 or later** is installed.
    - ✅ **Add Python to PATH** (should be checked by default)
    - ✅ **Install pip**
 3. Verify the installation:
-
    - **Windows**:
      ```sh
      python --version
@@ -145,7 +144,7 @@ Permission is required to use the **X8 Test Google Cloud Project**.
 To verify test execution, run the following:
 
 ```sh
-cd x8/tests
+cd tests
 uv run python -m pytest ./storage/object_store -k test_put
 ```
 

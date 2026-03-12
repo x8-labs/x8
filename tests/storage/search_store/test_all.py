@@ -243,18 +243,26 @@ async def test_collection(provider_type: str, async_call: bool):
     result = response.result
     assert result is False
 
-    response = await client.create_collection(collection=new_collection, config=config)
+    response = await client.create_collection(
+        collection=new_collection, config=config
+    )
     result = response.result
     assert result.status == CollectionStatus.CREATED
 
-    response = await client.create_collection(collection=new_collection, config=config)
+    response = await client.create_collection(
+        collection=new_collection, config=config
+    )
     result = response.result
     assert result.status == CollectionStatus.EXISTS
     with pytest.raises(ConflictError):
-        await client.create_collection(collection=new_collection, where="not_exists()")
+        await client.create_collection(
+            collection=new_collection, where="not_exists()"
+        )
 
     await client.put(value=documents[0], collection=new_collection)
-    response = await client.get(key=get_key(documents[0]), collection=new_collection)
+    response = await client.get(
+        key=get_key(documents[0]), collection=new_collection
+    )
     result = response.result
     assert_get_result(result, documents[0])
 
@@ -278,7 +286,9 @@ async def test_collection(provider_type: str, async_call: bool):
     result = response.result
     assert result.status == CollectionStatus.NOT_EXISTS
     with pytest.raises(NotFoundError):
-        await client.drop_collection(collection=new_collection, where="exists()")
+        await client.drop_collection(
+            collection=new_collection, where="exists()"
+        )
 
     await client.close()
 
@@ -418,7 +428,9 @@ async def test_put_get_delete(provider_type: str, async_call: bool):
         await client.put(value=replace_document, where=bad_complex_condition_1)
 
     # conditional put (good condition) when item exists
-    put_response = await client.put(value=replace_document, where=complex_condition_1)
+    put_response = await client.put(
+        value=replace_document, where=complex_condition_1
+    )
     put_result = put_response.result
     assert_put_result(put_result, replace_document)
 
@@ -618,7 +630,9 @@ async def test_query_count(provider_type: str, async_call: bool):
         result = response.result
         ordered = True if "ordered" not in query else query["ordered"]
 
-        assert_select_result(result.items, filtered_documents, ordered, projected)
+        assert_select_result(
+            result.items, filtered_documents, ordered, projected
+        )
 
         count = query["count"]
         response = await client.count(**args)
@@ -676,7 +690,9 @@ async def test_search(provider_type: str, async_call: bool):
                 if provider_type in query["except_providers"]:
                     continue
             args = query["args"]
-            filtered_documents = filter_documents(documents, query["result_index"])
+            filtered_documents = filter_documents(
+                documents, query["result_index"]
+            )
 
             projected = None
             if "select" in query["args"]:
@@ -685,7 +701,9 @@ async def test_search(provider_type: str, async_call: bool):
             response = await client.query(**args)
             result = response.result
             ordered = True if "ordered" not in query else query["ordered"]
-            assert_select_result(result.items, filtered_documents, ordered, projected)
+            assert_select_result(
+                result.items, filtered_documents, ordered, projected
+            )
 
     for document in documents:
         key = get_key(document)
@@ -727,7 +745,9 @@ def assert_select_result(
                             current_doc = current_doc[parts[i]]
                             current_pdoc[parts[-1]] = current_doc[parts[-1]]
                     else:
-                        pdoc[field.replace("$", "")] = doc[field.replace("$", "")]
+                        pdoc[field.replace("$", "")] = doc[
+                            field.replace("$", "")
+                        ]
                 projected_documents.append(pdoc)
             documents = projected_documents
     assert len(result) == len(documents)
@@ -756,7 +776,9 @@ def assert_update_result(result: SearchItem, document: dict, returning: str):
         assert Comparator.contains(document, result.value)
 
 
-def assert_get_result(result: SearchItem, document: dict, etag: bool | None = True):
+def assert_get_result(
+    result: SearchItem, document: dict, etag: bool | None = True
+):
     assert Comparator.equals(get_key(document), result.key.to_dict())
     assert result.key.id == document["id"]
     if etag:
@@ -768,7 +790,9 @@ def assert_delete_result(result: dict | None):
     assert result is None
 
 
-async def cleanup_document(document: dict, client: SearchStoreSyncAndAsyncClient):
+async def cleanup_document(
+    document: dict, client: SearchStoreSyncAndAsyncClient
+):
     try:
         await client.delete(key=get_key(document))
     except NotFoundError:

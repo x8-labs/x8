@@ -7,6 +7,8 @@ import inspect
 import os
 import re
 import sys
+import time
+import uuid
 from enum import Enum
 from typing import Any
 
@@ -267,6 +269,10 @@ class Loader:
             return self._resolve_metadata(
                 param=ref_info.param,
             )
+        if ref_info.type == RefType.FUNC:
+            return self._resolve_func(
+                param=ref_info.param,
+            )
         if ref_info.type == RefType.COMPONENT:
             return self._resolve_component(
                 handle=ref_info.component_handle,
@@ -331,6 +337,13 @@ class Loader:
     def _resolve_metadata(self, param: str) -> Any:
         if param in self.manifest.metadata.__dict__:
             return self.manifest.metadata.__dict__[param]
+        return None
+
+    def _resolve_func(self, param: str) -> Any:
+        if param == "time":
+            return int(time.time())
+        if param == "uuid":
+            return str(uuid.uuid4())
         return None
 
     def _resolve_component_param(
@@ -408,6 +421,7 @@ class Loader:
             "context.": RefType.CONTEXT,
             "metadata.": RefType.METADATA,
             "variables.": RefType.VARIABLE,
+            "func.": RefType.FUNC,
         }
 
         for prefix, ref_type in prefix_map.items():
@@ -885,6 +899,7 @@ class RefType(str, Enum):
     CONTEXT = "context"
     METADATA = "metadata"
     VARIABLE = "variable"
+    FUNC = "func"
     COMPONENT = "component"
     COMPONENT_PARAM = "component_param"
     COMPONENT_GET = "component_get"
