@@ -43,9 +43,17 @@ class Mock(Provider):
             splits = token.split(",")
             id = splits[0]
             email = None
+            email_verified = None
             name = None
             if len(splits) > 1:
                 email = splits[1]
             if len(splits) > 2:
-                name = splits[2]
-        return UserInfo(id=id, email=email, name=name)
+                email_verified = bool(splits[2])
+            if len(splits) > 3:
+                name = splits[3]
+        return UserInfo(
+            id=id,
+            email=email,
+            email_verified=email_verified,
+            name=name,
+        )

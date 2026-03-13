@@ -1,6 +1,6 @@
 [project]
 name = "x8"
-version = "0.0.12"
+version = "0.0.13"
 description = "x8 client"
 readme = "README.md"
 license = { text = "MIT" }
