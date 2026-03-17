@@ -320,6 +320,13 @@ interface-auth-default = []
 
 interface-all = ["fastapi", "uvicorn", "pyjwt", "httpx"]
 
+communication-message-service-twilio = ["twilio"]
+communication-message-service-default = ["twilio"]
+communication-email-service-sendgrid = ["sendgrid"]
+communication-email-service-default = ["sendgrid"]
+communication-call-service-default = []
+communication-all = ["twilio", "sendgrid"]
+
 composite-choice-default = []
 composite-script-default = []
 composite-all = []
@@ -369,6 +376,8 @@ all = [
     "fastapi",
     "uvicorn",
     "pyjwt",
+    "twilio",
+    "sendgrid",
     "pillow",
     "av==16.0.1",
     "m3u8",

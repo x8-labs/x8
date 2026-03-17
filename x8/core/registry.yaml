@@ -85,9 +85,9 @@ components:
   - ml.llm_fine_tuning
   - ml.image_classification
   - ml.text_classification
-  - communication.email
-  - communication.sms
-  - communication.call
+  - communication.email_service
+  - communication.message_service
+  - communication.call_service
   - communication.push_notification
   - content.document
   

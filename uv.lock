@@ -128,6 +128,18 @@ wheels = [
 ]
 
 [[package]]
+name = "aiohttp-retry"
+version = "2.9.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "aiohttp" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/9d/61/ebda4d8e3d8cfa1fd3db0fb428db2dd7461d5742cea35178277ad180b033/aiohttp_retry-2.9.1.tar.gz", hash = "sha256:8eb75e904ed4ee5c2ec242fefe85bf04240f685391c4879d8f541d6028ff01f1", size = 13608, upload-time = "2024-11-06T10:44:54.574Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1a/99/84ba7273339d0f3dfa57901b846489d2e5c2cd731470167757f1935fffbd/aiohttp_retry-2.9.1-py3-none-any.whl", hash = "sha256:66d2759d1921838256a05a3f80ad7e724936f083e35be5abb5e16eed6be6dc54", size = 9981, upload-time = "2024-11-06T10:44:52.917Z" },
+]
+
+[[package]]
 name = "aiosignal"
 version = "1.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -4077,6 +4089,15 @@ wheels = [
 ]
 
 [[package]]
+name = "python-http-client"
+version = "3.3.7"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/56/fa/284e52a8c6dcbe25671f02d217bf2f85660db940088faf18ae7a05e97313/python_http_client-3.3.7.tar.gz", hash = "sha256:bf841ee45262747e00dec7ee9971dfb8c7d83083f5713596488d67739170cea0", size = 9377, upload-time = "2022-03-09T20:23:56.386Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/29/31/9b360138f4e4035ee9dac4fe1132b6437bd05751aaf1db2a2d83dc45db5f/python_http_client-3.3.7-py3-none-any.whl", hash = "sha256:ad371d2bbedc6ea15c26179c6222a78bc9308d272435ddf1d5c84f068f249a36", size = 8352, upload-time = "2022-03-09T20:23:54.862Z" },
+]
+
+[[package]]
 name = "python-multipart"
 version = "0.0.22"
 source = { registry = "https://pypi.org/simple" }
@@ -4417,6 +4438,20 @@ wheels = [
 ]
 
 [[package]]
+name = "sendgrid"
+version = "6.12.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cryptography" },
+    { name = "python-http-client" },
+    { name = "werkzeug" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/da/fa/f718b2b953f99c1f0085811598ac7e31ccbd4229a81ec2a5290be868187a/sendgrid-6.12.5.tar.gz", hash = "sha256:ea9aae30cd55c332e266bccd11185159482edfc07c149b6cd15cf08869fabdb7", size = 50310, upload-time = "2025-09-19T06:23:09.229Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bd/55/b3c3880a77082e8f7374954e0074aafafaa9bc78bdf9c8f5a92c2e7afc6a/sendgrid-6.12.5-py3-none-any.whl", hash = "sha256:96f92cc91634bf552fdb766b904bbb53968018da7ae41fdac4d1090dc0311ca8", size = 102173, upload-time = "2025-09-19T06:23:07.93Z" },
+]
+
+[[package]]
 name = "setuptools"
 version = "82.0.1"
 source = { registry = "https://pypi.org/simple" }
@@ -4624,6 +4659,21 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/09/a9/6ba95a270c6f1fbcd8dac228323f2777d886cb206987444e4bce66338dd4/tqdm-4.67.3.tar.gz", hash = "sha256:7d825f03f89244ef73f1d4ce193cb1774a8179fd96f31d7e1dcde62092b960bb", size = 169598, upload-time = "2026-02-03T17:35:53.048Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/16/e1/3079a9ff9b8e11b846c6ac5c8b5bfb7ff225eee721825310c91b3b50304f/tqdm-4.67.3-py3-none-any.whl", hash = "sha256:ee1e4c0e59148062281c49d80b25b67771a127c85fc9676d3be5f243206826bf", size = 78374, upload-time = "2026-02-03T17:35:50.982Z" },
+]
+
+[[package]]
+name = "twilio"
+version = "9.10.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "aiohttp" },
+    { name = "aiohttp-retry" },
+    { name = "pyjwt" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/14/b3/471b479b855c0126bc5352da6335281441233364047bad030718547283bd/twilio-9.10.3.tar.gz", hash = "sha256:205df912bb56b4b905c89f1abf6684c6ebe0c2618dec6bfd49b247ba80f4f25d", size = 1619755, upload-time = "2026-03-10T08:53:56.086Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/79/31/22e1026670520ab66b746691cb491b9f4205c8603ee8b86795ff0c35e193/twilio-9.10.3-py2.py3-none-any.whl", hash = "sha256:b17a001dc0a57ef0c52d1e7ffa5e353f9b26e761fa151d11347aec530231345f", size = 2257700, upload-time = "2026-03-10T08:53:54.174Z" },
 ]
 
 [[package]]
@@ -4976,6 +5026,18 @@ wheels = [
 ]
 
 [[package]]
+name = "werkzeug"
+version = "3.1.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "markupsafe" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/61/f1/ee81806690a87dab5f5653c1f146c92bc066d7f4cebc603ef88eb9e13957/werkzeug-3.1.6.tar.gz", hash = "sha256:210c6bede5a420a913956b4791a7f4d6843a43b6fcee4dfa08a65e93007d0d25", size = 864736, upload-time = "2026-02-19T15:17:18.884Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4d/ec/d58832f89ede95652fd01f4f24236af7d32b70cab2196dfcc2d2fd13c5c2/werkzeug-3.1.6-py3-none-any.whl", hash = "sha256:7ddf3357bb9564e407607f988f683d72038551200c704012bb9a4c523d42f131", size = 225166, upload-time = "2026-02-19T15:17:17.475Z" },
+]
+
+[[package]]
 name = "wsproto"
 version = "1.3.2"
 source = { registry = "https://pypi.org/simple" }
@@ -5179,10 +5241,28 @@ all = [
     { name = "qdrant-client" },
     { name = "redis" },
     { name = "replicate" },
+    { name = "sendgrid" },
     { name = "together" },
+    { name = "twilio" },
     { name = "uvicorn" },
     { name = "weaviate-client" },
     { name = "xai-sdk" },
+]
+communication-all = [
+    { name = "sendgrid" },
+    { name = "twilio" },
+]
+communication-email-service-default = [
+    { name = "sendgrid" },
+]
+communication-email-service-sendgrid = [
+    { name = "sendgrid" },
+]
+communication-message-service-default = [
+    { name = "twilio" },
+]
+communication-message-service-twilio = [
+    { name = "twilio" },
 ]
 compute-all = [
     { name = "azure-containerregistry" },
@@ -5878,9 +5958,17 @@ requires-dist = [
     { name = "replicate", marker = "extra == 'ai-all'" },
     { name = "replicate", marker = "extra == 'ai-text-generation-replicate'" },
     { name = "replicate", marker = "extra == 'all'" },
+    { name = "sendgrid", marker = "extra == 'all'" },
+    { name = "sendgrid", marker = "extra == 'communication-all'" },
+    { name = "sendgrid", marker = "extra == 'communication-email-service-default'" },
+    { name = "sendgrid", marker = "extra == 'communication-email-service-sendgrid'" },
     { name = "together", marker = "extra == 'ai-all'" },
     { name = "together", marker = "extra == 'ai-text-generation-together'" },
     { name = "together", marker = "extra == 'all'" },
+    { name = "twilio", marker = "extra == 'all'" },
+    { name = "twilio", marker = "extra == 'communication-all'" },
+    { name = "twilio", marker = "extra == 'communication-message-service-default'" },
+    { name = "twilio", marker = "extra == 'communication-message-service-twilio'" },
     { name = "types-pyyaml", marker = "extra == 'dev'" },
     { name = "uvicorn", marker = "extra == 'all'" },
     { name = "uvicorn", marker = "extra == 'interface-all'" },
@@ -5893,7 +5981,7 @@ requires-dist = [
     { name = "xai-sdk", marker = "extra == 'ai-text-generation-xai'" },
     { name = "xai-sdk", marker = "extra == 'all'" },
 ]
-provides-extras = ["storage-config-store-aws-parameter-store", "storage-config-store-azure-app-configuration", "storage-config-store-google-runtime-configurator", "storage-config-store-env-file", "storage-config-store-yaml-file", "storage-config-store-env", "storage-config-store-document-store-provider", "storage-config-store-local", "storage-config-store-default", "storage-config-store-hosted", "storage-secret-store-amazon-secrets-manager", "storage-secret-store-azure-key-vault", "storage-secret-store-google-secret-manager", "storage-secret-store-hashicorp-vault", "storage-secret-store-env-file", "storage-secret-store-yaml-file", "storage-secret-store-env", "storage-secret-store-document-store-provider", "storage-secret-store-local", "storage-secret-store-default", "storage-secret-store-hosted", "storage-document-store-amazon-dynamodb", "storage-document-store-azure-cosmos-db", "storage-document-store-google-firestore", "storage-document-store-mongodb", "storage-document-store-redis", "storage-document-store-postgresql", "storage-document-store-elasticsearch", "storage-document-store-sqlite", "storage-document-store-memory", "storage-document-store-local", "storage-document-store-default", "storage-document-store-hosted", "storage-object-store-amazon-s3", "storage-object-store-azure-blob-storage", "storage-object-store-google-cloud-storage", "storage-object-store-file-system", "storage-object-store-local", "storage-object-store-default", "storage-object-store-hosted", "storage-vector-store-pinecone", "storage-vector-store-milvus", "storage-vector-store-qdrant", "storage-vector-store-chroma", "storage-vector-store-weaviate", "storage-vector-store-local", "storage-vector-store-default", "storage-vector-store-hosted", "storage-key-value-store-redis", "storage-key-value-store-redis-simple", "storage-key-value-store-memcached", "storage-key-value-store-document-store-provider", "storage-key-value-store-object-store-provider", "storage-key-value-store-memory", "storage-key-value-store-postgresql", "storage-key-value-store-sqlite", "storage-key-value-store-keydb", "storage-key-value-store-dragonfly", "storage-key-value-store-valkey", "storage-key-value-store-local", "storage-key-value-store-default", "storage-key-value-store-hosted", "storage-search-store-elasticsearch", "storage-all", "messaging-queue-amazon-sqs", "messaging-queue-azure-service-bus", "messaging-queue-azure-queue-storage", "messaging-queue-google-pubsub", "messaging-queue-redis", "messaging-queue-postgresql", "messaging-queue-sqlite", "messaging-queue-memory", "messaging-queue-local", "messaging-queue-default", "messaging-queue-hosted", "messaging-pubsub-amazon-sns", "messaging-pubsub-azure-service-bus", "messaging-pubsub-google-pubsub", "messaging-pubsub-redis", "messaging-pubsub-postgresql", "messaging-pubsub-memory", "messaging-pubsub-sqlite", "messaging-pubsub-local", "messaging-pubsub-default", "messaging-pubsub-hosted", "messaging-all", "compute-container-registry-amazon-elastic-container-registry", "compute-container-registry-azure-container-registry", "compute-container-registry-google-artifact-registry", "compute-containerizer-docker", "compute-containerizer-default", "compute-containerizer-local", "compute-container-deployment-amazon-elastic-container-service", "compute-container-deployment-azure-container-instances", "compute-container-deployment-azure-container-apps", "compute-container-deployment-google-cloud-run", "compute-container-deployment-docker-local", "compute-container-deployment-local", "compute-container-deployment-default", "compute-kubernetes-azure-kubernetes-service", "compute-all", "content-image-pillow", "content-image-default", "content-audio-av", "content-audio-default", "content-video-av", "content-video-default", "content-live-stream-av", "content-live-stream-default", "content-all", "ai-text-generation-openai", "ai-text-generation-google", "ai-text-generation-anthropic", "ai-text-generation-xai", "ai-text-generation-deepseek", "ai-text-generation-ollama", "ai-text-generation-groq", "ai-text-generation-mistral", "ai-text-generation-cohere", "ai-text-generation-azure-openai", "ai-text-generation-amazon-bedrock", "ai-text-generation-together", "ai-text-generation-fireworks", "ai-text-generation-replicate", "ai-video-generation-openai", "ai-video-generation-google", "ai-agent-claude", "ai-agent-github-copilot", "ai-all", "interface-api-fastapi", "interface-api-default", "interface-cli-default", "interface-worker-default", "interface-auth-auth0", "interface-auth-api-key", "interface-auth-api-key-in-store", "interface-auth-mock", "interface-auth-default", "interface-all", "composite-choice-default", "composite-script-default", "composite-all", "all", "dev"]
+provides-extras = ["storage-config-store-aws-parameter-store", "storage-config-store-azure-app-configuration", "storage-config-store-google-runtime-configurator", "storage-config-store-env-file", "storage-config-store-yaml-file", "storage-config-store-env", "storage-config-store-document-store-provider", "storage-config-store-local", "storage-config-store-default", "storage-config-store-hosted", "storage-secret-store-amazon-secrets-manager", "storage-secret-store-azure-key-vault", "storage-secret-store-google-secret-manager", "storage-secret-store-hashicorp-vault", "storage-secret-store-env-file", "storage-secret-store-yaml-file", "storage-secret-store-env", "storage-secret-store-document-store-provider", "storage-secret-store-local", "storage-secret-store-default", "storage-secret-store-hosted", "storage-document-store-amazon-dynamodb", "storage-document-store-azure-cosmos-db", "storage-document-store-google-firestore", "storage-document-store-mongodb", "storage-document-store-redis", "storage-document-store-postgresql", "storage-document-store-elasticsearch", "storage-document-store-sqlite", "storage-document-store-memory", "storage-document-store-local", "storage-document-store-default", "storage-document-store-hosted", "storage-object-store-amazon-s3", "storage-object-store-azure-blob-storage", "storage-object-store-google-cloud-storage", "storage-object-store-file-system", "storage-object-store-local", "storage-object-store-default", "storage-object-store-hosted", "storage-vector-store-pinecone", "storage-vector-store-milvus", "storage-vector-store-qdrant", "storage-vector-store-chroma", "storage-vector-store-weaviate", "storage-vector-store-local", "storage-vector-store-default", "storage-vector-store-hosted", "storage-key-value-store-redis", "storage-key-value-store-redis-simple", "storage-key-value-store-memcached", "storage-key-value-store-document-store-provider", "storage-key-value-store-object-store-provider", "storage-key-value-store-memory", "storage-key-value-store-postgresql", "storage-key-value-store-sqlite", "storage-key-value-store-keydb", "storage-key-value-store-dragonfly", "storage-key-value-store-valkey", "storage-key-value-store-local", "storage-key-value-store-default", "storage-key-value-store-hosted", "storage-search-store-elasticsearch", "storage-all", "messaging-queue-amazon-sqs", "messaging-queue-azure-service-bus", "messaging-queue-azure-queue-storage", "messaging-queue-google-pubsub", "messaging-queue-redis", "messaging-queue-postgresql", "messaging-queue-sqlite", "messaging-queue-memory", "messaging-queue-local", "messaging-queue-default", "messaging-queue-hosted", "messaging-pubsub-amazon-sns", "messaging-pubsub-azure-service-bus", "messaging-pubsub-google-pubsub", "messaging-pubsub-redis", "messaging-pubsub-postgresql", "messaging-pubsub-memory", "messaging-pubsub-sqlite", "messaging-pubsub-local", "messaging-pubsub-default", "messaging-pubsub-hosted", "messaging-all", "compute-container-registry-amazon-elastic-container-registry", "compute-container-registry-azure-container-registry", "compute-container-registry-google-artifact-registry", "compute-containerizer-docker", "compute-containerizer-default", "compute-containerizer-local", "compute-container-deployment-amazon-elastic-container-service", "compute-container-deployment-azure-container-instances", "compute-container-deployment-azure-container-apps", "compute-container-deployment-google-cloud-run", "compute-container-deployment-docker-local", "compute-container-deployment-local", "compute-container-deployment-default", "compute-kubernetes-azure-kubernetes-service", "compute-all", "content-image-pillow", "content-image-default", "content-audio-av", "content-audio-default", "content-video-av", "content-video-default", "content-live-stream-av", "content-live-stream-default", "content-all", "ai-text-generation-openai", "ai-text-generation-google", "ai-text-generation-anthropic", "ai-text-generation-xai", "ai-text-generation-deepseek", "ai-text-generation-ollama", "ai-text-generation-groq", "ai-text-generation-mistral", "ai-text-generation-cohere", "ai-text-generation-azure-openai", "ai-text-generation-amazon-bedrock", "ai-text-generation-together", "ai-text-generation-fireworks", "ai-text-generation-replicate", "ai-video-generation-openai", "ai-video-generation-google", "ai-agent-claude", "ai-agent-github-copilot", "ai-all", "interface-api-fastapi", "interface-api-default", "interface-cli-default", "interface-worker-default", "interface-auth-auth0", "interface-auth-api-key", "interface-auth-api-key-in-store", "interface-auth-mock", "interface-auth-default", "interface-all", "communication-message-service-twilio", "communication-message-service-default", "communication-email-service-sendgrid", "communication-email-service-default", "communication-call-service-default", "communication-all", "composite-choice-default", "composite-script-default", "composite-all", "all", "dev"]
 
 [[package]]
 name = "xai-sdk"
