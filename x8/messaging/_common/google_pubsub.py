@@ -61,6 +61,9 @@ class GooglePubSubBase(GoogleProvider):
         topic: str | None = None,
         subscription: str | None = None,
         enable_message_ordering: bool = True,
+        service_account_info: str | None = None,
+        service_account_file: str | None = None,
+        access_token: str | None = None,
         nparams: dict[str, Any] = dict(),
         **kwargs: Any,
     ):
@@ -77,14 +80,14 @@ class GooglePubSubBase(GoogleProvider):
                 PubSub topic name.
             subscription:
                 PubSub subscription name.
+            enable_message_ordering:
+                Enable message ordering.
             service_account_info:
                 Google Cloud service account info.
             service_account_file:
                 Google Cloud service account file path.
             access_token:
                 Google Cloud access token.
-            enable_message_ordering:
-                Enable message ordering.
             nparams:
                 Native parameters to PubSub client.
         """
@@ -94,6 +97,9 @@ class GooglePubSubBase(GoogleProvider):
         self.subscription = subscription
         self.project = project
         self.enable_message_ordering = enable_message_ordering
+        self.service_account_info = service_account_info
+        self.service_account_file = service_account_file
+        self.access_token = access_token
         self.nparams = nparams
 
         self._publisher_client = None
@@ -104,11 +110,10 @@ class GooglePubSubBase(GoogleProvider):
             self.subscription = self.queue
         self._op_converter = OperationConverter()
         self._result_converter = ResultConverter()
-        GoogleProvider.__init__(
-            self,
-            service_account_info=self.service_account_info,
-            service_account_file=self.service_account_file,
-            access_token=self.access_token,
+        super().__init__(
+            service_account_info=service_account_info,
+            service_account_file=service_account_file,
+            access_token=access_token,
             **kwargs,
         )
 

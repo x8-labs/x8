@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import IO, Any
 
-from x8.core import ArgParser, Operation, OperationParser
+from x8.core import ArgParser, DataModel, Operation, OperationParser
 from x8.core.exceptions import BadRequestError
 from x8.ql import (
     And,
@@ -277,7 +277,12 @@ class StoreOperationParser(OperationParser):
         return self.get_arg("metadata")
 
     def get_properties(self) -> dict | None:
-        return self.get_arg("properties")
+        properties = self.get_arg("properties")
+        if isinstance(properties, dict):
+            return properties
+        if isinstance(properties, DataModel):
+            return properties.to_dict()
+        return None
 
     def get_search_as_function(self) -> Function | None:
         funcs = self.get_search_as_functions()

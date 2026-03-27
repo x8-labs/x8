@@ -6,7 +6,8 @@ import time
 import uuid
 from typing import Any
 
-from x8.core import Context, DataModel, NCall, Operation, Provider, Response
+from x8._common.sqlite_provider import SQLiteProvider
+from x8.core import Context, DataModel, NCall, Operation, Response
 from x8.core.exceptions import BadRequestError, ConflictError, NotFoundError
 from x8.core.time import Time
 
@@ -34,7 +35,7 @@ DEFAULT_TTL = 7 * 24 * 60 * 60
 DEFAULT_VISIBILITY_TIMEOUT = 30
 
 
-class SQLiteBase(Provider):
+class SQLiteBase(SQLiteProvider):
     mode: MessagingMode
 
     queue: str | None
@@ -122,6 +123,7 @@ class SQLiteBase(Provider):
         if self._client is not None:
             return
 
+        self._init_folder(self.database)
         self._client = sqlite3.connect(
             database=self.database,
             check_same_thread=False,

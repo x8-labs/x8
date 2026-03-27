@@ -14,10 +14,10 @@ class GooglePubSub(GooglePubSubBase):
         project: str | None = None,
         topic: str | None = None,
         subscription: str | None = None,
+        enable_message_ordering: bool = True,
         service_account_info: str | None = None,
         service_account_file: str | None = None,
         access_token: str | None = None,
-        enable_message_ordering: bool = True,
         nparams: dict[str, Any] = dict(),
         **kwargs: Any,
     ):
@@ -30,14 +30,14 @@ class GooglePubSub(GooglePubSubBase):
                 Topic name.
             subscription:
                 Subscription name.
+            enable_message_ordering:
+                Enable message ordering. Defaults to True.
             service_account_info:
                 Service account info in JSON format.
             service_account_file:
                 Service account file path.
             access_token:
                 Access token for authentication.
-            enable_message_ordering:
-                Enable message ordering. Defaults to True.
             nparams:
                 Native parameters to Pub/Sub client.
         """
@@ -46,10 +46,10 @@ class GooglePubSub(GooglePubSubBase):
             mode=MessagingMode.PUBSUB,
             topic=topic,
             subscription=subscription,
+            enable_message_ordering=enable_message_ordering,
             service_account_info=service_account_info,
             service_account_file=service_account_file,
             access_token=access_token,
-            enable_message_ordering=enable_message_ordering,
             nparams=nparams,
             **kwargs,
         )

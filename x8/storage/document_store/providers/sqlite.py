@@ -12,6 +12,7 @@ import re
 import sqlite3
 from typing import Any
 
+from x8._common.sqlite_provider import SQLiteProvider
 from x8.core import Context, DataAccessor, NCall, Operation, Response
 from x8.core.exceptions import (
     BadRequestError,
@@ -70,7 +71,7 @@ from .._helper import (
 from .._models import DocumentCollectionConfig, DocumentFieldType
 
 
-class SQLite(StoreProvider):
+class SQLite(StoreProvider, SQLiteProvider):
     database: str
     table: str | None
     id_column: str | dict
@@ -83,7 +84,6 @@ class SQLite(StoreProvider):
     nparams: dict[str, Any]
 
     _client: Any
-    _aclient: Any
     _collection_cache: dict[str, SQLiteCollection]
     _acollection_cache: dict[str, SQLiteCollection]
 
@@ -149,7 +149,6 @@ class SQLite(StoreProvider):
         self.nparams = nparams
 
         self._client = None
-        self._aclient = None
         self._collection_cache = dict()
         self._acollection_cache = dict()
 
@@ -160,6 +159,7 @@ class SQLite(StoreProvider):
         if self._client is not None:
             return
 
+        self._init_folder(self.database)
         self._client = sqlite3.connect(
             self.database,
             check_same_thread=False,
