@@ -3,7 +3,7 @@ import json
 from typing import Any, AsyncIterator, Iterator, Literal
 
 from mistralai import Mistral as MistralSDK
-from mistralai.utils.eventstreaming import EventStream
+from mistralai.client.utils.eventstreaming import EventStream
 
 from x8.core import Response
 from x8.core._provider import Provider
