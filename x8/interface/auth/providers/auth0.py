@@ -3,6 +3,7 @@ __all__ = ["Auth0"]
 import httpx
 import jwt
 from jwt import PyJWKClient
+
 from x8.core import Provider
 from x8.core.exceptions import ForbiddenError, UnauthorizedError
 
@@ -68,6 +69,7 @@ class Auth0(Provider):
         self.secret = secret
         self.nparams = nparams
         self._jwks_client = None
+        self._jwks_cached_keys = {}
         super().__init__(**kwargs)
 
     def validate(
@@ -91,11 +93,11 @@ class Auth0(Provider):
             if kid in self._jwks_cached_keys:
                 signing_key = self._jwks_cached_keys[kid]
             else:
-                self._cached_keys = {
+                self._jwks_cached_keys = {
                     jwk.key_id: jwk.key
                     for jwk in self._jwks_client.get_signing_keys()
                 }
-                signing_key = self._cached_keys.get(kid)
+                signing_key = self._jwks_cached_keys.get(kid)
             if signing_key is None:
                 raise ForbiddenError("No valid signing key found")
             payload = jwt.decode(
