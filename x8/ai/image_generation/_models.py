@@ -43,6 +43,7 @@ class Usage(DataModel):
 
 
 class ImageGenerationResult(DataModel):
+    model: str | None = None
     created: int | None = None
     revised_prompt: str | None = None
     background: str | None = None

@@ -6,6 +6,7 @@ from __future__ import annotations
 
 __all__ = ["SQLite"]
 
+import asyncio
 import sqlite3
 from datetime import datetime, timezone
 from typing import Any
@@ -54,6 +55,7 @@ class SQLite(StoreProvider):
     _processor: ItemProcessor
     _op_converter: OperationConverter
     _result_converter: ResultConverter
+    _query_lock: asyncio.Lock
 
     def __init__(
         self,
@@ -81,6 +83,7 @@ class SQLite(StoreProvider):
         self.nparams = nparams
 
         self._client = None
+        self._query_lock = asyncio.Lock()
         self._processor = ItemProcessor()
         self._op_converter = OperationConverter(self._processor, self.table)
         self._result_converter = ResultConverter(self._processor)
@@ -124,6 +127,16 @@ class SQLite(StoreProvider):
             op_parser,
         )
         return Response(result=result, native=dict(result=nresult, call=ncall))
+
+    async def __arun__(
+        self,
+        operation: Operation | None = None,
+        context: Context | None = None,
+        **kwargs,
+    ) -> Any:
+        """Async run with serialized SQLite access."""
+        async with self._query_lock:
+            return self.__run__(operation, context, **kwargs)
 
     def _get_ncall(
         self,

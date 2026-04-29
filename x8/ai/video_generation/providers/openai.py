@@ -14,7 +14,13 @@ from x8.content.video import VideoData
 from x8.core import Response
 from x8.core.exceptions import BadRequestError, NotFoundError
 
-from .._models import KeyFrame, Reference, VideoGenerationResult, VideoSize
+from .._models import (
+    KeyFrame,
+    Reference,
+    Usage,
+    VideoGenerationResult,
+    VideoSize,
+)
 
 
 class OpenAI(OpenAIProvider):
@@ -359,12 +365,14 @@ class OpenAI(OpenAIProvider):
         return stream()
 
     def _convert_result(self, video: Video) -> VideoGenerationResult:
+        duration = self._get_duration(video)
         return VideoGenerationResult(
             id=video.id,
+            model=getattr(video, "model", None) or self.model,
             created_at=video.created_at,
             expires_at=video.expires_at,
             completed_at=video.completed_at,
-            duration=float(video.seconds),
+            duration=duration,
             size=video.size,
             status=video.status,
             progress=video.progress,
@@ -373,7 +381,21 @@ class OpenAI(OpenAIProvider):
                 if video.error
                 else None
             ),
+            usage=(
+                Usage(billed_seconds=duration)
+                if duration is not None
+                else None
+            ),
         )
+
+    def _get_duration(self, video: Video) -> float | None:
+        seconds = getattr(video, "seconds", None)
+        if seconds is None:
+            return None
+        try:
+            return float(seconds)
+        except (TypeError, ValueError):
+            return None
 
     def _convert_generate_args(
         self,

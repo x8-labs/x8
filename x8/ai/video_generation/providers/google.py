@@ -13,7 +13,45 @@ from x8.content.video import VideoData
 from x8.core import Response
 from x8.core.exceptions import BadRequestError, NotFoundError
 
-from .._models import KeyFrame, Reference, VideoGenerationResult, VideoSize
+from .._models import (
+    KeyFrame,
+    Reference,
+    Usage,
+    VideoGenerationResult,
+    VideoSize,
+)
+
+_OUTPUT_TOKEN_BASELINE_USD_PER_MILLION = 30.0
+
+_MODEL_RESOLUTION_AUDIO_TO_COST_PER_SECOND: dict[
+    tuple[str, str, bool], float
+] = {
+    ("veo-3.1", "720p", True): 0.40,
+    ("veo-3.1", "1080p", True): 0.40,
+    ("veo-3.1", "4k", True): 0.60,
+    ("veo-3.1", "720p", False): 0.20,
+    ("veo-3.1", "1080p", False): 0.20,
+    ("veo-3.1", "4k", False): 0.40,
+    ("veo-3.1-fast", "720p", True): 0.10,
+    ("veo-3.1-fast", "1080p", True): 0.12,
+    ("veo-3.1-fast", "4k", True): 0.30,
+    ("veo-3.1-fast", "720p", False): 0.08,
+    ("veo-3.1-fast", "1080p", False): 0.10,
+    ("veo-3.1-fast", "4k", False): 0.25,
+    ("veo-3.1-lite", "720p", True): 0.05,
+    ("veo-3.1-lite", "1080p", True): 0.08,
+    ("veo-3.1-lite", "720p", False): 0.03,
+    ("veo-3.1-lite", "1080p", False): 0.05,
+    ("veo-3", "720p", True): 0.40,
+    ("veo-3", "1080p", True): 0.40,
+    ("veo-3", "720p", False): 0.20,
+    ("veo-3", "1080p", False): 0.20,
+    ("veo-3-fast", "720p", True): 0.10,
+    ("veo-3-fast", "1080p", True): 0.12,
+    ("veo-3-fast", "720p", False): 0.08,
+    ("veo-3-fast", "1080p", False): 0.10,
+    ("veo-2", "720p", False): 0.50,
+}
 
 
 class Google(GoogleProvider):
@@ -90,6 +128,9 @@ class Google(GoogleProvider):
         Response[VideoGenerationResult]
         | Iterator[Response[VideoGenerationResult]]
     ):
+        billed_seconds = duration or 4.0
+        effective_size = size or "1280x720"
+        has_audio = bool(audio)
         body = self._convert_generate_args(
             prompt=prompt,
             image=image,
@@ -109,10 +150,13 @@ class Google(GoogleProvider):
         res = httpx.post(self._generate_url, json=body, headers=headers).json()
         if res.get("error"):
             return Response(
-                result=VideoGenerationResult(
+                result=self._build_result(
                     id="",
                     status="failed",
                     error=res["error"].get("message", "Unknown error"),
+                    billed_seconds=billed_seconds,
+                    size=effective_size,
+                    has_audio=has_audio,
                 )
             )
 
@@ -122,7 +166,13 @@ class Google(GoogleProvider):
 
             def _poll_iter() -> Iterator[Response[VideoGenerationResult]]:
                 yield Response(
-                    result=VideoGenerationResult(id=id, status="queued")
+                    result=self._build_result(
+                        id=id,
+                        status="queued",
+                        billed_seconds=billed_seconds,
+                        size=effective_size,
+                        has_audio=has_audio,
+                    )
                 )
 
                 operation_name = res["name"]
@@ -134,12 +184,15 @@ class Google(GoogleProvider):
                     ).json()
                     if poll_res.get("error"):
                         yield Response(
-                            result=VideoGenerationResult(
+                            result=self._build_result(
                                 id=id,
                                 status="failed",
                                 error=res["error"].get(
                                     "message", "Unknown error"
                                 ),
+                                billed_seconds=billed_seconds,
+                                size=effective_size,
+                                has_audio=has_audio,
                             )
                         )
                         return
@@ -149,17 +202,23 @@ class Google(GoogleProvider):
                             poll_res["response"]
                         )
                         yield Response(
-                            result=VideoGenerationResult(
+                            result=self._build_result(
                                 id=id,
                                 status="completed",
                                 videos=videos,
+                                billed_seconds=billed_seconds,
+                                size=effective_size,
+                                has_audio=has_audio,
                             )
                         )
                         return
                     yield Response(
-                        result=VideoGenerationResult(
+                        result=self._build_result(
                             id=id,
                             status="in_progress",
+                            billed_seconds=billed_seconds,
+                            size=effective_size,
+                            has_audio=has_audio,
                         )
                     )
                     time.sleep(poll_interval)
@@ -175,24 +234,38 @@ class Google(GoogleProvider):
                 ).json()
                 if poll_res.get("error"):
                     return Response(
-                        result=VideoGenerationResult(
+                        result=self._build_result(
                             id=id,
                             status="failed",
                             error=res["error"].get("message", "Unknown error"),
+                            billed_seconds=billed_seconds,
+                            size=effective_size,
+                            has_audio=has_audio,
                         )
                     )
                 if poll_res.get("done"):
                     return Response(
-                        result=VideoGenerationResult(
+                        result=self._build_result(
                             id=id,
                             status="completed",
                             videos=self._parse_videos_response(
                                 poll_res["response"]
                             ),
+                            billed_seconds=billed_seconds,
+                            size=effective_size,
+                            has_audio=has_audio,
                         )
                     )
                 time.sleep(poll_interval)
-        return Response(result=VideoGenerationResult(id=id, status="queued"))
+        return Response(
+            result=self._build_result(
+                id=id,
+                status="queued",
+                billed_seconds=billed_seconds,
+                size=effective_size,
+                has_audio=has_audio,
+            )
+        )
 
     def get(self, id: str, **kwargs: Any) -> Response[VideoGenerationResult]:
         body = {"operationName": self._get_full_name(id)}
@@ -204,17 +277,9 @@ class Google(GoogleProvider):
         operation_done = res_json.get("done", False)
         if not operation_done:
             return Response(
-                result=VideoGenerationResult(
-                    id=id,
-                    status="in_progress",
-                )
+                result=self._build_result(id=id, status="in_progress")
             )
-        return Response(
-            result=VideoGenerationResult(
-                id=id,
-                status="completed",
-            )
-        )
+        return Response(result=self._build_result(id=id, status="completed"))
 
     def download(self, id: str, **kwargs: Any) -> Iterator[bytes]:
         body = {"operationName": self._get_full_name(id)}
@@ -260,6 +325,9 @@ class Google(GoogleProvider):
         Response[VideoGenerationResult]
         | AsyncIterator[Response[VideoGenerationResult]]
     ):
+        billed_seconds = duration or 4.0
+        effective_size = size or "1280x720"
+        has_audio = bool(audio)
         body = self._convert_generate_args(
             prompt=prompt,
             image=image,
@@ -283,10 +351,13 @@ class Google(GoogleProvider):
             res = r.json()
         if res.get("error"):
             return Response(
-                result=VideoGenerationResult(
+                result=self._build_result(
                     id="",
                     status="failed",
                     error=res["error"].get("message", "Unknown error"),
+                    billed_seconds=billed_seconds,
+                    size=effective_size,
+                    has_audio=has_audio,
                 )
             )
         id = res.get("name").split("/")[-1]
@@ -296,7 +367,13 @@ class Google(GoogleProvider):
                 AsyncIterator[Response[VideoGenerationResult]]
             ):
                 yield Response(
-                    result=VideoGenerationResult(id=id, status="queued")
+                    result=self._build_result(
+                        id=id,
+                        status="queued",
+                        billed_seconds=billed_seconds,
+                        size=effective_size,
+                        has_audio=has_audio,
+                    )
                 )
                 operation_name = res["name"]
                 poll_body = {"operationName": operation_name}
@@ -309,12 +386,15 @@ class Google(GoogleProvider):
                         poll_res = r.json()
                     if poll_res.get("error"):
                         yield Response(
-                            result=VideoGenerationResult(
+                            result=self._build_result(
                                 id=id,
                                 status="failed",
                                 error=res["error"].get(
                                     "message", "Unknown error"
                                 ),
+                                billed_seconds=billed_seconds,
+                                size=effective_size,
+                                has_audio=has_audio,
                             )
                         )
                         return
@@ -323,17 +403,23 @@ class Google(GoogleProvider):
                             poll_res["response"]
                         )
                         yield Response(
-                            result=VideoGenerationResult(
+                            result=self._build_result(
                                 id=id,
                                 status="completed",
                                 videos=videos,
+                                billed_seconds=billed_seconds,
+                                size=effective_size,
+                                has_audio=has_audio,
                             )
                         )
                         return
                     yield Response(
-                        result=VideoGenerationResult(
+                        result=self._build_result(
                             id=id,
                             status="in_progress",
+                            billed_seconds=billed_seconds,
+                            size=effective_size,
+                            has_audio=has_audio,
                         )
                     )
                     await asyncio.sleep(poll_interval)
@@ -351,25 +437,39 @@ class Google(GoogleProvider):
                     poll_res = r.json()
                 if poll_res.get("error"):
                     return Response(
-                        result=VideoGenerationResult(
+                        result=self._build_result(
                             id=id,
                             status="failed",
                             error=res["error"].get("message", "Unknown error"),
+                            billed_seconds=billed_seconds,
+                            size=effective_size,
+                            has_audio=has_audio,
                         )
                     )
                 if poll_res.get("done"):
                     res = Response(
-                        result=VideoGenerationResult(
+                        result=self._build_result(
                             id=id,
                             status="completed",
                             videos=self._parse_videos_response(
                                 poll_res["response"]
                             ),
+                            billed_seconds=billed_seconds,
+                            size=effective_size,
+                            has_audio=has_audio,
                         )
                     )
                     return res
                 time.sleep(poll_interval)
-        return Response(result=VideoGenerationResult(id=id, status="queued"))
+        return Response(
+            result=self._build_result(
+                id=id,
+                status="queued",
+                billed_seconds=billed_seconds,
+                size=effective_size,
+                has_audio=has_audio,
+            )
+        )
 
     async def aget(
         self, id: str, **kwargs: Any
@@ -386,17 +486,9 @@ class Google(GoogleProvider):
         operation_done = res_json.get("done", False)
         if not operation_done:
             return Response(
-                result=VideoGenerationResult(
-                    id=id,
-                    status="in_progress",
-                )
+                result=self._build_result(id=id, status="in_progress")
             )
-        return Response(
-            result=VideoGenerationResult(
-                id=id,
-                status="completed",
-            )
-        )
+        return Response(result=self._build_result(id=id, status="completed"))
 
     async def alist(
         self, **kwargs: Any
@@ -547,6 +639,108 @@ class Google(GoogleProvider):
             )
             results.append(video)
         return results
+
+    def _build_result(
+        self,
+        id: str,
+        status: str,
+        *,
+        error: str | None = None,
+        videos: List[VideoData] | None = None,
+        billed_seconds: float | None = None,
+        size: str | None = None,
+        has_audio: bool | None = None,
+    ) -> VideoGenerationResult:
+        return VideoGenerationResult(
+            id=id,
+            model=self.model,
+            duration=billed_seconds,
+            size=size,
+            status=status,
+            error=error,
+            usage=self._build_usage(
+                billed_seconds=billed_seconds,
+                size=size,
+                has_audio=has_audio,
+            ),
+            videos=videos,
+        )
+
+    def _build_usage(
+        self,
+        *,
+        billed_seconds: float | None,
+        size: str | None,
+        has_audio: bool | None,
+    ) -> Usage | None:
+        if billed_seconds is None:
+            return None
+        estimated_cost_usd = self._estimate_cost_usd(
+            billed_seconds=billed_seconds,
+            size=size,
+            has_audio=has_audio,
+        )
+        return Usage(
+            billed_seconds=billed_seconds,
+            estimated_cost_usd=estimated_cost_usd,
+            estimated_output_tokens=self._estimate_output_tokens(
+                estimated_cost_usd
+            ),
+        )
+
+    def _estimate_cost_usd(
+        self,
+        *,
+        billed_seconds: float,
+        size: str | None,
+        has_audio: bool | None,
+    ) -> float | None:
+        model_family = self._get_model_family()
+        resolution = self._get_resolution_tier(size)
+        if model_family is None or resolution is None or has_audio is None:
+            return None
+        cost_per_second = _MODEL_RESOLUTION_AUDIO_TO_COST_PER_SECOND.get(
+            (model_family, resolution, has_audio)
+        )
+        if cost_per_second is None:
+            return None
+        return round(cost_per_second * billed_seconds, 6)
+
+    def _estimate_output_tokens(
+        self, estimated_cost_usd: float | None
+    ) -> int | None:
+        if estimated_cost_usd is None:
+            return None
+        return int(
+            round(
+                estimated_cost_usd
+                * 1_000_000
+                / _OUTPUT_TOKEN_BASELINE_USD_PER_MILLION
+            )
+        )
+
+    def _get_model_family(self) -> str | None:
+        model = self.model
+        if model.startswith("veo-3.1-fast"):
+            return "veo-3.1-fast"
+        if model.startswith("veo-3.1-lite"):
+            return "veo-3.1-lite"
+        if model.startswith("veo-3.1"):
+            return "veo-3.1"
+        if model.startswith("veo-3-fast"):
+            return "veo-3-fast"
+        if model.startswith("veo-3"):
+            return "veo-3"
+        if model.startswith("veo-2"):
+            return "veo-2"
+        return None
+
+    def _get_resolution_tier(self, size: str | None) -> str | None:
+        if size in {"1280x720", "720x1280"}:
+            return "720p"
+        if size in {"1920x1080", "1080x1920"}:
+            return "1080p"
+        return None
 
     def _bytes_to_iterator(
         self, data: bytes, chunk_size: int = 1024

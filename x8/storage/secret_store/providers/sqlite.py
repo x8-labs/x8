@@ -4,6 +4,7 @@ Secret Store on top of SQLite.
 
 __all__ = ["SQLite"]
 
+import asyncio
 import json
 import sqlite3
 import uuid
@@ -30,6 +31,7 @@ class SQLite(StoreProvider):
 
     _client: Any
     _processor: ItemProcessor
+    _query_lock: asyncio.Lock
 
     def __init__(
         self,
@@ -49,6 +51,7 @@ class SQLite(StoreProvider):
         self.nparams = nparams
 
         self._client = None
+        self._query_lock = asyncio.Lock()
         self._processor = ItemProcessor()
 
     def __setup__(
@@ -349,6 +352,16 @@ class SQLite(StoreProvider):
                 **kwargs,
             )
         return Response(result=result, native=dict(result=nresult))
+
+    async def __arun__(
+        self,
+        operation: Operation | None = None,
+        context: Context | None = None,
+        **kwargs,
+    ) -> Any:
+        """Async run with serialized SQLite access."""
+        async with self._query_lock:
+            return self.__run__(operation, context, **kwargs)
 
     def _create_tables(self, cursor: Any, **kwargs: Any) -> None:
         cursor.execute(

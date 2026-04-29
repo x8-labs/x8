@@ -5051,7 +5051,7 @@ wheels = [
 
 [[package]]
 name = "x8"
-version = "0.0.20"
+version = "0.0.22"
 source = { editable = "." }
 dependencies = [
     { name = "antlr4-python3-runtime" },

@@ -117,6 +117,7 @@ class NanoBanana(GoogleProvider):
         **kwargs: Any,
     ) -> Response[ImageGenerationResult]:
         self.__setup__()
+        selected_model = model or self.model
         config = self._build_config(
             size=size,
             output_format=output_format,
@@ -125,11 +126,16 @@ class NanoBanana(GoogleProvider):
         )
         try:
             response = self._client.models.generate_content(
-                model=model or self.model,
+                model=selected_model,
                 contents=[prompt],
                 config=config,
             )
-            return Response(result=self._convert_result(response))
+            return Response(
+                result=self._convert_result(
+                    response,
+                    model=selected_model,
+                )
+            )
         except google_errors.ClientError as e:
             raise BadRequestError(str(e)) from e
 
@@ -147,6 +153,7 @@ class NanoBanana(GoogleProvider):
         **kwargs: Any,
     ) -> Response[ImageGenerationResult]:
         await self.__asetup__()
+        selected_model = model or self.model
         config = self._build_config(
             size=size,
             output_format=output_format,
@@ -155,11 +162,16 @@ class NanoBanana(GoogleProvider):
         )
         try:
             response = await self._client.aio.models.generate_content(
-                model=model or self.model,
+                model=selected_model,
                 contents=[prompt],
                 config=config,
             )
-            return Response(result=self._convert_result(response))
+            return Response(
+                result=self._convert_result(
+                    response,
+                    model=selected_model,
+                )
+            )
         except google_errors.ClientError as e:
             raise BadRequestError(str(e)) from e
 
@@ -180,6 +192,7 @@ class NanoBanana(GoogleProvider):
         **kwargs: Any,
     ) -> Response[ImageGenerationResult]:
         self.__setup__()
+        selected_model = model or self.model
         config = self._build_config(
             size=size,
             output_format=output_format,
@@ -189,11 +202,16 @@ class NanoBanana(GoogleProvider):
         contents = self._build_edit_contents(prompt, images)
         try:
             response = self._client.models.generate_content(
-                model=model or self.model,
+                model=selected_model,
                 contents=contents,
                 config=config,
             )
-            return Response(result=self._convert_result(response))
+            return Response(
+                result=self._convert_result(
+                    response,
+                    model=selected_model,
+                )
+            )
         except google_errors.ClientError as e:
             raise BadRequestError(str(e)) from e
 
@@ -212,6 +230,7 @@ class NanoBanana(GoogleProvider):
         **kwargs: Any,
     ) -> Response[ImageGenerationResult]:
         await self.__asetup__()
+        selected_model = model or self.model
         config = self._build_config(
             size=size,
             output_format=output_format,
@@ -221,11 +240,16 @@ class NanoBanana(GoogleProvider):
         contents = self._build_edit_contents(prompt, images)
         try:
             response = await self._client.aio.models.generate_content(
-                model=model or self.model,
+                model=selected_model,
                 contents=contents,
                 config=config,
             )
-            return Response(result=self._convert_result(response))
+            return Response(
+                result=self._convert_result(
+                    response,
+                    model=selected_model,
+                )
+            )
         except google_errors.ClientError as e:
             raise BadRequestError(str(e)) from e
 
@@ -309,7 +333,9 @@ class NanoBanana(GoogleProvider):
         )
 
     def _convert_result(
-        self, response: types.GenerateContentResponse
+        self,
+        response: types.GenerateContentResponse,
+        model: str | None = None,
     ) -> ImageGenerationResult:
         images = []
         text_parts = []
@@ -345,6 +371,7 @@ class NanoBanana(GoogleProvider):
             )
 
         return ImageGenerationResult(
+            model=model,
             revised_prompt=("\n".join(text_parts) if text_parts else None),
             usage=usage,
             images=images if images else None,

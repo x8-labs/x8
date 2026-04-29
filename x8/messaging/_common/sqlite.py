@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import json
 import sqlite3
 import time
@@ -52,6 +53,7 @@ class SQLiteBase(SQLiteProvider):
     _client_helper: Any
     _op_converter: OperationConverter
     _result_converter: ResultConverter
+    _query_lock: asyncio.Lock
     _topic_config_cache: dict[str, TopicConfig] = {}
     _subscription_config_cache: dict[
         str, dict[str, SubscriptionConfig | None]
@@ -104,6 +106,7 @@ class SQLiteBase(SQLiteProvider):
 
         self._client = None
         self._client_helper = None
+        self._query_lock = asyncio.Lock()
         self._op_converter = OperationConverter(
             self.message_table,
             self.metadata_table,
@@ -242,6 +245,16 @@ class SQLiteBase(SQLiteProvider):
             op_parser,
         )
         return Response(result=result, native=dict(result=nresult, call=ncall))
+
+    async def __arun__(
+        self,
+        operation: Operation | None = None,
+        context: Context | None = None,
+        **kwargs,
+    ) -> Any:
+        """Async run with serialized SQLite access."""
+        async with self._query_lock:
+            return self.__run__(operation, context, **kwargs)
 
     def _get_ncall(
         self,

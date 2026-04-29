@@ -130,6 +130,7 @@ class Imagen(GoogleProvider):
         **kwargs: Any,
     ) -> Response[ImageGenerationResult]:
         self.__setup__()
+        selected_model = model or self.model
         resolution = (
             _SIZE_TO_ASPECT_RESOLUTION[size][1]
             if size and size != "auto" and size in _SIZE_TO_ASPECT_RESOLUTION
@@ -145,11 +146,17 @@ class Imagen(GoogleProvider):
         )
         try:
             response = self._client.models.generate_images(
-                model=model or self.model,
+                model=selected_model,
                 prompt=prompt,
                 config=config,
             )
-            return Response(result=self._convert_result(response, resolution))
+            return Response(
+                result=self._convert_result(
+                    response,
+                    resolution,
+                    model=selected_model,
+                )
+            )
         except google_errors.ClientError as e:
             raise BadRequestError(str(e)) from e
 
@@ -167,6 +174,7 @@ class Imagen(GoogleProvider):
         **kwargs: Any,
     ) -> Response[ImageGenerationResult]:
         await self.__asetup__()
+        selected_model = model or self.model
         resolution = (
             _SIZE_TO_ASPECT_RESOLUTION[size][1]
             if size and size != "auto" and size in _SIZE_TO_ASPECT_RESOLUTION
@@ -182,11 +190,17 @@ class Imagen(GoogleProvider):
         )
         try:
             response = await self._client.aio.models.generate_images(
-                model=model or self.model,
+                model=selected_model,
                 prompt=prompt,
                 config=config,
             )
-            return Response(result=self._convert_result(response, resolution))
+            return Response(
+                result=self._convert_result(
+                    response,
+                    resolution,
+                    model=selected_model,
+                )
+            )
         except google_errors.ClientError as e:
             raise BadRequestError(str(e)) from e
 
@@ -240,6 +254,7 @@ class Imagen(GoogleProvider):
         self,
         response: types.GenerateImagesResponse,
         resolution: str | None = None,
+        model: str | None = None,
     ) -> ImageGenerationResult:
         images = None
         revised_prompt = None
@@ -267,6 +282,7 @@ class Imagen(GoogleProvider):
         output_tokens = num_images * tokens_per_image
 
         return ImageGenerationResult(
+            model=model,
             revised_prompt=revised_prompt,
             images=images,
             usage=Usage(

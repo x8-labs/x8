@@ -467,6 +467,7 @@ class OpenAI(OpenAIProvider):
             )
 
         return ImageGenerationResult(
+            model=getattr(response, "model", None) or self.model,
             created=response.created,
             revised_prompt=revised_prompt,
             background=(response.background if response.background else None),

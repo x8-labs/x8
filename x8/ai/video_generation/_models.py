@@ -24,8 +24,18 @@ class KeyFrame(DataModel):
     image: ImageData
 
 
+class Usage(DataModel):
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    total_tokens: int | None = None
+    billed_seconds: float | None = None
+    estimated_cost_usd: float | None = None
+    estimated_output_tokens: int | None = None
+
+
 class VideoGenerationResult(DataModel):
     id: str
+    model: str | None = None
     created_at: float | None = None
     completed_at: float | None = None
     expires_at: float | None = None
@@ -34,4 +44,5 @@ class VideoGenerationResult(DataModel):
     status: Literal["queued", "in_progress", "completed", "failed"] = "queued"
     progress: int | None = None
     error: str | None = None
+    usage: Usage | None = None
     videos: list[VideoData] | None = None
