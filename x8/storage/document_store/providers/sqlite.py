@@ -6,6 +6,7 @@ from __future__ import annotations
 
 __all__ = ["SQLite"]
 
+import asyncio
 import copy
 import json
 import re
@@ -86,6 +87,7 @@ class SQLite(StoreProvider, SQLiteProvider):
     _client: Any
     _collection_cache: dict[str, SQLiteCollection]
     _acollection_cache: dict[str, SQLiteCollection]
+    _query_lock: asyncio.Lock
 
     def __init__(
         self,
@@ -151,6 +153,7 @@ class SQLite(StoreProvider, SQLiteProvider):
         self._client = None
         self._collection_cache = dict()
         self._acollection_cache = dict()
+        self._query_lock = asyncio.Lock()
 
     def __supports__(self, feature: str) -> bool:
         return feature not in [DocumentStoreFeature.TYPE_BINARY]
@@ -258,6 +261,16 @@ class SQLite(StoreProvider, SQLiteProvider):
             collections,
         )
         return Response(result=result, native=dict(result=nresult, call=ncall))
+
+    async def __arun__(
+        self,
+        operation: Operation | None = None,
+        context: Context | None = None,
+        **kwargs,
+    ) -> Any:
+        """Async run with serialized SQLite access."""
+        async with self._query_lock:
+            return self.__run__(operation, context, **kwargs)
 
     def _get_ncall(
         self,

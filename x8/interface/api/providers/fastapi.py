@@ -58,6 +58,7 @@ class FastAPI(Provider):
     cors_methods: str | list[str] | None
     cors_headers: str | list[str] | None
     cors_credentials: bool | None
+    debug: bool
     nparams: dict[str, Any]
 
     _app: BaseFastAPI
@@ -74,6 +75,7 @@ class FastAPI(Provider):
         cors_methods: str | list[str] | None = "*",
         cors_headers: str | list[str] | None = "*",
         cors_credentials: bool | None = True,
+        debug: bool = False,
         nparams: dict[str, Any] = dict(),
         **kwargs,
     ):
@@ -105,6 +107,9 @@ class FastAPI(Provider):
             cors_credentials:
                 A value indicating whether credentials
                 are allowed for CORS. Defaults to true.
+            debug:
+                A value indicating whether debug mode is enabled.
+                Defaults to false.
             nparams:
                 Native parameters to FastAPI and uvicorn client.
         """
@@ -118,6 +123,7 @@ class FastAPI(Provider):
         self.cors_methods = cors_methods
         self.cors_headers = cors_headers
         self.cors_credentials = cors_credentials
+        self.debug = debug
         self.nparams = nparams
         self._app = BaseFastAPI(
             root_path=self.root_path or "",
@@ -167,7 +173,9 @@ class FastAPI(Provider):
             api_router = APIRouter()
             for component_mapping in component_mappings:
                 api = generic_api_type(
-                    component_mapping, self.__component__.auth
+                    component_mapping,
+                    self.__component__.auth,
+                    self.debug,
                 )
                 tags: Any = component_mapping.tags or []
                 if isinstance(tags, str):
@@ -254,6 +262,7 @@ class BaseAPI:
     component_mapping: ComponentMapping
     auth: APIAuth | None
     router: APIRouter
+    debug: bool
 
     def _get_security_scheme(self, auth: APIAuth | None) -> Any:
         if auth and auth.type == APIAuthType.API_KEY:
@@ -367,6 +376,7 @@ class BaseAPI:
     ) -> Callable:
         new_params: list[inspect.Parameter] = []
         use_generated_body_model = False
+        generated_body_param_added = False
         body_primitive_field_count = 0
         for arg in op_info.args:
             if arg.source.type == ArgSourceType.BODY:
@@ -405,14 +415,16 @@ class BaseAPI:
                             )
                         },
                     )  # type: ignore
-                    new_params = [
-                        inspect.Parameter(
-                            "__body__",
-                            kind=inspect.Parameter.KEYWORD_ONLY,
-                            default=Body(...),
-                            annotation=model,
+                    if not generated_body_param_added:
+                        new_params.append(
+                            inspect.Parameter(
+                                "__body__",
+                                kind=inspect.Parameter.KEYWORD_ONLY,
+                                default=Body(...),
+                                annotation=model,
+                            )
                         )
-                    ]
+                        generated_body_param_added = True
                 else:
                     new_params.append(
                         inspect.Parameter(
@@ -725,9 +737,11 @@ class GenericAPI(BaseAPI):
         self,
         component_mapping: ComponentMapping,
         auth: APIAuth | None = None,
+        debug: bool = False,
     ):
         self.component_mapping = component_mapping
         self.auth = auth
+        self.debug = debug
         self.router = APIRouter()
         auth_validate_method = self._create_auth_validate_method(self.auth)
         dependencies = []
@@ -748,10 +762,14 @@ class GenericAPI(BaseAPI):
                 operation=request.operation, context=request.context
             )
         except BaseError as e:
+            if self.debug:
+                print(e)
             raise HTTPException(
                 status_code=e.status_code, detail={"error": str(e)}
             )
         except Exception as e:
+            if self.debug:
+                print(e)
             raise HTTPException(status_code=500, detail={"error": str(e)})
 
     def spec(self) -> ComponentSpec:
@@ -767,9 +785,11 @@ class GenericAsyncAPI(BaseAPI):
         self,
         component_mapping: ComponentMapping,
         auth: APIAuth | None = None,
+        debug: bool = False,
     ):
         self.component_mapping = component_mapping
         self.auth = auth
+        self.debug = debug
         self.router = APIRouter()
         auth_validate_method = self._create_auth_validate_method(self.auth)
         dependencies = []
@@ -791,10 +811,14 @@ class GenericAsyncAPI(BaseAPI):
                 context=request.context,
             )
         except BaseError as e:
+            if self.debug:
+                print(e)
             raise HTTPException(
                 status_code=e.status_code, detail={"error": str(e)}
             )
         except Exception as e:
+            if self.debug:
+                print(e)
             raise HTTPException(status_code=500, detail={"error": str(e)})
 
     async def spec(self) -> ComponentSpec:
