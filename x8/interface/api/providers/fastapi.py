@@ -59,6 +59,7 @@ class FastAPI(Provider):
     cors_headers: str | list[str] | None
     cors_credentials: bool | None
     debug: bool
+    expose_internal_api: bool
     nparams: dict[str, Any]
 
     _app: BaseFastAPI
@@ -76,6 +77,7 @@ class FastAPI(Provider):
         cors_headers: str | list[str] | None = "*",
         cors_credentials: bool | None = True,
         debug: bool = False,
+        expose_internal_api: bool = False,
         nparams: dict[str, Any] = dict(),
         **kwargs,
     ):
@@ -110,6 +112,9 @@ class FastAPI(Provider):
             debug:
                 A value indicating whether debug mode is enabled.
                 Defaults to false.
+            expose_internal_api:
+                A value indicating whether to expose internal routes
+                `__run__` and `__spec__`. Defaults to false.
             nparams:
                 Native parameters to FastAPI and uvicorn client.
         """
@@ -124,6 +129,7 @@ class FastAPI(Provider):
         self.cors_headers = cors_headers
         self.cors_credentials = cors_credentials
         self.debug = debug
+        self.expose_internal_api = expose_internal_api
         self.nparams = nparams
         self._app = BaseFastAPI(
             root_path=self.root_path or "",
@@ -176,6 +182,7 @@ class FastAPI(Provider):
                     component_mapping,
                     self.__component__.auth,
                     self.debug,
+                    self.expose_internal_api,
                 )
                 tags: Any = component_mapping.tags or []
                 if isinstance(tags, str):
@@ -738,6 +745,7 @@ class GenericAPI(BaseAPI):
         component_mapping: ComponentMapping,
         auth: APIAuth | None = None,
         debug: bool = False,
+        expose_internal_api: bool = False,
     ):
         self.component_mapping = component_mapping
         self.auth = auth
@@ -747,12 +755,19 @@ class GenericAPI(BaseAPI):
         dependencies = []
         if auth_validate_method:
             dependencies.append(Depends(auth_validate_method))
-        self.router.add_api_route(
-            "/__run__", self.run, methods=["POST"], dependencies=dependencies
-        )
-        self.router.add_api_route(
-            "/__spec__", self.spec, methods=["GET"], dependencies=dependencies
-        )
+        if expose_internal_api:
+            self.router.add_api_route(
+                "/__run__",
+                self.run,
+                methods=["POST"],
+                dependencies=dependencies,
+            )
+            self.router.add_api_route(
+                "/__spec__",
+                self.spec,
+                methods=["GET"],
+                dependencies=dependencies,
+            )
         self._init_operation_routes()
 
     def run(self, request: RunRequest) -> Any:
@@ -786,6 +801,7 @@ class GenericAsyncAPI(BaseAPI):
         component_mapping: ComponentMapping,
         auth: APIAuth | None = None,
         debug: bool = False,
+        expose_internal_api: bool = False,
     ):
         self.component_mapping = component_mapping
         self.auth = auth
@@ -795,12 +811,19 @@ class GenericAsyncAPI(BaseAPI):
         dependencies = []
         if auth_validate_method:
             dependencies.append(Depends(auth_validate_method))
-        self.router.add_api_route(
-            "/__run__", self.run, methods=["POST"], dependencies=dependencies
-        )
-        self.router.add_api_route(
-            "/__spec__", self.spec, methods=["GET"], dependencies=dependencies
-        )
+        if expose_internal_api:
+            self.router.add_api_route(
+                "/__run__",
+                self.run,
+                methods=["POST"],
+                dependencies=dependencies,
+            )
+            self.router.add_api_route(
+                "/__spec__",
+                self.spec,
+                methods=["GET"],
+                dependencies=dependencies,
+            )
         self._init_operation_routes()
 
     async def run(self, request: RunRequest) -> Any:
