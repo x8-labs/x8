@@ -427,6 +427,8 @@ class SpecBuilder:
         if ":" in component_package:
             return []
         providers_path = os.path.join(component_path, "providers")
+        if not os.path.isdir(providers_path):
+            return []
         providers = [
             f[:-3]
             for f in os.listdir(providers_path)

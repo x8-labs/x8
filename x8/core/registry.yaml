@@ -4,6 +4,7 @@ components:
   - ai.image_captioning
   - ai.image_embedding
   - ai.image_generation
+  - ai.multimodal_generation
   - ai.speech_recognition
   - ai.text_embedding
   - ai.text_to_speech

@@ -9,6 +9,7 @@ __all__ = ["PostgreSQL"]
 import copy
 import json
 import re
+from enum import Enum
 from typing import Any
 
 import psycopg
@@ -1820,7 +1821,21 @@ class OperationConverter:
         return f"{self.value_column} = {str}"
 
     def _safe_json_dumps(self, value) -> str:
-        return json.dumps(value).replace("'", "''")
+        def normalize_enums(v: Any) -> Any:
+            if isinstance(v, Enum):
+                return v.value
+            if isinstance(v, dict):
+                return {
+                    normalize_enums(k): normalize_enums(val)
+                    for k, val in v.items()
+                }
+            if isinstance(v, list):
+                return [normalize_enums(item) for item in v]
+            if isinstance(v, tuple):
+                return [normalize_enums(item) for item in v]
+            return v
+
+        return json.dumps(normalize_enums(value)).replace("'", "''")
 
 
 class ClientHelper:

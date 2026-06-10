@@ -5,20 +5,22 @@ __all__ = ["FastAPI"]
 import asyncio
 import inspect
 from collections.abc import AsyncIterable, AsyncIterator, Generator, Iterator
-from typing import Any, Callable, Union, get_origin
+from typing import Any, Callable, Union, get_args, get_origin
 
 import uvicorn
 from fastapi import APIRouter, Body, Depends
 from fastapi import FastAPI as BaseFastAPI
-from fastapi import Header, HTTPException, Path, Query
+from fastapi import File, Form, Header, HTTPException, Path, Query
 from fastapi import Response as FastAPIResponse
-from fastapi import Security
+from fastapi import Security, UploadFile
 from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.security import HTTPBasic, HTTPBearer
 from fastapi.security.api_key import APIKeyHeader, APIKeyQuery
 from pydantic import BaseModel, create_model
+from starlette.datastructures import UploadFile as StarletteUploadFile
 from starlette.middleware.cors import CORSMiddleware
 
+from x8.content.file import FileData
 from x8.core import (
     Context,
     DataAccessor,
@@ -271,6 +273,8 @@ class BaseAPI:
     router: APIRouter
     debug: bool
 
+    _UPLOAD_FILE_TYPES = (UploadFile, StarletteUploadFile)
+
     def _get_security_scheme(self, auth: APIAuth | None) -> Any:
         if auth and auth.type == APIAuthType.API_KEY:
             if auth.config and auth.config.header:
@@ -456,6 +460,30 @@ class BaseAPI:
                         annotation=arg.type,
                     )
                 )
+            elif arg.source.type == ArgSourceType.FORM:
+                new_params.append(
+                    inspect.Parameter(
+                        arg.name,
+                        kind=inspect.Parameter.KEYWORD_ONLY,
+                        default=Form(
+                            ... if arg.required else arg.default,
+                            alias=arg.source.field,
+                        ),
+                        annotation=arg.type,
+                    )
+                )
+            elif arg.source.type == ArgSourceType.FILE:
+                new_params.append(
+                    inspect.Parameter(
+                        arg.name,
+                        kind=inspect.Parameter.KEYWORD_ONLY,
+                        default=File(
+                            ... if arg.required else arg.default,
+                            alias=arg.source.field,
+                        ),
+                        annotation=self._get_upload_param_annotation(arg.type),
+                    )
+                )
             elif arg.source.type == ArgSourceType.HEADER:
                 new_params.append(
                     inspect.Parameter(
@@ -565,6 +593,19 @@ class BaseAPI:
             bound.arguments.update(mapped_args)
             if body:
                 bound.arguments.update(body.model_dump())
+
+            # Convert framework-specific upload objects before type conversion
+            # so operation signatures can stay provider-agnostic.
+            for arg in op_info.args:
+                if arg.source.type == ArgSourceType.FILE:
+                    value = bound.arguments.get(arg.name)
+                    if value is None:
+                        continue
+                    bound.arguments[arg.name] = await self._normalize_file_arg(
+                        value=value,
+                        expected_type=arg.type,
+                    )
+
             if context:
                 bound.arguments["__context__"] = context
             converted_args = TypeConverter.convert_args(
@@ -683,6 +724,74 @@ class BaseAPI:
         wrapped_operation_method.__doc__ = op_info.__doc__
         setattr(wrapped_operation_method, "__signature__", new_sig)
         return wrapped_operation_method
+
+    async def _normalize_file_arg(self, value: Any, expected_type: Any) -> Any:
+        def _resolve_expected_type(t: Any) -> Any:
+            origin = get_origin(t)
+            if origin is Union:
+                args = [a for a in get_args(t) if a is not type(None)]
+                if len(args) == 1:
+                    return args[0]
+            return t
+
+        resolved_type = _resolve_expected_type(expected_type)
+        origin = get_origin(resolved_type)
+
+        async def _normalize_single(
+            upload: UploadFile | StarletteUploadFile, single_type: Any
+        ) -> Any:
+            content = await upload.read()
+            if single_type is bytes:
+                return content
+            if single_type is str:
+                return content.decode("utf-8")
+            if inspect.isclass(single_type) and issubclass(
+                single_type, FileData
+            ):
+                return single_type(
+                    content=content,
+                    filename=upload.filename,
+                    media_type=upload.content_type,
+                )
+            return {
+                "content": content,
+                "filename": upload.filename,
+                "media_type": upload.content_type,
+            }
+
+        if isinstance(value, self._UPLOAD_FILE_TYPES):
+            return await _normalize_single(value, resolved_type)
+
+        if isinstance(value, list):
+            elem_type = (
+                get_args(resolved_type)[0]
+                if origin in (list, tuple) and get_args(resolved_type)
+                else Any
+            )
+            normalized_items = []
+            for item in value:
+                if isinstance(item, self._UPLOAD_FILE_TYPES):
+                    normalized_items.append(
+                        await _normalize_single(item, elem_type)
+                    )
+                else:
+                    normalized_items.append(item)
+            return normalized_items
+
+        return value
+
+    def _get_upload_param_annotation(self, expected_type: Any) -> Any:
+        origin = get_origin(expected_type)
+        resolved_type = expected_type
+        if origin is Union:
+            args = [a for a in get_args(expected_type) if a is not type(None)]
+            if len(args) == 1:
+                resolved_type = args[0]
+                origin = get_origin(resolved_type)
+
+        if origin in (list, tuple):
+            return list[UploadFile]
+        return UploadFile
 
     def _init_operation_routes(self) -> None:
         operations = get_operations(self.component_mapping, self.auth)

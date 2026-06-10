@@ -63,6 +63,8 @@ class ArgSourceType(str, Enum):
 
     Attributes:
         BODY: Field from request body.
+        FORM: Field from form data.
+        FILE: File from multipart form data.
         QUERY: Field from query parameters.
         HEADER: Field from request headers.
         PATH: Field from URL path.
@@ -71,6 +73,8 @@ class ArgSourceType(str, Enum):
     """
 
     BODY = "body"
+    FORM = "form"
+    FILE = "file"
     QUERY = "query"
     HEADER = "header"
     PATH = "path"

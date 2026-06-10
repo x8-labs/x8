@@ -17,6 +17,7 @@ class VideoGeneration(Component):
         self,
         prompt: str | None = None,
         *,
+        model: str | None = None,
         image: ImageData | None = None,
         references: List[Reference] | None = None,
         key_frames: List[KeyFrame] | None = None,
@@ -39,6 +40,8 @@ class VideoGeneration(Component):
         Args:
             prompt:
                 The text prompt to generate the video.
+            model:
+                The model to use for video generation.
             image:
                 An image to guide the video generation.
             references:
@@ -76,6 +79,7 @@ class VideoGeneration(Component):
         prompt: str | None = None,
         *,
         stream: Literal[True],
+        model: str | None = None,
         image: ImageData | None = None,
         references: List[Reference] | None = None,
         key_frames: List[KeyFrame] | None = None,
@@ -97,6 +101,8 @@ class VideoGeneration(Component):
         Args:
             prompt:
                 The text prompt to generate the video.
+            model:
+                The model to use for video generation.
             image:
                 An image to guide the video generation.
             references:
@@ -139,6 +145,7 @@ class VideoGeneration(Component):
         self,
         prompt: str | None = None,
         *,
+        model: str | None = None,
         image: ImageData | None = None,
         references: List[Reference] | None = None,
         key_frames: List[KeyFrame] | None = None,
@@ -164,6 +171,8 @@ class VideoGeneration(Component):
         Args:
             prompt:
                 The text prompt to generate the video.
+            model:
+                The model to use for video generation.
             image:
                 An image to guide the video generation.
             references:
@@ -273,6 +282,7 @@ class VideoGeneration(Component):
         self,
         prompt: str | None = None,
         *,
+        model: str | None = None,
         image: ImageData | None = None,
         references: List[Reference] | None = None,
         key_frames: List[KeyFrame] | None = None,
@@ -294,6 +304,8 @@ class VideoGeneration(Component):
         Args:
             prompt:
                 The text prompt to generate the video.
+            model:
+                The model to use for video generation.
             image:
                 An image to guide the video generation.
             references:
@@ -331,6 +343,7 @@ class VideoGeneration(Component):
         prompt: str | None = None,
         *,
         stream: Literal[True],
+        model: str | None = None,
         image: ImageData | None = None,
         references: List[Reference] | None = None,
         key_frames: List[KeyFrame] | None = None,
@@ -351,6 +364,8 @@ class VideoGeneration(Component):
         Args:
             prompt:
                 The text prompt to generate the video.
+            model:
+                The model to use for video generation.
             image:
                 An image to guide the video generation.
             references:
@@ -394,6 +409,7 @@ class VideoGeneration(Component):
         self,
         prompt: str | None = None,
         *,
+        model: str | None = None,
         image: ImageData | None = None,
         references: List[Reference] | None = None,
         key_frames: List[KeyFrame] | None = None,
@@ -419,6 +435,8 @@ class VideoGeneration(Component):
         Args:
             prompt:
                 The text prompt to generate the video.
+            model:
+                The model to use for video generation.
             image:
                 An image to guide the video generation.
             references:

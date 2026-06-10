@@ -89,6 +89,7 @@ class OpenAI(OpenAIProvider):
         self,
         prompt: str | None = None,
         *,
+        model: str | None = None,
         image: ImageData | None = None,
         references: List[Reference] | None = None,
         key_frames: List[KeyFrame] | None = None,
@@ -111,6 +112,7 @@ class OpenAI(OpenAIProvider):
         self.__setup__()
         args = self._convert_generate_args(
             prompt=prompt,
+            model=model,
             image=image,
             references=references,
             key_frames=key_frames,
@@ -223,6 +225,7 @@ class OpenAI(OpenAIProvider):
         self,
         prompt: str | None = None,
         *,
+        model: str | None = None,
         image: ImageData | None = None,
         references: List[Reference] | None = None,
         key_frames: List[KeyFrame] | None = None,
@@ -245,6 +248,7 @@ class OpenAI(OpenAIProvider):
         await self.__asetup__()
         args = self._convert_generate_args(
             prompt=prompt,
+            model=model,
             image=image,
             references=references,
             key_frames=key_frames,
@@ -400,6 +404,7 @@ class OpenAI(OpenAIProvider):
     def _convert_generate_args(
         self,
         prompt: str | None = None,
+        model: str | None = None,
         image: ImageData | None = None,
         references: List[Reference] | None = None,
         key_frames: List[KeyFrame] | None = None,
@@ -441,7 +446,7 @@ class OpenAI(OpenAIProvider):
             )
 
         args: dict[str, Any] = {
-            "model": self.model,
+            "model": model or self.model,
             "prompt": arg_prompt,
             "size": arg_size,
             "seconds": arg_seconds,

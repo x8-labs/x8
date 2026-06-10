@@ -29,8 +29,6 @@ class Usage(DataModel):
     output_tokens: int | None = None
     total_tokens: int | None = None
     billed_seconds: float | None = None
-    estimated_cost_usd: float | None = None
-    estimated_output_tokens: int | None = None
 
 
 class VideoGenerationResult(DataModel):

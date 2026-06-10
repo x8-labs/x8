@@ -11,6 +11,7 @@ import copy
 import json
 import re
 import sqlite3
+from enum import Enum
 from typing import Any
 
 from x8._common.sqlite_provider import SQLiteProvider
@@ -785,6 +786,25 @@ class OperationConverter:
         self.value_column = value_column
         self.pk_column = pk_column
 
+    def _normalize_json_value(self, value: Any) -> Any:
+        if isinstance(value, Enum):
+            return value.value
+        if isinstance(value, bytes):
+            return value.decode("utf-8", errors="replace")
+        if isinstance(value, dict):
+            return {
+                self._normalize_json_value(k): self._normalize_json_value(v)
+                for k, v in value.items()
+            }
+        if isinstance(value, list):
+            return [self._normalize_json_value(v) for v in value]
+        if isinstance(value, tuple):
+            return [self._normalize_json_value(v) for v in value]
+        to_dict = getattr(value, "to_dict", None)
+        if callable(to_dict):
+            return self._normalize_json_value(to_dict())
+        return value
+
     @staticmethod
     def convert_create_collection(
         table: str,
@@ -1047,6 +1067,7 @@ class OperationConverter:
         where: Expression | None,
         exists: bool | None,
     ) -> tuple[dict, dict | None]:
+        value = self._normalize_json_value(value)
         document = self.processor.add_embed_fields(value, key)
         if key is not None:
             key = self.processor.get_key_from_key(key)
@@ -1194,10 +1215,17 @@ class OperationConverter:
         )
 
     def convert_expr(self, expr: Expression | None) -> str:
+        def _escape_text(value: Any) -> str:
+            return str(value).replace("'", "''")
+
         if expr is None:
             return "NULL"
+        if isinstance(expr, (Field, Function, Comparison, And, Or, Not)):
+            pass
+        else:
+            expr = self._normalize_json_value(expr)
         if isinstance(expr, str):
-            return f"'{expr}'"
+            return f"'{_escape_text(expr)}'"
         if isinstance(expr, bool):
             return str(expr).upper()
         if isinstance(expr, (int, float)):
@@ -1222,7 +1250,7 @@ class OperationConverter:
         if isinstance(expr, Not):
             return f"""NOT {self.convert_expr(
                 expr.expr)}"""
-        return str(expr)
+        return f"'{_escape_text(expr)}'"
 
     def convert_comparison(self, expr: Comparison) -> str:
         def get_field_type(value: Any) -> str | None:
@@ -1302,13 +1330,13 @@ class OperationConverter:
                 field = self.convert_field(
                     args[0], OperationConverter.FIELD_TYPE_TEXT
                 )
-                value = args[1]
+                value = str(args[1]).replace("'", "''")
                 return f"{field} LIKE '%{value}%'"
             if name == QueryFunctionName.STARTS_WITH:
                 field = self.convert_field(
                     args[0], OperationConverter.FIELD_TYPE_TEXT
                 )
-                value = args[1]
+                value = str(args[1]).replace("'", "''")
                 return f"{field} LIKE '{value}%'"
             if name == QueryFunctionName.ARRAY_LENGTH:
                 field = self.convert_field(args[0])
@@ -1380,20 +1408,22 @@ class OperationConverter:
             op = operation.op
             field_path, splits = get_field_path(operation.field)
             if op == UpdateOp.PUT:
-                value = self.convert_expr(operation.args[0])
-                if isinstance(operation.args[0], (dict, list)):
+                normalized_arg = self._normalize_json_value(operation.args[0])
+                value = self.convert_expr(normalized_arg)
+                if isinstance(normalized_arg, (dict, list)):
                     value = f"json({value})"
                 str = f"JSON_SET({str}, {field_path}, {value})"
             elif op == UpdateOp.INSERT:
-                value = self.convert_expr(operation.args[0])
-                if isinstance(operation.args[0], (dict, list)):
+                normalized_arg = self._normalize_json_value(operation.args[0])
+                value = self.convert_expr(normalized_arg)
+                if isinstance(normalized_arg, (dict, list)):
                     value = f"json({value})"
                 if splits[-1] == "-":
                     str = f"JSON_INSERT({str}, {field_path}, {value})"
                 elif splits[-1].isnumeric():
                     index = int(splits[-1])
                     array_field = f"{field_path[: field_path.rfind('[')]}'"
-                    if isinstance(operation.args[0], (dict, list)):
+                    if isinstance(normalized_arg, (dict, list)):
                         group = "JSON_GROUP_ARRAY(json(t5.value))"
                     else:
                         group = "JSON_GROUP_ARRAY(t5.value)"

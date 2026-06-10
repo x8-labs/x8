@@ -1,6 +1,6 @@
 [project]
 name = "x8"
-version = "0.0.23"
+version = "0.0.36"
 description = "x8 client"
 readme = "README.md"
 license = { text = "MIT" }
@@ -305,8 +305,8 @@ ai-all = [
     "github-copilot-sdk",
 ]
 
-interface-api-fastapi = ["fastapi", "uvicorn"]
-interface-api-default = ["fastapi", "uvicorn"]
+interface-api-fastapi = ["fastapi", "uvicorn", "python-multipart"]
+interface-api-default = ["fastapi", "uvicorn", "python-multipart"]
 
 interface-cli-default = []
 
@@ -318,7 +318,7 @@ interface-auth-api-key-in-store = []
 interface-auth-mock = []
 interface-auth-default = []
 
-interface-all = ["fastapi", "uvicorn", "pyjwt", "httpx"]
+interface-all = ["fastapi", "uvicorn", "python-multipart", "pyjwt", "httpx"]
 
 communication-message-service-twilio = ["twilio"]
 communication-message-service-default = ["twilio"]
@@ -375,6 +375,7 @@ all = [
     "azure-mgmt-authorization",
     "fastapi",
     "uvicorn",
+    "python-multipart",
     "pyjwt",
     "twilio",
     "sendgrid",

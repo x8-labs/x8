@@ -5051,7 +5051,7 @@ wheels = [
 
 [[package]]
 name = "x8"
-version = "0.0.23"
+version = "0.0.36"
 source = { editable = "." }
 dependencies = [
     { name = "antlr4-python3-runtime" },
@@ -5237,6 +5237,7 @@ all = [
     { name = "pymilvus" },
     { name = "pymongo" },
     { name = "python-dotenv" },
+    { name = "python-multipart" },
     { name = "pyyaml" },
     { name = "qdrant-client" },
     { name = "redis" },
@@ -5401,14 +5402,17 @@ interface-all = [
     { name = "fastapi" },
     { name = "httpx" },
     { name = "pyjwt" },
+    { name = "python-multipart" },
     { name = "uvicorn" },
 ]
 interface-api-default = [
     { name = "fastapi" },
+    { name = "python-multipart" },
     { name = "uvicorn" },
 ]
 interface-api-fastapi = [
     { name = "fastapi" },
+    { name = "python-multipart" },
     { name = "uvicorn" },
 ]
 interface-auth-auth0 = [
@@ -5937,6 +5941,10 @@ requires-dist = [
     { name = "python-dotenv", marker = "extra == 'storage-all'" },
     { name = "python-dotenv", marker = "extra == 'storage-config-store-env-file'" },
     { name = "python-dotenv", marker = "extra == 'storage-secret-store-env-file'" },
+    { name = "python-multipart", marker = "extra == 'all'" },
+    { name = "python-multipart", marker = "extra == 'interface-all'" },
+    { name = "python-multipart", marker = "extra == 'interface-api-default'" },
+    { name = "python-multipart", marker = "extra == 'interface-api-fastapi'" },
     { name = "pyyaml" },
     { name = "pyyaml", marker = "extra == 'all'" },
     { name = "pyyaml", marker = "extra == 'storage-all'" },
