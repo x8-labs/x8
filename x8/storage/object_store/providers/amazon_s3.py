@@ -16,6 +16,7 @@ import s3transfer.tasks
 import s3transfer.upload
 from boto3.s3.transfer import TransferConfig as S3TransferConfig
 from botocore.exceptions import ClientError
+
 from x8.core import Context, NCall, Operation, Response
 from x8.core.exceptions import (
     BadRequestError,
@@ -366,6 +367,7 @@ class AmazonS3(StoreProvider):
                 version=op_parser.get_version(),
                 method=op_parser.get_method(),
                 expiry=op_parser.get_expiry_in_seconds(),
+                properties=op_parser.get_properties(),
             )
             call = NCall(client.generate_presigned_url, args, nargs)
         # QUERY
@@ -1228,8 +1230,10 @@ class OperationConverter:
         version: str | None,
         method: str | None,
         expiry: int | None,
+        properties: dict | None,
     ):
         args: dict = {}
+        props = ObjectProperties.from_dict(properties) if properties else None
         args["Params"] = {"Bucket": self.bucket, "Key": id}
         if version is not None:
             args["Params"]["VersionId"] = version
@@ -1241,6 +1245,18 @@ class OperationConverter:
             raise BadRequestError("Method not supported for generating url")
         if expiry is not None:
             args["ExpiresIn"] = expiry
+        if props is not None and props.cache_control is not None:
+            args["Params"]["ResponseCacheControl"] = props.cache_control
+        if props is not None and props.content_disposition is not None:
+            args["Params"][
+                "ResponseContentDisposition"
+            ] = props.content_disposition
+        if props is not None and props.content_encoding is not None:
+            args["Params"]["ResponseContentEncoding"] = props.content_encoding
+        if props is not None and props.content_language is not None:
+            args["Params"]["ResponseContentLanguage"] = props.content_language
+        if props is not None and props.content_type is not None:
+            args["Params"]["ResponseContentType"] = props.content_type
         return args
 
     def convert_batch(

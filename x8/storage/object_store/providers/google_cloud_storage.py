@@ -419,6 +419,7 @@ class GoogleCloudStorage(GoogleProvider, StoreProvider):
                 version=op_parser.get_version(),
                 method=op_parser.get_method(),
                 expiry=op_parser.get_expiry_in_seconds(),
+                properties=op_parser.get_properties(),
             )
             call = NCall(blob.generate_signed_url, args, nargs)
         # QUERY
@@ -1376,8 +1377,10 @@ class OperationConverter:
         version: str | None,
         method: str | None,
         expiry: int | None,
+        properties: dict | None,
     ) -> tuple[dict, Blob]:
         args: dict = {}
+        props = ObjectProperties.from_dict(properties) if properties else None
         blob = self.client.blob(blob_name=id)
         if version is not None:
             args["generation"] = int(version)
@@ -1386,6 +1389,24 @@ class OperationConverter:
         args["expiration"] = timedelta(
             seconds=expiry if expiry is not None else 3600
         )
+        if props is not None and props.content_disposition is not None:
+            args["response_disposition"] = props.content_disposition
+        if props is not None and props.content_type is not None:
+            args["response_type"] = props.content_type
+
+        query_parameters: dict[str, str] = {}
+        if props is not None and props.cache_control is not None:
+            query_parameters["response-cache-control"] = props.cache_control
+        if props is not None and props.content_encoding is not None:
+            query_parameters["response-content-encoding"] = (
+                props.content_encoding
+            )
+        if props is not None and props.content_language is not None:
+            query_parameters["response-content-language"] = (
+                props.content_language
+            )
+        if len(query_parameters) > 0:
+            args["query_parameters"] = query_parameters
         return args, blob
 
     def convert_batch(

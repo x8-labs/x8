@@ -22,6 +22,7 @@ from azure.storage.blob import (
     StandardBlobTier,
     generate_blob_sas,
 )
+
 from x8._common.azure_provider import AzureProvider
 from x8.core import Context, NCall, Operation, Response
 from x8.core.exceptions import (
@@ -513,6 +514,7 @@ class AzureBlobStorage(AzureProvider, StoreProvider):
                 version=op_parser.get_version(),
                 method=op_parser.get_method(),
                 expiry=op_parser.get_expiry_in_seconds(),
+                properties=op_parser.get_properties(),
             )
             call = NCall(helper.generate, {"args": args, "nargs": nargs}, None)
         # QUERY
@@ -1815,8 +1817,10 @@ class OperationConverter:
         version: str | None,
         method: str | None,
         expiry: int | None,
+        properties: dict | None,
     ):
         args = {}
+        props = ObjectProperties.from_dict(properties) if properties else None
         args["account_name"] = self.service_client.account_name
         args["container_name"] = self.container
         args["blob_name"] = id
@@ -1831,6 +1835,16 @@ class OperationConverter:
             )
         if version is not None:
             args["version_id"] = version
+        if props is not None and props.cache_control is not None:
+            args["cache_control"] = props.cache_control
+        if props is not None and props.content_disposition is not None:
+            args["content_disposition"] = props.content_disposition
+        if props is not None and props.content_encoding is not None:
+            args["content_encoding"] = props.content_encoding
+        if props is not None and props.content_language is not None:
+            args["content_language"] = props.content_language
+        if props is not None and props.content_type is not None:
+            args["content_type"] = props.content_type
         return args
 
     def convert_batch(

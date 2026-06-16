@@ -373,6 +373,7 @@ class ObjectStore(StoreComponent):
         key: str | dict | ObjectKey,
         method: str,
         expiry: int,
+        properties: dict | ObjectProperties | None = None,
         collection: str | None = None,
     ) -> Response[ObjectItem]:
         """Generate signed URL.
@@ -384,6 +385,8 @@ class ObjectStore(StoreComponent):
                 Operation method. One of "GET", "PUT" or "DELETE".
             expiry:
                 Expiry in milliseconds.
+            properties:
+                Object properties for response header overrides.
             collection:
                 Collection name.
 
@@ -805,6 +808,7 @@ class ObjectStore(StoreComponent):
         key: str | dict | ObjectKey,
         method: str,
         expiry: int,
+        properties: dict | ObjectProperties | None = None,
         collection: str | None = None,
     ) -> Response[ObjectItem]:
         """Generate signed URL.
@@ -816,6 +820,8 @@ class ObjectStore(StoreComponent):
                 Operation method. One of "GET", "PUT" or "DELETE".
             expiry:
                 Expiry in milliseconds.
+            properties:
+                Object properties for response header overrides.
             collection:
                 Collection name.
 

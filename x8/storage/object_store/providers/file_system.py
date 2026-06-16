@@ -11,7 +11,7 @@ import shutil
 import uuid
 from datetime import datetime, timezone
 from typing import IO, Any
-from urllib.parse import urljoin
+from urllib.parse import urlencode, urljoin, urlsplit, urlunsplit
 from urllib.request import pathname2url
 
 from x8.core import Context, DataModel, Operation, Response
@@ -283,6 +283,7 @@ class FileSystem(StoreProvider):
                 version=op_parser.get_version(),
                 method=op_parser.get_method(),
                 expiry=op_parser.get_expiry_in_seconds(),
+                properties=op_parser.get_properties(),
                 collection=self._get_folder_name(op_parser),
             )
         # QUERY
@@ -808,14 +809,39 @@ class FileSystem(StoreProvider):
         version: str | None,
         method: str | None,
         expiry: int | None,
+        properties: dict | None,
         collection: str,
     ) -> ObjectItem:
         object_path, link_path = self._convert_object_link_path(
             collection, id, version
         )
+        url = self._convert_url(link_path or object_path)
+        props = ObjectProperties.from_dict(properties) if properties else None
+        params: dict[str, str] = {}
+        if props is not None and props.cache_control is not None:
+            params["response-cache-control"] = props.cache_control
+        if props is not None and props.content_disposition is not None:
+            params["response-content-disposition"] = props.content_disposition
+        if props is not None and props.content_encoding is not None:
+            params["response-content-encoding"] = props.content_encoding
+        if props is not None and props.content_language is not None:
+            params["response-content-language"] = props.content_language
+        if props is not None and props.content_type is not None:
+            params["response-content-type"] = props.content_type
+        if len(params) > 0:
+            parts = urlsplit(url)
+            url = urlunsplit(
+                (
+                    parts.scheme,
+                    parts.netloc,
+                    parts.path,
+                    urlencode(params),
+                    parts.fragment,
+                )
+            )
         return ObjectItem(
             key=ObjectKey(id=id, version=version),
-            url=self._convert_url(link_path or object_path),
+            url=url,
         )
 
     def query(
