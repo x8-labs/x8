@@ -1,4 +1,4 @@
-__all__ = ["Imagen"]
+__all__ = ["GoogleImagen"]
 
 import base64
 from typing import Any
@@ -53,7 +53,7 @@ _OUTPUT_FORMAT_TO_MIME: dict[str, str] = {
 }
 
 
-class Imagen(GoogleProvider):
+class GoogleImagen(GoogleProvider):
     vertexai: bool
     project: str | None
     location: str

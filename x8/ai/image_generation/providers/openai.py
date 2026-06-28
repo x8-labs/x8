@@ -570,7 +570,7 @@ class OpenAI(OpenAIProvider):
 
         return _iter()
 
-    async def _async_stream_generate_iter(
+    def _async_stream_generate_iter(
         self, response: Any
     ) -> AsyncIterator[Response[ImageGenerationStreamEvent]]:
         async def _aiter() -> (
@@ -581,7 +581,7 @@ class OpenAI(OpenAIProvider):
 
         return _aiter()
 
-    async def _async_stream_edit_iter(
+    def _async_stream_edit_iter(
         self, response: Any
     ) -> AsyncIterator[Response[ImageGenerationStreamEvent]]:
         async def _aiter() -> (

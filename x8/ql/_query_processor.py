@@ -386,7 +386,7 @@ class QueryProcessor:
         field_resolver: Callable | None = None,
     ) -> Value | Undefined:
         if expr is None:
-            return True
+            return None
         if isinstance(expr, (bool, int, float, str, list, dict)):
             return expr
         if isinstance(expr, Field):

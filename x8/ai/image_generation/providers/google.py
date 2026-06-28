@@ -1,4 +1,4 @@
-__all__ = ["NanoBanana"]
+__all__ = ["Google"]
 
 import base64
 from typing import Any, List
@@ -40,7 +40,7 @@ _OUTPUT_FORMAT_TO_MIME: dict[str, str] = {
 }
 
 
-class NanoBanana(GoogleProvider):
+class Google(GoogleProvider):
     vertexai: bool
     project: str | None
     location: str
@@ -127,7 +127,7 @@ class NanoBanana(GoogleProvider):
         try:
             response = self._client.models.generate_content(
                 model=selected_model,
-                contents=[prompt],
+                contents=prompt,
                 config=config,
             )
             return Response(
@@ -163,7 +163,7 @@ class NanoBanana(GoogleProvider):
         try:
             response = await self._client.aio.models.generate_content(
                 model=selected_model,
-                contents=[prompt],
+                contents=prompt,
                 config=config,
             )
             return Response(
@@ -350,6 +350,8 @@ class NanoBanana(GoogleProvider):
                             and part.inline_data.mime_type.startswith("image/")
                         ):
                             img_bytes = part.inline_data.data
+                            if img_bytes is None:
+                                continue
                             images.append(
                                 ImageData(
                                     content=base64.b64encode(img_bytes).decode(

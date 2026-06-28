@@ -672,8 +672,10 @@ class ClientHelper:
         ).invoke()
         if raw_value is not None:
             os.remove(filename)
-        if returning is True:
-            NCall(blob.reload, None, None).invoke()
+
+        # Refresh blob metadata/generation before returning so callers can
+        # list/query immediately after a successful upload response.
+        NCall(blob.reload, None, None).invoke()
 
     def get(
         self,

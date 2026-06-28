@@ -1265,6 +1265,20 @@ class OperationConverter:
                 return get_field_type(value[0])
             return ftype
 
+        def _field_is_json_null(field: Field) -> str:
+            resolved_field = self.processor.resolve_field(field.path)
+            json_type = (
+                f"JSON_TYPE({self.value_column}, '$.{resolved_field}')"
+            )
+            return f"{json_type} IS 'null'"
+
+        def _field_is_not_json_null(field: Field) -> str:
+            resolved_field = self.processor.resolve_field(field.path)
+            json_type = (
+                f"JSON_TYPE({self.value_column}, '$.{resolved_field}')"
+            )
+            return f"{json_type} IS NOT 'null'"
+
         value = None
         if isinstance(expr.lexpr, Field):
             value = expr.rexpr
@@ -1280,6 +1294,27 @@ class OperationConverter:
             rhs = self.convert_field(expr.rexpr, field_type)
         else:
             rhs = self.convert_expr(expr.rexpr)
+
+        # SQL uses IS / IS NOT for NULL comparisons. For JSON fields,
+        # compare JSON_TYPE(...)= 'null' so explicit JSON null values match.
+        if expr.op == ComparisonOp.EQ:
+            if expr.lexpr is None and isinstance(expr.rexpr, Field):
+                return _field_is_json_null(expr.rexpr)
+            if expr.rexpr is None and isinstance(expr.lexpr, Field):
+                return _field_is_json_null(expr.lexpr)
+            if expr.lexpr is None:
+                return f"{rhs} IS NULL"
+            if expr.rexpr is None:
+                return f"{lhs} IS NULL"
+        if expr.op == ComparisonOp.NEQ:
+            if expr.lexpr is None and isinstance(expr.rexpr, Field):
+                return _field_is_not_json_null(expr.rexpr)
+            if expr.rexpr is None and isinstance(expr.lexpr, Field):
+                return _field_is_not_json_null(expr.lexpr)
+            if expr.lexpr is None:
+                return f"{rhs} IS NOT NULL"
+            if expr.rexpr is None:
+                return f"{lhs} IS NOT NULL"
 
         if expr.op == ComparisonOp.BETWEEN and isinstance(expr.rexpr, list):
             return f"""{lhs} >= {self.convert_expr(

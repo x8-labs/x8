@@ -1,7 +1,7 @@
 import asyncio
 import base64
 import time
-from typing import Any, AsyncIterator, Iterator, List
+from typing import Any, AsyncIterator, Iterator, List, Literal
 
 import google.auth
 import google.auth.transport.requests
@@ -600,7 +600,7 @@ class Google(GoogleProvider):
     def _build_result(
         self,
         id: str,
-        status: str,
+        status: Literal["queued", "in_progress", "completed", "failed"],
         *,
         error: str | None = None,
         videos: List[VideoData] | None = None,

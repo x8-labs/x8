@@ -246,11 +246,12 @@ class OpenAI(OpenAIProvider):
                         output_items.append(converted)
 
             if output_images:
+                image_content: list[OutputMessageContent] = [*output_images]
                 output_items.insert(
                     0,
                     OutputMessage(
                         role="assistant",
-                        content=output_images,
+                        content=image_content,
                         status="completed",
                     ),
                 )
@@ -425,7 +426,7 @@ class OpenAI(OpenAIProvider):
 
         if part_type == "input_image":
             image = part.get("image")
-            if hasattr(image, "to_dict"):
+            if image is not None and hasattr(image, "to_dict"):
                 image = image.to_dict()
             if isinstance(image, dict):
                 content = image.get("content")
@@ -454,7 +455,7 @@ class OpenAI(OpenAIProvider):
 
         if part_type == "input_file":
             file = part.get("file")
-            if hasattr(file, "to_dict"):
+            if file is not None and hasattr(file, "to_dict"):
                 file = file.to_dict()
             if isinstance(file, dict):
                 content = file.get("content")

@@ -160,7 +160,7 @@ class OutputMessage(DataModel):
 
 
 class WebSearchAction(DataModel):
-    type: Literal["search"] = "search"
+    type: Literal["search", "open_page"] = "search"
     query: str | None = None
     queries: list[str] | None = None
     sources: list[dict[str, Any]] | None = None

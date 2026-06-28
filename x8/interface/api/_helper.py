@@ -170,9 +170,17 @@ def get_operations(
             )
             op_info.http_method = op_mapping.method or op_info.http_method
             op_info.status_code = op_mapping.status or op_info.status_code
-            op_info.path_params = re.findall(r"\{(.*?)\}", op_info.path)
+            op_info.path_params = [
+                p.split(":", 1)[0]
+                for p in re.findall(r"\{(.*?)\}", op_info.path)
+            ]
             op_info.path_params.extend(
-                re.findall(r"\{(.*?)\}", component_mapping.prefix or "")
+                [
+                    p.split(":", 1)[0]
+                    for p in re.findall(
+                        r"\{(.*?)\}", component_mapping.prefix or ""
+                    )
+                ]
             )
             op_info.auth = op_mapping.auth or op_info.auth
             op_info.response = op_mapping.response or op_info.response
@@ -295,6 +303,11 @@ def get_arg_info(
 ) -> list[ArgInfo]:
     sig = inspect.signature(op_info.method)
     type_hints = get_type_hints(op_info.method)
+    has_file_arg = any(
+        arg_mapping.source.type == ArgSourceType.FILE
+        for arg_mapping in arg_mappings
+        if arg_mapping.source is not None
+    )
     args: list[ArgInfo] = []
     for name, param in sig.parameters.items():
         if name == "self":
@@ -307,6 +320,12 @@ def get_arg_info(
         else:
             if name in op_info.path_params:
                 source = ArgSource(type=ArgSourceType.PATH, field=name)
+            elif has_file_arg and op_info.http_method in [
+                "POST",
+                "PUT",
+                "PATCH",
+            ]:
+                source = ArgSource(type=ArgSourceType.FORM, field=name)
             elif op_info.http_method in ["POST", "PUT", "PATCH"]:
                 source = ArgSource(type=ArgSourceType.BODY, field=name)
             else:

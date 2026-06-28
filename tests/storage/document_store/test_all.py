@@ -5,6 +5,7 @@ import json
 import os
 
 import pytest
+
 from x8.core import DataModel
 from x8.storage._common import Comparator, StoreOperation
 from x8.storage.document_store import (
@@ -191,6 +192,24 @@ queries = [
     },
     {
         "args": {
+            "where": "pk = 'pk01' and empty = null",
+            "order_by": "id",
+        },
+        "statement": "WHERE pk = 'pk01' and empty = null ORDER BY id",
+        "result_index": [5, 6, 7, 8, 9],
+        "count": 5,
+    },
+    {
+        "args": {
+            "where": "pk = 'pk01' and empty != null",
+            "order_by": "id",
+        },
+        "statement": "WHERE pk = 'pk01' and empty != null ORDER BY id",
+        "result_index": [],
+        "count": 0,
+    },
+    {
+        "args": {
             "where": "pk = 'pk01'",
             "order_by": "id DESC",
             "limit": 3,
@@ -234,11 +253,9 @@ queries = [
         "except_providers": [DocumentStoreProvider.REDIS],
     },
     {
-        "args": {
-            "where": """
+        "args": {"where": """
                  pk = 'pk01' and int != 7
-                 """
-        },
+                 """},
         "statement": "WHERE pk = 'pk01' and int !=7",
         "result_index": [9, 8, 6, 5],
         "ordered": False,
@@ -257,11 +274,9 @@ queries = [
         "count": 3,
     },
     {
-        "args": {
-            "where": """
+        "args": {"where": """
                 pk = 'pk00' and opt in ('abcd', 'cdef', 'xxx')
-                """
-        },
+                """},
         "statement": """WHERE pk = 'pk00'
                     and opt in ('abcd', 'cdef', 'xxx')
                     """,
@@ -270,11 +285,9 @@ queries = [
         "count": 2,
     },
     {
-        "args": {
-            "where": """
+        "args": {"where": """
                 pk = 'pk00' and int not in (1, 3, 5)
-                """
-        },
+                """},
         "statement": "WHERE pk = 'pk00' and int not in (1, 3, 5)",
         "result_index": [0, 2, 4],
         "ordered": False,
@@ -299,11 +312,9 @@ queries = [
         "count": 1,
     },
     {
-        "args": {
-            "where": """
+        "args": {"where": """
                 pk = 'pk00' and obj.nint >= -1
-                """
-        },
+                """},
         "statement": """WHERE
                 pk = 'pk00' and obj.nint >= -1
                 """,
@@ -388,13 +399,11 @@ queries = [
         "except_providers": [DocumentStoreProvider.GOOGLE_FIRESTORE],
     },
     {
-        "args": {
-            "where": """
+        "args": {"where": """
                 pk = 'pk00' and arrstr[3] = 'zero'
                 and obj.narr[0] <= 200
                 and arrobj[1].oint >= 2000000000
-                """
-        },
+                """},
         "statement": """WHERE
                 pk = 'pk00' and arrstr[3] = 'zero'
                 and obj.narr[0] <= 200
@@ -1876,10 +1885,8 @@ async def test_execute(provider_type: str, async_call: bool):
 
     # conditional delete (bad condition) when item exists
     with pytest.raises(PreconditionFailedError):
-        await client.__execute__(
-            statement=f"""DELETE KEY {json.dumps(key)}
-                WHERE {complex_condition_1}"""
-        )
+        await client.__execute__(statement=f"""DELETE KEY {json.dumps(key)}
+                WHERE {complex_condition_1}""")
 
     # conditional delete (good condition) when item exists
     response = await client.__execute__(
@@ -1928,10 +1935,8 @@ async def test_execute(provider_type: str, async_call: bool):
 
     # unconditional update (condition) when item doesn't exist
     with pytest.raises(PreconditionFailedError):
-        await client.__execute__(
-            statement=f"""UPDATE KEY {json.dumps(key)}
-                             SET {set} WHERE {complex_condition_1}"""
-        )
+        await client.__execute__(statement=f"""UPDATE KEY {json.dumps(key)}
+                             SET {set} WHERE {complex_condition_1}""")
 
     response = await client.__execute__(
         statement=f"PUT VALUE {json.dumps(document)}"

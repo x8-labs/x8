@@ -453,7 +453,7 @@ class Google(GoogleProvider):
                 return {"text": c.get("text")}
             if ct == "input_image":
                 img = c.get("image")
-                if hasattr(img, "to_dict"):
+                if img is not None and hasattr(img, "to_dict"):
                     img = img.to_dict()
                 if not isinstance(img, dict):
                     return None
@@ -485,7 +485,7 @@ class Google(GoogleProvider):
                     }
             if ct == "input_file":
                 f = c.get("file")
-                if hasattr(f, "to_dict"):
+                if f is not None and hasattr(f, "to_dict"):
                     f = f.to_dict()
                 if isinstance(f, dict):
                     content = f.get("content")
