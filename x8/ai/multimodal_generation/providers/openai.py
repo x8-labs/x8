@@ -235,6 +235,7 @@ class OpenAI(OpenAIProvider):
                         output_images.append(
                             OutputImage(
                                 image=ImageData(
+                                    source="inline",
                                     content=call.result,
                                     media_type="image/png",
                                 )
@@ -446,10 +447,11 @@ class OpenAI(OpenAIProvider):
                         "detail": part.get("detail", "auto"),
                     }
                 source = image.get("source")
-                if isinstance(source, str):
+                uri = image.get("uri")
+                if source == "uri" and isinstance(uri, str):
                     return {
                         "type": "input_image",
-                        "image_url": source,
+                        "image_url": uri,
                         "detail": part.get("detail", "auto"),
                     }
 
@@ -473,15 +475,16 @@ class OpenAI(OpenAIProvider):
                         "file_data": f"data:application/pdf;base64,{content}",
                     }
                 source = file.get("source")
-                if isinstance(source, str):
-                    if source.startswith("file-"):
+                uri = file.get("uri")
+                if source == "uri" and isinstance(uri, str):
+                    if uri.startswith("file-"):
                         return {
                             "type": "input_file",
-                            "file_id": source,
+                            "file_id": uri,
                         }
                     return {
                         "type": "input_file",
-                        "file_url": source,
+                        "file_url": uri,
                     }
 
         return part

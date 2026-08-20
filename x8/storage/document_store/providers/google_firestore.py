@@ -22,7 +22,7 @@ from google.cloud.firestore_v1.base_query import BaseFilter, FieldFilter
 from google.cloud.firestore_v1.base_query import Or as OrFilter
 
 from x8._common.google_provider import GoogleProvider
-from x8.core import Context, NCall, Operation, Response, warn
+from x8.core import Context, DataModel, NCall, Operation, Response, warn
 from x8.core.exceptions import (
     BadRequestError,
     ConflictError,
@@ -503,7 +503,7 @@ class GoogleFirestore(GoogleProvider, StoreProvider):
                 call = NCall(helper.put, args)
         # UPDATE
         elif op_parser.op_equals(StoreOperation.UPDATE):
-            (args, state, func, id) = op_converter.convert_update(
+            args, state, func, id = op_converter.convert_update(
                 op_parser.get_key(),
                 op_parser.get_set(),
                 op_parser.get_where(),
@@ -1438,7 +1438,7 @@ class OperationConverter:
                 )
                 states.append(state)
             elif op_parser.op_equals(StoreOperation.UPDATE):
-                (args, state, func, id) = converter.convert_update(
+                args, state, func, id = converter.convert_update(
                     op_parser.get_key(),
                     op_parser.get_set(),
                     op_parser.get_where(),
@@ -1510,6 +1510,19 @@ class OperationConverter:
         id = self.processor.get_id_from_key(key)
         return {"id": id}
 
+    def _normalize_value(self, value: Any) -> Any:
+        if isinstance(value, DataModel):
+            return self._normalize_value(value.to_dict())
+        if isinstance(value, dict):
+            return {
+                key: self._normalize_value(val) for key, val in value.items()
+            }
+        if isinstance(value, list):
+            return [self._normalize_value(item) for item in value]
+        if isinstance(value, tuple):
+            return [self._normalize_value(item) for item in value]
+        return value
+
     def convert_put(
         self,
         key: Value,
@@ -1517,6 +1530,7 @@ class OperationConverter:
         where: Expression | None,
         exists: bool | None,
     ) -> tuple[dict, dict | None, str, Value]:
+        value = self._normalize_value(value)
         document = self.processor.add_embed_fields(value, key)
         if key is not None:
             id = self.processor.get_id_from_key(key)
@@ -1720,17 +1734,21 @@ class OperationConverter:
         for operation in update.operations:
             field = self.processor.resolve_field(operation.field)
             if operation.op == UpdateOp.PUT:
-                field_updates[field] = operation.args[0]
+                field_updates[field] = self._normalize_value(operation.args[0])
             elif operation.op == UpdateOp.INSERT:
-                field_updates[field] = operation.args[0]
+                field_updates[field] = self._normalize_value(operation.args[0])
             elif operation.op == UpdateOp.DELETE:
                 field_updates[field] = firestore.DELETE_FIELD
             elif operation.op == UpdateOp.INCREMENT:
                 field_updates[field] = firestore.Increment(operation.args[0])
             elif operation.op == UpdateOp.ARRAY_UNION:
-                field_updates[field] = firestore.ArrayUnion(operation.args[0])
+                field_updates[field] = firestore.ArrayUnion(
+                    self._normalize_value(operation.args[0])
+                )
             elif operation.op == UpdateOp.ARRAY_REMOVE:
-                field_updates[field] = firestore.ArrayRemove(operation.args[0])
+                field_updates[field] = firestore.ArrayRemove(
+                    self._normalize_value(operation.args[0])
+                )
             else:
                 raise BadRequestError("Update operation not supported")
         return field_updates
@@ -1860,7 +1878,7 @@ class ResourceHelper:
                     transaction=transaction
                 )
                 document = snapshot.to_dict()
-                if not QueryProcessor.eval_expr(
+                if where is not None and not QueryProcessor.eval_expr(
                     document, where, processor.resolve_field
                 ):
                     raise ConflictError
@@ -2044,7 +2062,7 @@ class AsyncResourceHelper:
                     transaction=transaction
                 )
                 document = snapshot.to_dict()
-                if not QueryProcessor.eval_expr(
+                if where is not None and not QueryProcessor.eval_expr(
                     document, where, processor.resolve_field
                 ):
                     raise ConflictError
@@ -2220,8 +2238,12 @@ class ClientHelper:
             snapshot = doc_ref.get(transaction=transaction)
         document = snapshot.to_dict()
         try:
-            condition_result = QueryProcessor.eval_expr(
-                document, where, special_field_resolver
+            condition_result = (
+                True
+                if where is None
+                else QueryProcessor.eval_expr(
+                    document, where, special_field_resolver
+                )
             )
         except Exception:
             if document is None:
@@ -2365,8 +2387,12 @@ class AsyncClientHelper:
             snapshot = await doc_ref.get(transaction=transaction)
         document = snapshot.to_dict()
         try:
-            condition_result = QueryProcessor.eval_expr(
-                document, where, special_field_resolver
+            condition_result = (
+                True
+                if where is None
+                else QueryProcessor.eval_expr(
+                    document, where, special_field_resolver
+                )
             )
         except Exception:
             if document is None:

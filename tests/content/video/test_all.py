@@ -24,7 +24,9 @@ async def test_single(provider_type: str, async_call: bool):
     video = VideoSyncAndAsyncClient(
         provider_type=provider_type,
         async_call=async_call,
-        video_param=VideoData(source=get_file_path("test-video-1.mp4")),
+        video_param=VideoData(
+            source="uri", uri=get_file_path("test-video-1.mp4")
+        ),
     )
 
     info = await video.get_info()

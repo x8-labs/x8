@@ -573,8 +573,8 @@ class Google(GoogleProvider):
 
     def _get_image(self, image: ImageData) -> dict[str, Any]:
         args: dict[str, Any] = {}
-        if image.source:
-            args["gcrUri"] = image.source
+        if image.source == "uri" and image.uri:
+            args["gcrUri"] = image.uri
         elif isinstance(image.content, str):
             args["bytesBase64Encoded"] = image.content
         elif isinstance(image.content, bytes):
@@ -591,6 +591,7 @@ class Google(GoogleProvider):
         results: List[VideoData] = []
         for video_data in res.get("videos", []):
             video = VideoData(
+                source="inline",
                 content=video_data.get("bytesBase64Encoded"),
                 media_type=video_data.get("mimeType"),
             )

@@ -72,6 +72,7 @@ class Pillow(Provider):
     def get_data(self) -> ImageData:
         self.__setup__()
         return ImageData(
+            source="inline",
             content=self.convert(type="bytes", format="jpeg"),
             media_type="image/jpeg",
         )

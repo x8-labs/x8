@@ -5,6 +5,7 @@ import base64
 import time
 from typing import Any, AsyncIterator, Iterator, List, Mapping
 
+import httpx
 from openai import NotFoundError as OpenAINotFoundError
 from openai.types import Video
 
@@ -146,6 +147,7 @@ class OpenAI(OpenAIProvider):
                         result = self._convert_result(polled)
                         result.videos = [
                             VideoData(
+                                source="inline",
                                 content=base64_encoded_video,
                                 media_type="video/mp4",
                             )
@@ -175,6 +177,7 @@ class OpenAI(OpenAIProvider):
                 ).decode("ascii")
                 result.videos = [
                     VideoData(
+                        source="inline",
                         content=base64_encoded_video,
                         media_type="video/mp4",
                     )
@@ -288,6 +291,7 @@ class OpenAI(OpenAIProvider):
                         result = self._convert_result(polled)
                         result.videos = [
                             VideoData(
+                                source="inline",
                                 content=base64_encoded_video,
                                 media_type="video/mp4",
                             )
@@ -316,6 +320,7 @@ class OpenAI(OpenAIProvider):
                 ).decode("ascii")
                 result.videos = [
                     VideoData(
+                        source="inline",
                         content=base64_encoded_video,
                         media_type="video/mp4",
                     )
@@ -457,12 +462,26 @@ class OpenAI(OpenAIProvider):
         return args
 
     def _get_input_reference(self, image: ImageData) -> Any:
-        # 1. If user provided a file path or URL → pass it directly
-        if image.source:
-            return image.source
+        media_type = image.media_type
 
+        # 1. The OpenAI SDK requires file-like content (bytes/tuple) for
+        #    input_reference, so URLs and local paths must be read into
+        #    bytes rather than passed through as a plain string.
+        if image.source == "uri" and image.uri:
+            if image.uri.startswith("http://") or image.uri.startswith(
+                "https://"
+            ):
+                with httpx.Client() as client:
+                    response = client.get(image.uri)
+                    response.raise_for_status()
+                    content_bytes = response.content
+                    if not media_type:
+                        media_type = response.headers.get("content-type")
+            else:
+                with open(image.uri, "rb") as f:
+                    content_bytes = f.read()
         # 2. Get raw bytes from content
-        if isinstance(image.content, str):
+        elif isinstance(image.content, str):
             content_bytes = base64.b64decode(image.content)
         elif isinstance(image.content, bytes):
             content_bytes = image.content
@@ -475,15 +494,15 @@ class OpenAI(OpenAIProvider):
         filename = getattr(image, "name", None) or "input"
 
         # 4. Ensure filename has extension based on media_type
-        if image.media_type:
-            media_type = image.media_type.lower()
-            if "/" in image.media_type:
-                ext = image.media_type.split("/")[-1]
+        if media_type:
+            media_type = media_type.lower()
+            if "/" in media_type:
+                ext = media_type.split("/")[-1]
                 if "." not in filename:
                     filename = f"{filename}.{ext}"
         else:
             media_type = "image/png"
             filename = f"{filename}.png"
 
-        # ✅ 5. Return OpenAI-supported format: (filename, bytes, media_type)
+        # 5. Return OpenAI-supported format: (filename, bytes, media_type)
         return (filename, content_bytes, media_type)

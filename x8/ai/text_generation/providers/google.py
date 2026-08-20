@@ -525,6 +525,7 @@ class Google(GoogleProvider):
                 )
                 content = img.get("content")
                 source = img.get("source")
+                uri = img.get("uri")
                 if isinstance(content, (bytes, bytearray)):
                     return {
                         "inline_data": {
@@ -539,10 +540,10 @@ class Google(GoogleProvider):
                             "mime_type": media_type,
                         }
                     }
-                if isinstance(source, str):
+                if source == "uri" and isinstance(uri, str):
                     return {
                         "file_data": {
-                            "file_uri": source,
+                            "file_uri": uri,
                             "mime_type": media_type,
                         }
                     }
@@ -569,10 +570,11 @@ class Google(GoogleProvider):
                             }
                         }
                     source = f.get("source")
-                    if isinstance(source, str):
+                    uri = f.get("uri")
+                    if source == "uri" and isinstance(uri, str):
                         return {
                             "file_data": {
-                                "file_uri": source,
+                                "file_uri": uri,
                                 "mime_type": mime_type,
                             }
                         }

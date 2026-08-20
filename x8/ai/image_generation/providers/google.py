@@ -326,11 +326,9 @@ class Google(GoogleProvider):
                     mime_type=image.media_type or "image/png",
                 )
             )
-        if image.source:
-            return types.Part(file_data=types.FileData(file_uri=image.source))
-        raise BadRequestError(
-            "Image must have either a source URL or content."
-        )
+        if image.source == "uri" and image.uri:
+            return types.Part(file_data=types.FileData(file_uri=image.uri))
+        raise BadRequestError("Image must have either URI source or content.")
 
     def _convert_result(
         self,
@@ -354,6 +352,7 @@ class Google(GoogleProvider):
                                 continue
                             images.append(
                                 ImageData(
+                                    source="inline",
                                     content=base64.b64encode(img_bytes).decode(
                                         "utf-8"
                                     ),

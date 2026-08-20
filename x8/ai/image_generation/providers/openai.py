@@ -411,8 +411,8 @@ class OpenAI(OpenAIProvider):
 
     def _convert_image_input(self, image: ImageData) -> Any:
         # URL or file path source
-        if image.source:
-            return image.source
+        if image.source == "uri" and image.uri:
+            return image.uri
 
         # Raw content as file tuple
         if image.content is not None:
@@ -433,9 +433,7 @@ class OpenAI(OpenAIProvider):
 
             return (filename, content_bytes, media_type)
 
-        raise BadRequestError(
-            "Image must have either a source URL or content."
-        )
+        raise BadRequestError("Image must have either URI source or content.")
 
     def _convert_result(
         self, response: ImagesResponse
@@ -449,10 +447,18 @@ class OpenAI(OpenAIProvider):
                 else "image/png"
             )
             images = [
-                ImageData(
-                    content=img.b64_json,
-                    source=img.url,
-                    media_type=media_type,
+                (
+                    ImageData(
+                        source="uri",
+                        uri=img.url,
+                        media_type=media_type,
+                    )
+                    if img.url
+                    else ImageData(
+                        source="inline",
+                        content=img.b64_json,
+                        media_type=media_type,
+                    )
                 )
                 for img in response.data
             ]

@@ -261,14 +261,16 @@ class GoogleImagen(GoogleProvider):
         if response.generated_images:
             images = []
             for gen_img in response.generated_images:
-                img_data = ImageData()
+                img_data = ImageData(source="inline")
                 if gen_img.image:
-                    if gen_img.image.image_bytes:
+                    if gen_img.image.gcs_uri:
+                        img_data.source = "uri"
+                        img_data.uri = gen_img.image.gcs_uri
+                    elif gen_img.image.image_bytes:
+                        img_data.source = "inline"
                         img_data.content = base64.b64encode(
                             gen_img.image.image_bytes
                         ).decode("utf-8")
-                    if gen_img.image.gcs_uri:
-                        img_data.source = gen_img.image.gcs_uri
                     img_data.media_type = (
                         gen_img.image.mime_type or "image/png"
                     )

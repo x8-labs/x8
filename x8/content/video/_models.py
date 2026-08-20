@@ -1,11 +1,16 @@
+from typing import Literal
+
 from x8.content.audio import Audio
 from x8.content.image import Image
 from x8.core import DataModel
 
 
 class VideoData(DataModel):
-    source: str | None = None
+    source: Literal["uri", "inline"]
     """Source of the video."""
+
+    uri: str | None = None
+    """URI or local path of the video."""
 
     content: bytes | str | None = None
     """Content of the video."""

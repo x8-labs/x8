@@ -609,11 +609,12 @@ class OpenAI(OpenAIProvider):
                         "detail": part.get("detail", "auto"),
                     }
                 source = image.get("source")
-                if isinstance(source, str):
+                uri = image.get("uri")
+                if source == "uri" and isinstance(uri, str):
                     # URL
                     return {
                         "type": "input_image",
-                        "image_url": source,
+                        "image_url": uri,
                         "detail": part.get("detail", "auto"),
                     }
 
@@ -637,17 +638,18 @@ class OpenAI(OpenAIProvider):
                         "file_data": f"data:application/pdf;base64,{content}",
                     }
                 source = file.get("source")
-                if isinstance(source, str):
+                uri = file.get("uri")
+                if source == "uri" and isinstance(uri, str):
                     # URL or file_id
-                    if source.startswith("file-"):
+                    if uri.startswith("file-"):
                         return {
                             "type": "input_file",
-                            "file_id": source,
+                            "file_id": uri,
                         }
                     else:
                         return {
                             "type": "input_file",
-                            "file_url": source,
+                            "file_url": uri,
                         }
 
         return part

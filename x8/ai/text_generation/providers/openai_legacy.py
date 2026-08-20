@@ -674,6 +674,7 @@ class OpenAILegacy(Provider):
 
         img_content = image.get("content")
         source = image.get("source")
+        uri = image.get("uri")
         media_type = image.get("media_type", "image/jpeg")
         detail = content.get("detail", "auto")
 
@@ -696,12 +697,12 @@ class OpenAILegacy(Provider):
                     "detail": detail,
                 },
             }
-        elif isinstance(source, str):
+        if source == "uri" and isinstance(uri, str):
             # URL
             return {
                 "type": "image_url",
                 "image_url": {
-                    "url": source,
+                    "url": uri,
                     "detail": detail,
                 },
             }

@@ -34,8 +34,16 @@ class Image(Component):
         self.content = content
         self._pil_image = kwargs.pop("_pil_image", None)
         if data is not None:
-            self.source = data.source
-            self.content = data.content
+            if data.source == "uri":
+                self.source = data.uri
+                self.content = None
+            elif data.source == "inline":
+                self.source = None
+                self.content = data.content
+            else:
+                raise ValueError(
+                    "ImageData.source must be either 'uri' or 'inline'."
+                )
         super().__init__(
             __provider__=kwargs.pop("__provider__", "default"), **kwargs
         )

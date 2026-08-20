@@ -1,8 +1,11 @@
+from typing import Literal
+
 from x8.core import DataModel
 
 
 class AudioData(DataModel):
-    source: str | None = None
+    source: Literal["uri", "inline"]
+    uri: str | None = None
     content: bytes | str | None = None
     media_type: str | None = None
 

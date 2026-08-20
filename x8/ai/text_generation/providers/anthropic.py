@@ -544,6 +544,7 @@ class Anthropic(Provider):
                 media_type = img.get("media_type") or "image/jpeg"
                 content = img.get("content")
                 source = img.get("source")
+                uri = img.get("uri")
                 if isinstance(content, (bytes, bytearray)):
                     b64_data = base64.b64encode(content).decode("utf-8")
                     return {
@@ -564,13 +565,13 @@ class Anthropic(Provider):
                             "data": content,
                         },
                     }
-                if isinstance(source, str):
+                if source == "uri" and isinstance(uri, str):
                     # URL source
                     return {
                         "type": "image",
                         "source": {
                             "type": "url",
-                            "url": source,
+                            "url": uri,
                         },
                     }
             if ct == "input_file":
@@ -599,12 +600,13 @@ class Anthropic(Provider):
                             },
                         }
                     source = f.get("source")
-                    if isinstance(source, str):
+                    uri = f.get("uri")
+                    if source == "uri" and isinstance(uri, str):
                         return {
                             "type": "document",
                             "source": {
                                 "type": "url",
-                                "url": source,
+                                "url": uri,
                             },
                         }
             return None

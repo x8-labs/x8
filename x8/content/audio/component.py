@@ -32,8 +32,16 @@ class Audio(Component):
         self.stream = stream
         self.content = content
         if data is not None:
-            self.source = data.source
-            self.content = data.content
+            if data.source == "uri":
+                self.source = data.uri
+                self.content = None
+            elif data.source == "inline":
+                self.source = None
+                self.content = data.content
+            else:
+                raise ValueError(
+                    "AudioData.source must be either 'uri' or 'inline'."
+                )
         super().__init__(**kwargs)
 
     @operation()

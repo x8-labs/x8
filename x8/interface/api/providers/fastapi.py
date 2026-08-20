@@ -714,10 +714,14 @@ class BaseAPI:
                     )
                 return response
             except BaseError as e:
+                if self.debug:
+                    print(e)
                 raise HTTPException(
                     status_code=e.status_code, detail={"error": str(e)}
                 )
             except Exception as e:
+                if self.debug:
+                    print(e)
                 raise HTTPException(status_code=500, detail={"error": str(e)})
 
         wrapped_operation_method.__name__ = op_info.name
@@ -749,11 +753,13 @@ class BaseAPI:
                 single_type, FileData
             ):
                 return single_type(
+                    source="inline",
                     content=content,
                     filename=upload.filename,
                     media_type=upload.content_type,
                 )
             return {
+                "source": "inline",
                 "content": content,
                 "filename": upload.filename,
                 "media_type": upload.content_type,

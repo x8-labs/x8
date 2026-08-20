@@ -557,6 +557,7 @@ class Xai(Provider):
                             if isinstance(img, dict):
                                 img_content = img.get("content")
                                 source = img.get("source")
+                                uri = img.get("uri")
                                 if img_content:
                                     # Convert bytes to base64 data URL
                                     if isinstance(
@@ -577,11 +578,9 @@ class Xai(Provider):
                                     content_parts.append(
                                         xai_chat.image(data_url)
                                     )
-                                elif source:
+                                if source == "uri" and uri:
                                     # URL source
-                                    content_parts.append(
-                                        xai_chat.image(source)
-                                    )
+                                    content_parts.append(xai_chat.image(uri))
 
             if not content_parts:
                 return
@@ -761,6 +760,7 @@ class Xai(Provider):
                             if isinstance(img, dict):
                                 img_content = img.get("content")
                                 source = img.get("source")
+                                uri = img.get("uri")
                                 if img_content:
                                     # Convert bytes to base64 data URL
                                     if isinstance(
@@ -781,11 +781,9 @@ class Xai(Provider):
                                     content_parts.append(
                                         xai_chat.image(data_url)
                                     )
-                                elif source:
+                                if source == "uri" and uri:
                                     # URL source
-                                    content_parts.append(
-                                        xai_chat.image(source)
-                                    )
+                                    content_parts.append(xai_chat.image(uri))
 
             if not content_parts:
                 return
