@@ -16,12 +16,16 @@ class PrepareConfig(DataModel):
         prepare_in_place:
             A value indicating whether the preparation of the source
             folder and build should happen in place.
+        prepare_paths:
+            Specific files and folders to copy when preparing out of
+            place. Paths are resolved relative to the run context path.
     """
 
     base_image: str = DEFAULT_BASE_IMAGE
     expose: int | list[int] | None = None
     requirements: str | list[str] | None = None
     prepare_in_place: bool = False
+    prepare_paths: str | list[str] | None = None
 
 
 class BuildConfig(DataModel):

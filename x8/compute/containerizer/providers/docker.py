@@ -14,6 +14,7 @@ import docker
 
 from x8.core import Provider, Response, RunContext
 from x8.core.constants import ROOT_PACKAGE_NAME
+from x8.core.exceptions import BadRequestError
 
 from .._helper import create_requirements_file
 from .._models import (
@@ -44,7 +45,11 @@ class Docker(Provider):
         working_dir = run_context.path
         if not config.prepare_in_place:
             temp_dir = tempfile.mkdtemp()
-            shutil.copytree(run_context.path, temp_dir, dirs_exist_ok=True)
+            self._copy_prepare_source(
+                source_root=run_context.path,
+                destination_root=temp_dir,
+                include_paths=config.prepare_paths,
+            )
             working_dir = temp_dir
 
         requirements_file = f"requirements-{handle}.txt"
@@ -72,6 +77,69 @@ class Docker(Provider):
         )
         result = SourceItem(source=working_dir)
         return Response(result=result)
+
+    def _copy_prepare_source(
+        self,
+        source_root: str,
+        destination_root: str,
+        include_paths: str | list[str] | None,
+    ) -> None:
+        if include_paths is None:
+            shutil.copytree(source_root, destination_root, dirs_exist_ok=True)
+            return
+
+        paths: list[str]
+        if isinstance(include_paths, str):
+            paths = [include_paths]
+        else:
+            paths = include_paths
+
+        source_root_abs = os.path.abspath(source_root)
+        for include_path in paths:
+            path = include_path.strip()
+            if not path:
+                raise BadRequestError("prepare_paths contains an empty path.")
+
+            source_path = os.path.abspath(os.path.join(source_root_abs, path))
+            if (
+                os.path.commonpath([source_root_abs, source_path])
+                != source_root_abs
+            ):
+                raise BadRequestError(
+                    f"prepare_paths item '{path}' is outside "
+                    f"run context path '{source_root}'."
+                )
+            if not os.path.exists(source_path):
+                raise BadRequestError(
+                    f"prepare_paths item '{path}' does not exist "
+                    f"under run context path '{source_root}'."
+                )
+
+            relative_path = os.path.relpath(source_path, source_root_abs)
+            if relative_path == ".":
+                shutil.copytree(
+                    source_root_abs,
+                    destination_root,
+                    dirs_exist_ok=True,
+                )
+                continue
+
+            destination_path = os.path.join(
+                destination_root,
+                relative_path,
+            )
+            if os.path.isdir(source_path):
+                shutil.copytree(
+                    source_path,
+                    destination_path,
+                    dirs_exist_ok=True,
+                )
+            else:
+                os.makedirs(
+                    os.path.dirname(destination_path),
+                    exist_ok=True,
+                )
+                shutil.copy2(source_path, destination_path)
 
     def build(
         self,
